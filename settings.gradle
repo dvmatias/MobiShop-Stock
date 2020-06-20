@@ -1,2 +1,3 @@
 include ':app'
 include ':feature-splash'
+include ':feature-main'
