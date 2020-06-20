@@ -37,6 +37,11 @@ android {
         }
     }
     flavorDimensions('environment')
+
+    buildFeatures {
+        dataBinding = true
+    }
+
 }
 
 dependencies {
