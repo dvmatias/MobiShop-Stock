@@ -24,7 +24,7 @@
             android:name="com.cmdv.feature.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MainActivityTheme" />
 
     </application>
 
