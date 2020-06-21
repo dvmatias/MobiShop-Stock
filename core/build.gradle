@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'koin'
 
 android {
     compileSdkVersion 29
@@ -32,6 +33,10 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
+
+    api libs.koin
+    api libs.koin_scope
+    api libs.koin_view_model
 
     api libs.kotlin
     api libs.ktx

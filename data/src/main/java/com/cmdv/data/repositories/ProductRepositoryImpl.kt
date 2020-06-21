@@ -1,7 +1,6 @@
 package com.cmdv.data.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.core.utils.LogUtil
 import com.cmdv.data.ProductFirebaseEntity
 import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.ProductModel
@@ -32,7 +31,7 @@ class ProductRepositoryImpl : ProductRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                LogUtil.logErrorMessage(error.message)
+                
             }
         })
 

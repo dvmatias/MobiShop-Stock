@@ -18,8 +18,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupDataBinding()
         setSupportActionBar(binding.toolbar)
+        setupCreateProductButton()
         setupViewModel()
         setupRecyclerProduct()
+    }
+
+    private fun setupCreateProductButton() {
+        binding.fab.setOnClickListener {
+            // Replace for navigator call.
+            // TODO
+        }
     }
 
     private fun setupDataBinding() {

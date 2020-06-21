@@ -1,4 +1,4 @@
-package com.cmdv.core.base
+package com.cmdv.domain.mapper
 
 abstract class BaseMapper<E, M> {
 
