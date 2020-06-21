@@ -64,6 +64,5 @@ dependencies {
     implementation libs.constraint_layout
     implementation libs.navigation_fragment
     implementation libs.navigation_ui
-    implementation libs.firebase_database
 
 }

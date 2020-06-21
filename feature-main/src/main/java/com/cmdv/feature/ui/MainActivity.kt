@@ -34,6 +34,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerProduct() {
-        
+        // TODO
     }
 }
