@@ -25,8 +25,8 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':data')
-    implementation project(path: ':domain')
+    api project(path: ':data')
+    api project(path: ':domain')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit

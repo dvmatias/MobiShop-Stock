@@ -40,6 +40,10 @@ android {
             versionNameSuffix '-production'
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
     flavorDimensions('environment')
 }
 

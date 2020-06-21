@@ -44,6 +44,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures{
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -54,6 +58,8 @@ dependencies {
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation libs.appcompat
     implementation libs.material
     implementation libs.constraint_layout
     implementation libs.navigation_fragment
