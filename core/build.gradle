@@ -21,41 +21,20 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            debuggable true
-        }
     }
-
-    productFlavors {
-        QA {
-            dimension 'environment'
-            versionNameSuffix '-qa'
-        }
-        PRODUCTION {
-            dimension 'environment'
-            versionNameSuffix '-production'
-        }
-    }
-    flavorDimensions('environment')
-
-    buildFeatures {
-        dataBinding = true
-    }
-
 }
 
 dependencies {
-    implementation project(':core')
-    implementation project(path: ':feature-main')
+    api project(path: ':data')
+    api project(path: ':domain')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
 
-    implementation libs.material
-    implementation libs.constraint_layout
-    implementation libs.navigation_fragment
-    implementation libs.navigation_ui
+    api libs.kotlin
+    api libs.ktx
+    api libs.appcompat
 
 }

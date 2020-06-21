@@ -1,20 +1,19 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.cmdv.mobishopstock"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -22,34 +21,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            applicationIdSuffix ".debug"
-            debuggable true
-        }
     }
-
-    productFlavors {
-        QA {
-            dimension 'environment'
-            applicationIdSuffix '.qa'
-            versionNameSuffix '-qa'
-        }
-        PRODUCTION {
-            dimension 'environment'
-            applicationIdSuffix '.production'
-            versionNameSuffix '-production'
-        }
-    }
-
-    buildFeatures {
-        dataBinding = true
-    }
-    flavorDimensions('environment')
 }
 
 dependencies {
-    implementation project(path: ':feature-splash')
-    implementation project(path: ':feature-main')
+    implementation project(path: ':core')
+    implementation project(path: ':domain')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit
@@ -59,5 +36,7 @@ dependencies {
     implementation libs.kotlin
     implementation libs.ktx
     implementation libs.appcompat
+    // Firebase Database
+    implementation libs.firebase_database
 
 }
