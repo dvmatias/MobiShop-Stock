@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_new_product_title">Create New Product</string>
+    <string name="product_name_hint">PRODUCT NAME</string>
+    <string name="cost_price_hint">COST $</string>
+    <string name="original_price_hint">ORIGINAL $</string>
+    <string name="selling_price_hint">SELLING $</string>
+    <string name="quantity_hint">QUANTITY</string>
+    <string name="tags_hint"># TAGS</string>
+    <string name="accept_hint">ACCEPT</string>
+</resources>

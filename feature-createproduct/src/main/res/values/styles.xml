@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light" />
 
-    <style name="MCreateProductActivityTheme" parent="AppTheme">
+    <style name="CreateProductActivityTheme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

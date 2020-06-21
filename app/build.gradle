@@ -42,9 +42,6 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
     flavorDimensions('environment')
 }
 
