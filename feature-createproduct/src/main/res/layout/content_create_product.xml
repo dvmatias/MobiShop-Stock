@@ -10,13 +10,13 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <!-- Title -->
             <androidx.appcompat.widget.AppCompatTextView
@@ -47,7 +47,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextProductName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@id/editTextProductCostPrice"
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,8 +72,10 @@
                     android:id="@+id/editTextProductCostPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
-                    android:lines="1" />
+                    android:lines="1"
+                    android:nextFocusRight="@id/editTextProductOriginalPrice" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,8 +97,10 @@
                     android:id="@+id/editTextProductOriginalPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
-                    android:lines="1" />
+                    android:lines="1"
+                    android:nextFocusRight="@id/editTextProductSellingPrice" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,8 +122,10 @@
                     android:id="@+id/editTextProductSellingPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
-                    android:lines="1" />
+                    android:lines="1"
+                    android:nextFocusDown="@id/editTextProductQuantity" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,8 +146,10 @@
                     android:id="@+id/editTextProductQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
-                    android:lines="1" />
+                    android:lines="1"
+                    android:nextFocusDown="@id/editTextProductTags" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,7 +169,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextProductTags"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:lines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
