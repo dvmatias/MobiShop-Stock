@@ -15,6 +15,22 @@ class ProductRepositoryImpl : ProductRepository {
 
     private val dbProductsRef: DatabaseReference = dbRootRef.getReference(DB_PRODUCTS_PATH)
 
+    override fun updateProduct(id: Int, product: ProductModel): MutableLiveData<ProductModel> {
+        TODO("Not yet implemented")
+    }
+
+    override fun createProduct(
+        name: String,
+        costPrice: String,
+        originalPrice: String,
+        sellingPrice: String,
+        quantity: Int,
+        tags: List<String>): MutableLiveData<ProductModel> {
+        val productMutableLiveData = MutableLiveData<ProductModel>()
+
+        return productMutableLiveData
+    }
+
     override fun getProducts(): MutableLiveData<List<ProductModel>> {
         val productsMutableLiveData = MutableLiveData<List<ProductModel>>()
 
@@ -37,5 +53,4 @@ class ProductRepositoryImpl : ProductRepository {
 
         return productsMutableLiveData
     }
-
 }

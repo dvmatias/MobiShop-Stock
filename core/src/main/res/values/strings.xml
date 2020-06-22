@@ -8,4 +8,10 @@
     <string name="quantity_hint">QUANTITY</string>
     <string name="tags_hint"># TAGS</string>
     <string name="accept_hint">ACCEPT</string>
+    <string name="placeholder_price">$%s</string>
+    <string name="error_input_name_empty">The product needs a name!</string>
+    <string name="error_input_cost_price_empty">The cost price can\'t be empty!</string>
+    <string name="error_input_original_price_empty">You must enter a original price!</string>
+    <string name="error_input_selling_price_empty">You must enter a selling price!</string>
+    <string name="error_input_quantity_empty">The product quantity </string>
 </resources>

@@ -20,7 +20,7 @@ class MobiShopStockApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MobiShopStockApp)
-            modules(appModule)
+            modules(appModule, repositoryModule, viewModelModule)
         }
     }
 

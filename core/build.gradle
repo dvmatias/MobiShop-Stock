@@ -33,7 +33,7 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
-
+    // Koin
     api libs.koin
     api libs.koin_scope
     api libs.koin_view_model
