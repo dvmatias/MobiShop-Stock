@@ -42,9 +42,11 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupProductCostPriceInputField() {
         editTextProductCostPrice.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                editTextProductCostPrice.removeTextChangedListener(this)
-                viewModel.costPrice = sanitizePrice(s, editTextProductCostPrice)
-                editTextProductCostPrice.addTextChangedListener(this)
+                editTextProductCostPrice.let {
+                    it.removeTextChangedListener(this)
+                    viewModel.costPrice = sanitizePrice(s, it)
+                    it.addTextChangedListener(this)
+                }
             }
         })
         viewModel.errorEmptyCostPrice.observe(this, Observer { errorStringId ->
@@ -55,9 +57,11 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupProductOriginalPriceInputField() {
         editTextProductOriginalPrice.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                editTextProductCostPrice.removeTextChangedListener(this)
-                viewModel.originalPrice = sanitizePrice(s, editTextProductCostPrice)
-                editTextProductCostPrice.addTextChangedListener(this)
+                editTextProductOriginalPrice.let {
+                    it.removeTextChangedListener(this)
+                    viewModel.originalPrice = sanitizePrice(s, it)
+                    it.addTextChangedListener(this)
+                }
             }
         })
         viewModel.errorEmptyOriginalPrice.observe(this, Observer { errorStringId ->
@@ -72,9 +76,11 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupProductSellingPriceInputField() {
         editTextProductSellingPrice.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                editTextProductCostPrice.removeTextChangedListener(this)
-                viewModel.sellingPrice = sanitizePrice(s, editTextProductCostPrice)
-                editTextProductCostPrice.addTextChangedListener(this)
+                editTextProductSellingPrice.let {
+                    it.removeTextChangedListener(this)
+                    viewModel.sellingPrice = sanitizePrice(s, it)
+                    it.addTextChangedListener(this)
+                }
             }
         })
         viewModel.errorEmptySellingPrice.observe(this, Observer { errorStringId ->
@@ -102,7 +108,7 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupProductTagsInputField() {
-        editTextProductOriginalPrice.addTextChangedListener(object : SimpleTextWatcher() {
+        editTextProductTags.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val tags = s.toString().split(",")
                 viewModel.tags = tags

@@ -1,4 +1,39 @@
 package com.cmdv.data
 
-class ProductFirebaseEntity {
+data class ProductFirebaseEntity(
+    val code: String?,
+    val id: Long?,
+    val name: String?,
+    val model: String?,
+    val imageName: String?,
+    val price: PriceEntity?,
+    val quantity: QuantityEntity?,
+    val tags: List<String>?
+) {
+
+    @Suppress("unused")
+    constructor() : this(null, null, null, null, null, null, null, null)
+
+}
+
+data class PriceEntity(
+    val costPrice: String?,
+    val originalPrice: String?,
+    val sellingPrice: String?
+) {
+
+    @Suppress("unused")
+    constructor() : this(null, null, null)
+
+}
+
+data class QuantityEntity(
+    val initial: Int?,
+    val available: Int?,
+    val sold: Int?
+) {
+
+    @Suppress("unused")
+    constructor() : this(null, null, null)
+
 }

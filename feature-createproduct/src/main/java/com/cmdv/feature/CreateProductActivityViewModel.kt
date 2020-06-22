@@ -48,7 +48,7 @@ class CreateProductActivityViewModel(
     val errorEmptyQuantity = MutableLiveData<Int>()
 
     fun createProduct() {
-        if (isValidFields()) {
+       if (isValidFields()) {
             productCreatedMutableLiveData = productRepository.createProduct(
                 this.name,
                 this.costPrice,
