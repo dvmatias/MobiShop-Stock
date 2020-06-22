@@ -241,8 +241,13 @@ class CreateProductActivity : AppCompatActivity() {
                 (this.findViewById(R.id.textViewProductCodeTitle) as AppCompatTextView).visibility = View.GONE
                 (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).visibility = View.INVISIBLE
             }
-            (this.findViewById(R.id.buttonNegative) as AppCompatButton).setOnClickListener { finish() }
-            (this.findViewById(R.id.buttonPositive) as AppCompatButton).setOnClickListener { dialog.dismiss() }
+            (this.findViewById(R.id.buttonNegative) as AppCompatButton).setOnClickListener {
+                dialog.dismiss()
+                finish()
+            }
+            (this.findViewById(R.id.buttonPositive) as AppCompatButton).setOnClickListener {
+                dialog.dismiss()
+            }
             show()
             window?.setLayout(
                     ViewGroup.LayoutParams.MATCH_PARENT,
