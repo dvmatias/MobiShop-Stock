@@ -36,7 +36,7 @@ class CreateProductActivityViewModel(
             field = value
             errorEmptyQuantity.postValue(null)
         }
-    var tags: List<String> = listOf()
+    var tags: ArrayList<String> = arrayListOf()
 
     // Error
     val errorEmptyName = MutableLiveData<Int>()
@@ -44,8 +44,6 @@ class CreateProductActivityViewModel(
     val errorEmptyOriginalPrice = MutableLiveData<Int>()
     val errorEmptySellingPrice = MutableLiveData<Int>()
     val errorEmptyQuantity = MutableLiveData<Int>()
-
-    private val product = MutableLiveData<CreateProductStatusWrapper<ProductModel?>>()
 
     fun createProduct(): MutableLiveData<CreateProductStatusWrapper<ProductModel?>>? =
         if (isValidFields()) {

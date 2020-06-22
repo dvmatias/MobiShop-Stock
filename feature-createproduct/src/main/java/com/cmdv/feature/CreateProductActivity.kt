@@ -124,8 +124,15 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupProductTagsInputField() {
         editTextProductTags.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val tags = s.toString().replace(" ", "").split("#")
-                viewModel.tags = tags
+                val tags: List<String> = s.toString().replace(" ", "").split("_")
+                viewModel.tags.clear()
+                for (tag in tags) {
+                    with (tag) {
+                        if (isNotEmpty() && !viewModel.tags.contains(this))  {
+                            viewModel.tags.add(this)
+                        }
+                    }
+                }
             }
         })
     }

@@ -44,7 +44,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
 
     private fun transformTagsModelToEntity(tags: List<String>): List<Map<String, String>> =
         tags.map {
-            mapOf("#" to it)
+            mapOf("_" to it)
         }
 
 }
