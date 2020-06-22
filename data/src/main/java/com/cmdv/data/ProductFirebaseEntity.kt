@@ -8,7 +8,7 @@ data class ProductFirebaseEntity(
     val imageName: String?,
     val price: PriceEntity?,
     val quantity: QuantityEntity?,
-    val tags: List<String>?
+    val tags: List<Map<String, String>>?
 ) {
 
     @Suppress("unused")

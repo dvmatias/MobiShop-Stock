@@ -51,7 +51,7 @@ class CreateProductActivityViewModel(
     fun getProduct(): LiveData<ProductCreationStatusModel<ProductModel?>> =
         product
 
-    fun createProduct() =
+    fun createProduct(): MutableLiveData<ProductCreationStatusModel<ProductModel?>>? =
         if (isValidFields()) {
             productRepository.createProduct(
                 this.name,

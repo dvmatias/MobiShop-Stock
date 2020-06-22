@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
 import com.cmdv.core.utils.logErrorMessage
@@ -13,6 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
 import kotlinx.android.synthetic.main.content_create_product.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.lang.ref.WeakReference
 
 class CreateProductActivity : AppCompatActivity() {
 
@@ -122,16 +124,27 @@ class CreateProductActivity : AppCompatActivity() {
 
     private fun setupAcceptButton() {
         buttonCreateProduct.setOnClickListener {
+            KeyboardHelper.hideKeyboard(WeakReference(this), it)
+
             viewModel.createProduct()?.observe(this, Observer {
-                logErrorMessage("CreateProductActivity ---------> " + it?.status.toString() ?: "Product Creation Status Model null")
+                logErrorMessage(
+                    "CreateProductActivity ---------> " + it?.status.toString()
+                        ?: "Product Creation Status Model null"
+                )
                 when (it?.status) {
-                    Status.LOADING -> { frameLoading.visibility = View.VISIBLE }
+                    Status.LOADING -> {
+                        frameLoading.visibility = View.VISIBLE
+                    }
                     Status.SUCCESS -> {
                         frameLoading.visibility = View.GONE
                         clearValues()
                     }
-                    Status.ERROR -> { frameLoading.visibility = View.GONE }
-                    else -> { frameLoading.visibility = View.GONE }
+                    Status.ERROR -> {
+                        frameLoading.visibility = View.GONE
+                    }
+                    else -> {
+                        frameLoading.visibility = View.GONE
+                    }
                 }
             })
         }
@@ -187,6 +200,7 @@ class CreateProductActivity : AppCompatActivity() {
         editTextProductSellingPrice.text?.clear()
         editTextProductQuantity.text?.clear()
         editTextProductTags.text?.clear()
+        scrollView.requestFocus()
     }
 
 }

@@ -33,24 +33,24 @@ class ProductRepositoryImpl : ProductRepository {
         quantity: Int,
         tags: List<String>
     ): MutableLiveData<ProductCreationStatusModel<ProductModel?>> {
-//        var productMutableLiveData = MutableLiveData<ProductCreationStatusModel<ProductModel?>>()
-
         productMutableLiveData.value = (ProductCreationStatusModel.loading(null))
         dbProductsRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e(ProductRepositoryImpl::class.java.simpleName, "")
             }
 
-            override fun onDataChange(ds: DataSnapshot) {
-                var productId = 0L
-                if (ds.exists()) {
-                    productId = ds.childrenCount
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var id = 0L
+                var code = ""
+                if (dataSnapshot.exists()) {
+                    id = dataSnapshot.childrenCount
+                    code = generateUniqueRandomCode(dataSnapshot)
                 }
 
                 dbProductsRef.removeEventListener(this)
-                dbProductsRef.child(productId.toString()).setValue(
+                dbProductsRef.child(id.toString()).setValue(
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(productId, name, costPrice, originalPrice, sellingPrice, quantity, tags)
+                        getProductModel(code, id, name, costPrice, originalPrice, sellingPrice, quantity, tags)
                     )
                 ).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -67,8 +67,24 @@ class ProductRepositoryImpl : ProductRepository {
         return productMutableLiveData
     }
 
+    /**
+     * Generates a random code of four digits and return as String.
+     * This value must be unique in DB so only one product can have it.
+     */
+    private fun generateUniqueRandomCode(dataSnapshot: DataSnapshot): String {
+        val randomCode = (1000..9999).random().toString()
+        for (ds in dataSnapshot.children) {
+            val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+            if (productFirebase != null && productFirebase.code.equals(randomCode)) {
+                generateUniqueRandomCode(dataSnapshot)
+            }
+        }
+        return randomCode
+    }
+
     private fun getProductModel(
-        productId: Long,
+        code: String,
+        id: Long,
         name: String,
         costPrice: String,
         originalPrice: String,
@@ -77,8 +93,8 @@ class ProductRepositoryImpl : ProductRepository {
         tags: List<String>
     ): ProductModel =
         ProductModel(
-            "temp",
-            productId,
+            code,
+            id,
             name,
             "temp",
             "temp",

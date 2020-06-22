@@ -21,8 +21,12 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             m.imageName,
             PriceEntity(m.price.costPrice, m.price.originalPrice, m.price.sellingPrice),
             QuantityEntity(m.quantity.initial, m.quantity.available, m.quantity.sold),
-            m.tags
+            transformTagsModelToEntity(m.tags)
         )
 
+    private fun transformTagsModelToEntity(tags: List<String>): List<Map<String, String>> =
+        tags.map {
+            mapOf("#" to it)
+        }
 
 }
