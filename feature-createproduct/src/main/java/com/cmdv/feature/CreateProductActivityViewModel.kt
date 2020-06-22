@@ -1,16 +1,15 @@
 package com.cmdv.feature
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cmdv.domain.models.ProductCreationStatusModel
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.repositories.ProductRepository
 
 class CreateProductActivityViewModel(
     private val productRepository: ProductRepository
 ) : ViewModel() {
-
-    var productCreatedMutableLiveData = MutableLiveData<ProductModel>()
-        private set
 
     // Input field value.
     var name: String = ""
@@ -47,9 +46,14 @@ class CreateProductActivityViewModel(
     val errorEmptySellingPrice = MutableLiveData<Int>()
     val errorEmptyQuantity = MutableLiveData<Int>()
 
-    fun createProduct() {
-       if (isValidFields()) {
-            productCreatedMutableLiveData = productRepository.createProduct(
+    private val product = MutableLiveData<ProductCreationStatusModel<ProductModel?>>()
+
+    fun getProduct(): LiveData<ProductCreationStatusModel<ProductModel?>> =
+        product
+
+    fun createProduct() =
+        if (isValidFields()) {
+            productRepository.createProduct(
                 this.name,
                 this.costPrice,
                 this.originalPrice,
@@ -57,8 +61,7 @@ class CreateProductActivityViewModel(
                 this.quantity,
                 this.tags
             )
-        }
-    }
+        } else null
 
     private fun isValidFields(): Boolean {
         var isValidFields = true

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.ProductFirebaseEntity
 import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.PriceModel
+import com.cmdv.domain.models.ProductCreationStatusModel
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.QuantityModel
 import com.cmdv.domain.repositories.ProductRepository
@@ -13,6 +14,8 @@ import com.google.firebase.database.*
 const val DB_PRODUCTS_PATH = "products"
 
 class ProductRepositoryImpl : ProductRepository {
+
+    var productMutableLiveData = MutableLiveData<ProductCreationStatusModel<ProductModel?>>()
 
     private val dbRootRef: FirebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -29,9 +32,10 @@ class ProductRepositoryImpl : ProductRepository {
         sellingPrice: String,
         quantity: Int,
         tags: List<String>
-    ): MutableLiveData<ProductModel> {
-        val productMutableLiveData = MutableLiveData<ProductModel>()
+    ): MutableLiveData<ProductCreationStatusModel<ProductModel?>> {
+//        var productMutableLiveData = MutableLiveData<ProductCreationStatusModel<ProductModel?>>()
 
+        productMutableLiveData.value = (ProductCreationStatusModel.loading(null))
         dbProductsRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e(ProductRepositoryImpl::class.java.simpleName, "")
@@ -51,10 +55,10 @@ class ProductRepositoryImpl : ProductRepository {
                 ).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.e(ProductRepositoryImpl::class.java.simpleName, "Product creation task success")
-                        // TODO Handle product creation success
+                        productMutableLiveData.value = ProductCreationStatusModel.success(null)
                     } else {
                         Log.e(ProductRepositoryImpl::class.java.simpleName, "Product creation task fail")
-                        // TODO Handle product creation fail
+                        productMutableLiveData.value = ProductCreationStatusModel.error("", null)
                     }
                 }
             }

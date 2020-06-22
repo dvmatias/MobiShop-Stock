@@ -1,12 +1,16 @@
 package com.cmdv.feature
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
+import com.cmdv.core.utils.logErrorMessage
+import com.cmdv.domain.models.Status
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_create_product.*
 import kotlinx.android.synthetic.main.content_create_product.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -110,7 +114,7 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupProductTagsInputField() {
         editTextProductTags.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val tags = s.toString().split(",")
+                val tags = s.toString().replace(" ", "").split("#")
                 viewModel.tags = tags
             }
         })
@@ -118,7 +122,18 @@ class CreateProductActivity : AppCompatActivity() {
 
     private fun setupAcceptButton() {
         buttonCreateProduct.setOnClickListener {
-            viewModel.createProduct()
+            viewModel.createProduct()?.observe(this, Observer {
+                logErrorMessage("CreateProductActivity ---------> " + it?.status.toString() ?: "Product Creation Status Model null")
+                when (it?.status) {
+                    Status.LOADING -> { frameLoading.visibility = View.VISIBLE }
+                    Status.SUCCESS -> {
+                        frameLoading.visibility = View.GONE
+                        clearValues()
+                    }
+                    Status.ERROR -> { frameLoading.visibility = View.GONE }
+                    else -> { frameLoading.visibility = View.GONE }
+                }
+            })
         }
     }
 
@@ -163,6 +178,15 @@ class CreateProductActivity : AppCompatActivity() {
                 isErrorEnabled = false
             }
         }
+    }
+
+    private fun clearValues() {
+        editTextProductName.text?.clear()
+        editTextProductCostPrice.text?.clear()
+        editTextProductOriginalPrice.text?.clear()
+        editTextProductSellingPrice.text?.clear()
+        editTextProductQuantity.text?.clear()
+        editTextProductTags.text?.clear()
     }
 
 }
