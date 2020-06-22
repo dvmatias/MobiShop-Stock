@@ -7,11 +7,19 @@
     <string name="selling_price_hint">SELLING $</string>
     <string name="quantity_hint">QUANTITY</string>
     <string name="tags_hint"># TAGS</string>
-    <string name="accept_hint">ACCEPT</string>
+    <string name="accept_btn_label">ACCEPT</string>
     <string name="placeholder_price">$%s</string>
     <string name="error_input_name_empty">The product needs a name!</string>
     <string name="error_input_cost_price_empty">The cost price can\'t be empty!</string>
     <string name="error_input_original_price_empty">You must enter a original price!</string>
     <string name="error_input_selling_price_empty">You must enter a selling price!</string>
     <string name="error_input_quantity_empty">The product quantity </string>
+    <string name="finish_btn_label">finish</string>
+    <string name="create_another_btn_label">add other</string>
+    <string name="dialog_title_ko">Fail! Product was not created</string>
+    <string name="dialog_message_ko">Something went wrong. Please make sure that the information that you provided is correct. Please try again.</string>
+    <string name="dialog_title_ok">Success!</string>
+    <string name="dialog_message_ok">The product was created successfully! The new product was added to the database. You can check it out in the product list.</string>
+    <string name="dialog_product_name_text">Product Name:</string>
+    <string name="dialog_product_code_text">Product Code:</string>
 </resources>

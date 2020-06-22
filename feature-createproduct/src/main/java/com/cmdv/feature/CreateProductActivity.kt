@@ -1,13 +1,25 @@
 package com.cmdv.feature
 
+import android.app.Dialog
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
 import com.cmdv.core.utils.logErrorMessage
+import com.cmdv.domain.models.ProductCreationStatusModel
+import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -126,21 +138,19 @@ class CreateProductActivity : AppCompatActivity() {
         buttonCreateProduct.setOnClickListener {
             KeyboardHelper.hideKeyboard(WeakReference(this), it)
 
-            viewModel.createProduct()?.observe(this, Observer {
+            viewModel.createProduct()?.observe(this, Observer { productCreation ->
                 logErrorMessage(
-                    "CreateProductActivity ---------> " + it?.status.toString()
+                    "CreateProductActivity ---------> " + productCreation.status.toString()
                         ?: "Product Creation Status Model null"
                 )
-                when (it?.status) {
+                when (productCreation?.status) {
                     Status.LOADING -> {
                         frameLoading.visibility = View.VISIBLE
                     }
-                    Status.SUCCESS -> {
-                        frameLoading.visibility = View.GONE
-                        clearValues()
-                    }
+                    Status.SUCCESS,
                     Status.ERROR -> {
                         frameLoading.visibility = View.GONE
+                        setFeedbackScreen(productCreation)
                     }
                     else -> {
                         frameLoading.visibility = View.GONE
@@ -190,6 +200,58 @@ class CreateProductActivity : AppCompatActivity() {
                 error = null
                 isErrorEnabled = false
             }
+        }
+    }
+
+    private fun setFeedbackScreen(productCreation: ProductCreationStatusModel<ProductModel?>?) {
+        clearValues()
+
+        var title = ""
+        var message = ""
+        var name = ""
+        var code = ""
+        var statusOk = false
+
+        if (productCreation?.data == null || productCreation.status == Status.ERROR) {
+            title = getString(R.string.dialog_title_ko)
+            message = getString(R.string.dialog_message_ko)
+        } else {
+            title = getString(R.string.dialog_title_ok)
+            message = getString(R.string.dialog_message_ok)
+            name = productCreation.data?.name ?: ""
+            code = productCreation.data?.code ?: ""
+            statusOk = true
+        }
+
+        val dialog = Dialog(this)
+        with(dialog) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.dialog_product_created_dialog)
+            (this.findViewById(R.id.imageViewStatus) as AppCompatImageView).setImageDrawable(
+                ContextCompat.getDrawable(
+                    this@CreateProductActivity,
+                    if (statusOk) R.drawable.ic_dialog_ok_32 else R.drawable.ic_dialog_ko_32
+                )
+            )
+            (this.findViewById(R.id.textViewTitle) as AppCompatTextView).text = title
+            (this.findViewById(R.id.textViewMessage) as AppCompatTextView).text = message
+            if (statusOk) {
+                (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).text = name
+                (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).text = code
+            } else {
+                (this.findViewById(R.id.textViewProductNameTitle) as AppCompatTextView).visibility = View.GONE
+                (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).visibility = View.GONE
+                (this.findViewById(R.id.textViewProductCodeTitle) as AppCompatTextView).visibility = View.GONE
+                (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).visibility = View.GONE
+            }
+            (this.findViewById(R.id.buttonNegative) as AppCompatButton).setOnClickListener { finish() }
+            (this.findViewById(R.id.buttonPositive) as AppCompatButton).setOnClickListener { dialog.dismiss() }
+            show()
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         }
     }
 

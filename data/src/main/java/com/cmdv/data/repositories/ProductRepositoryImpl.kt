@@ -48,16 +48,34 @@ class ProductRepositoryImpl : ProductRepository {
                 }
 
                 dbProductsRef.removeEventListener(this)
-                dbProductsRef.child(id.toString()).setValue(
+
+                val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(code, id, name, costPrice, originalPrice, sellingPrice, quantity, tags)
+                        getProductModel(
+                            code,
+                            id,
+                            name,
+                            costPrice,
+                            originalPrice,
+                            sellingPrice,
+                            quantity,
+                            tags
+                        )
                     )
-                ).addOnCompleteListener { task ->
+                dbProductsRef.child(id.toString()).setValue(productFirebase).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.e(ProductRepositoryImpl::class.java.simpleName, "Product creation task success")
-                        productMutableLiveData.value = ProductCreationStatusModel.success(null)
+                        Log.e(
+                            ProductRepositoryImpl::class.java.simpleName,
+                            "Product creation task success"
+                        )
+                        productMutableLiveData.value = ProductCreationStatusModel.success(
+                            ProductFirebaseMapper().transformEntityToModel(productFirebase)
+                        )
                     } else {
-                        Log.e(ProductRepositoryImpl::class.java.simpleName, "Product creation task fail")
+                        Log.e(
+                            ProductRepositoryImpl::class.java.simpleName,
+                            "Product creation task fail"
+                        )
                         productMutableLiveData.value = ProductCreationStatusModel.error("", null)
                     }
                 }
@@ -74,7 +92,8 @@ class ProductRepositoryImpl : ProductRepository {
     private fun generateUniqueRandomCode(dataSnapshot: DataSnapshot): String {
         val randomCode = (1000..9999).random().toString()
         for (ds in dataSnapshot.children) {
-            val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+            val productFirebase: ProductFirebaseEntity? =
+                ds.getValue(ProductFirebaseEntity::class.java)
             if (productFirebase != null && productFirebase.code.equals(randomCode)) {
                 generateUniqueRandomCode(dataSnapshot)
             }
@@ -102,29 +121,6 @@ class ProductRepositoryImpl : ProductRepository {
             QuantityModel(quantity, quantity, 0),
             tags
         )
-
-    /*
-
-    usersDatabaseRef.child(authenticatedUser.uid).setValue(authenticatedUser, DatabaseReference.CompletionListener { p0, p1 ->
-			val uidRef = p1.setValue(authenticatedUser)
-			uidRef.addOnCompleteListener { task ->
-				if (task.isSuccessful) {
-					authenticatedUser.let {
-						val uid: String = it.uid
-						val email: String = it.email
-						val displayName: String = it.displayName
-						val isNew: Boolean = it.isNew
-						val isAuthenticated: Boolean = it.isAuthenticated
-						val isCreated = true
-						newUserMutableLiveData.postValue(UserModel(uid, email, displayName, isNew, isAuthenticated, isCreated))
-					}
-				} else {
-					Log.d(AuthenticationRepositoryImpl::class.java.simpleName, "${task.exception?.message}")
-				}
-			}
-		})
-
-     */
 
     override fun getProducts(): MutableLiveData<List<ProductModel>> {
         val productsMutableLiveData = MutableLiveData<List<ProductModel>>()

@@ -186,7 +186,7 @@
         android:layout_height="56dp"
         android:backgroundTint="?attr/colorAccent"
         android:fontFamily="@font/cereal_bold"
-        android:text="@string/accept_hint"
+        android:text="@string/accept_btn_label"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
