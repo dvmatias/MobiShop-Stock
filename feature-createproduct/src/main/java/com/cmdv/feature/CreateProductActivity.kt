@@ -2,8 +2,6 @@ package com.cmdv.feature
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -13,7 +11,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
@@ -206,10 +203,8 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setFeedbackScreen(productCreation: ProductCreationStatusModel<ProductModel?>?) {
         clearValues()
 
-        var title = ""
-        var message = ""
-        var name = ""
-        var code = ""
+        val title: String
+        val message: String
         var statusOk = false
 
         if (productCreation?.data == null || productCreation.status == Status.ERROR) {
@@ -218,8 +213,6 @@ class CreateProductActivity : AppCompatActivity() {
         } else {
             title = getString(R.string.dialog_title_ok)
             message = getString(R.string.dialog_message_ok)
-            name = productCreation.data?.name ?: ""
-            code = productCreation.data?.code ?: ""
             statusOk = true
         }
 
@@ -237,13 +230,15 @@ class CreateProductActivity : AppCompatActivity() {
             (this.findViewById(R.id.textViewTitle) as AppCompatTextView).text = title
             (this.findViewById(R.id.textViewMessage) as AppCompatTextView).text = message
             if (statusOk) {
-                (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).text = name
-                (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).text = code
+                (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).text =
+                    productCreation?.data?.name ?: ""
+                (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).text =
+                    productCreation?.data?.code ?: ""
             } else {
                 (this.findViewById(R.id.textViewProductNameTitle) as AppCompatTextView).visibility = View.GONE
                 (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).visibility = View.GONE
                 (this.findViewById(R.id.textViewProductCodeTitle) as AppCompatTextView).visibility = View.GONE
-                (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).visibility = View.GONE
+                (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).visibility = View.INVISIBLE
             }
             (this.findViewById(R.id.buttonNegative) as AppCompatButton).setOnClickListener { finish() }
             (this.findViewById(R.id.buttonPositive) as AppCompatButton).setOnClickListener { dialog.dismiss() }
