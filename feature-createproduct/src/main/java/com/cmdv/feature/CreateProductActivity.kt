@@ -14,8 +14,7 @@ import androidx.lifecycle.Observer
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
-import com.cmdv.core.utils.logErrorMessage
-import com.cmdv.domain.models.ProductCreationStatusModel
+import com.cmdv.domain.models.CreateProductStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
 import com.google.android.material.textfield.TextInputEditText
@@ -81,9 +80,9 @@ class CreateProductActivity : AppCompatActivity() {
         })
         viewModel.errorEmptyOriginalPrice.observe(this, Observer { errorStringId ->
             manageInputError(
-                errorStringId,
-                editTextProductOriginalPrice,
-                textInputProductOriginalPrice
+                    errorStringId,
+                    editTextProductOriginalPrice,
+                    textInputProductOriginalPrice
             )
         })
     }
@@ -100,9 +99,9 @@ class CreateProductActivity : AppCompatActivity() {
         })
         viewModel.errorEmptySellingPrice.observe(this, Observer { errorStringId ->
             manageInputError(
-                errorStringId,
-                editTextProductSellingPrice,
-                textInputProductSellingPrice
+                    errorStringId,
+                    editTextProductSellingPrice,
+                    textInputProductSellingPrice
             )
         })
     }
@@ -136,10 +135,6 @@ class CreateProductActivity : AppCompatActivity() {
             KeyboardHelper.hideKeyboard(WeakReference(this), it)
 
             viewModel.createProduct()?.observe(this, Observer { productCreation ->
-                logErrorMessage(
-                    "CreateProductActivity ---------> " + productCreation.status.toString()
-                        ?: "Product Creation Status Model null"
-                )
                 when (productCreation?.status) {
                     Status.LOADING -> {
                         frameLoading.visibility = View.VISIBLE
@@ -150,7 +145,6 @@ class CreateProductActivity : AppCompatActivity() {
                         setFeedbackScreen(productCreation)
                     }
                     else -> {
-                        frameLoading.visibility = View.GONE
                     }
                 }
             })
@@ -165,12 +159,12 @@ class CreateProductActivity : AppCompatActivity() {
                 formattedPrice = formatPrice(price.toFloat())
                 et.apply {
                     setText(
-                        StringBuilder(
-                            String.format(
-                                getString(R.string.placeholder_price),
-                                formattedPrice
+                            StringBuilder(
+                                    String.format(
+                                            getString(R.string.placeholder_price),
+                                            formattedPrice
+                                    )
                             )
-                        )
                     )
                     setSelection(et.text.toString().length)
                 }
@@ -200,7 +194,7 @@ class CreateProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFeedbackScreen(productCreation: ProductCreationStatusModel<ProductModel?>?) {
+    private fun setFeedbackScreen(productCreation: CreateProductStatusWrapper<ProductModel?>?) {
         clearValues()
 
         val title: String
@@ -222,18 +216,18 @@ class CreateProductActivity : AppCompatActivity() {
             setCancelable(false)
             setContentView(R.layout.dialog_product_created_dialog)
             (this.findViewById(R.id.imageViewStatus) as AppCompatImageView).setImageDrawable(
-                ContextCompat.getDrawable(
-                    this@CreateProductActivity,
-                    if (statusOk) R.drawable.ic_dialog_ok_32 else R.drawable.ic_dialog_ko_32
-                )
+                    ContextCompat.getDrawable(
+                            this@CreateProductActivity,
+                            if (statusOk) R.drawable.ic_dialog_ok_32 else R.drawable.ic_dialog_ko_32
+                    )
             )
             (this.findViewById(R.id.textViewTitle) as AppCompatTextView).text = title
             (this.findViewById(R.id.textViewMessage) as AppCompatTextView).text = message
             if (statusOk) {
                 (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).text =
-                    productCreation?.data?.name ?: ""
+                        productCreation?.data?.name ?: ""
                 (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).text =
-                    productCreation?.data?.code ?: ""
+                        productCreation?.data?.code ?: ""
             } else {
                 (this.findViewById(R.id.textViewProductNameTitle) as AppCompatTextView).visibility = View.GONE
                 (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).visibility = View.GONE
@@ -244,8 +238,8 @@ class CreateProductActivity : AppCompatActivity() {
             (this.findViewById(R.id.buttonPositive) as AppCompatButton).setOnClickListener { dialog.dismiss() }
             show()
             window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
     }

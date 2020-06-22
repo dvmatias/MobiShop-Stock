@@ -1,7 +1,7 @@
 package com.cmdv.domain.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.models.ProductCreationStatusModel
+import com.cmdv.domain.models.CreateProductStatusWrapper
 import com.cmdv.domain.models.ProductModel
 
 interface ProductRepository {
@@ -15,7 +15,7 @@ interface ProductRepository {
         sellingPrice: String,
         quantity: Int,
         tags: List<String>
-    ): MutableLiveData<ProductCreationStatusModel<ProductModel?>>
+    ): MutableLiveData<CreateProductStatusWrapper<ProductModel?>>
 
     fun getProducts(): MutableLiveData<List<ProductModel>>
 

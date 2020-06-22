@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.ProductFirebaseEntity
 import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.PriceModel
-import com.cmdv.domain.models.ProductCreationStatusModel
+import com.cmdv.domain.models.CreateProductStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.QuantityModel
 import com.cmdv.domain.repositories.ProductRepository
@@ -15,7 +15,7 @@ const val DB_PRODUCTS_PATH = "products"
 
 class ProductRepositoryImpl : ProductRepository {
 
-    var productMutableLiveData = MutableLiveData<ProductCreationStatusModel<ProductModel?>>()
+    var productMutableLiveData = MutableLiveData<CreateProductStatusWrapper<ProductModel?>>()
 
     private val dbRootRef: FirebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -26,18 +26,20 @@ class ProductRepositoryImpl : ProductRepository {
     }
 
     override fun createProduct(
-        name: String,
-        costPrice: String,
-        originalPrice: String,
-        sellingPrice: String,
-        quantity: Int,
-        tags: List<String>
-    ): MutableLiveData<ProductCreationStatusModel<ProductModel?>> {
-        productMutableLiveData.value = (ProductCreationStatusModel.loading(null))
+            name: String,
+            costPrice: String,
+            originalPrice: String,
+            sellingPrice: String,
+            quantity: Int,
+            tags: List<String>
+    ): MutableLiveData<CreateProductStatusWrapper<ProductModel?>> {
+        // Reset Live data object to avoid older values.
+        productMutableLiveData = MutableLiveData()
+        // Set loading status.
+        productMutableLiveData.value = (CreateProductStatusWrapper.loading(null))
+
         dbProductsRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e(ProductRepositoryImpl::class.java.simpleName, "")
-            }
+            override fun onCancelled(p0: DatabaseError) { }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var id = 0L
@@ -50,33 +52,18 @@ class ProductRepositoryImpl : ProductRepository {
                 dbProductsRef.removeEventListener(this)
 
                 val productFirebase: ProductFirebaseEntity =
-                    ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(
-                            code,
-                            id,
-                            name,
-                            costPrice,
-                            originalPrice,
-                            sellingPrice,
-                            quantity,
-                            tags
+                        ProductFirebaseMapper().transformModelToEntity(
+                                getProductModel(code, id, name, costPrice, originalPrice, sellingPrice, quantity, tags)
                         )
-                    )
                 dbProductsRef.child(id.toString()).setValue(productFirebase).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.e(
-                            ProductRepositoryImpl::class.java.simpleName,
-                            "Product creation task success"
-                        )
-                        productMutableLiveData.value = ProductCreationStatusModel.success(
-                            ProductFirebaseMapper().transformEntityToModel(productFirebase)
+                        Log.e(ProductRepositoryImpl::class.java.simpleName, "Product creation task success")
+                        productMutableLiveData.value = CreateProductStatusWrapper.success(
+                                ProductFirebaseMapper().transformEntityToModel(productFirebase)
                         )
                     } else {
-                        Log.e(
-                            ProductRepositoryImpl::class.java.simpleName,
-                            "Product creation task fail"
-                        )
-                        productMutableLiveData.value = ProductCreationStatusModel.error("", null)
+                        Log.e(ProductRepositoryImpl::class.java.simpleName, "Product creation task fail")
+                        productMutableLiveData.value = CreateProductStatusWrapper.error("", null)
                     }
                 }
             }
@@ -93,7 +80,7 @@ class ProductRepositoryImpl : ProductRepository {
         val randomCode = (1000..9999).random().toString()
         for (ds in dataSnapshot.children) {
             val productFirebase: ProductFirebaseEntity? =
-                ds.getValue(ProductFirebaseEntity::class.java)
+                    ds.getValue(ProductFirebaseEntity::class.java)
             if (productFirebase != null && productFirebase.code.equals(randomCode)) {
                 generateUniqueRandomCode(dataSnapshot)
             }
@@ -102,25 +89,25 @@ class ProductRepositoryImpl : ProductRepository {
     }
 
     private fun getProductModel(
-        code: String,
-        id: Long,
-        name: String,
-        costPrice: String,
-        originalPrice: String,
-        sellingPrice: String,
-        quantity: Int,
-        tags: List<String>
+            code: String,
+            id: Long,
+            name: String,
+            costPrice: String,
+            originalPrice: String,
+            sellingPrice: String,
+            quantity: Int,
+            tags: List<String>
     ): ProductModel =
-        ProductModel(
-            code,
-            id,
-            name,
-            "temp",
-            "temp",
-            PriceModel(costPrice, originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0),
-            tags
-        )
+            ProductModel(
+                    code,
+                    id,
+                    name,
+                    "temp",
+                    "temp",
+                    PriceModel(costPrice, originalPrice, sellingPrice),
+                    QuantityModel(quantity, quantity, 0),
+                    tags
+            )
 
     override fun getProducts(): MutableLiveData<List<ProductModel>> {
         val productsMutableLiveData = MutableLiveData<List<ProductModel>>()
@@ -130,12 +117,12 @@ class ProductRepositoryImpl : ProductRepository {
                 val products = ArrayList<ProductModel>()
                 for (ds in snapshot.children) {
                     val productFirebaseEntity: ProductFirebaseEntity? =
-                        ds.getValue(ProductFirebaseEntity::class.java)
+                            ds.getValue(ProductFirebaseEntity::class.java)
                     if (productFirebaseEntity != null) {
                         products.add(
-                            ProductFirebaseMapper().transformEntityToModel(
-                                productFirebaseEntity
-                            )
+                                ProductFirebaseMapper().transformEntityToModel(
+                                        productFirebaseEntity
+                                )
                         )
                     }
                 }

@@ -1,9 +1,8 @@
 package com.cmdv.feature
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cmdv.domain.models.ProductCreationStatusModel
+import com.cmdv.domain.models.CreateProductStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.repositories.ProductRepository
 
@@ -46,12 +45,9 @@ class CreateProductActivityViewModel(
     val errorEmptySellingPrice = MutableLiveData<Int>()
     val errorEmptyQuantity = MutableLiveData<Int>()
 
-    private val product = MutableLiveData<ProductCreationStatusModel<ProductModel?>>()
+    private val product = MutableLiveData<CreateProductStatusWrapper<ProductModel?>>()
 
-    fun getProduct(): LiveData<ProductCreationStatusModel<ProductModel?>> =
-        product
-
-    fun createProduct(): MutableLiveData<ProductCreationStatusModel<ProductModel?>>? =
+    fun createProduct(): MutableLiveData<CreateProductStatusWrapper<ProductModel?>>? =
         if (isValidFields()) {
             productRepository.createProduct(
                 this.name,
