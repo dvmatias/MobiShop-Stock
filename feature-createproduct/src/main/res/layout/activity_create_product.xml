@@ -3,31 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CreateProductActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- Background Image -->
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:src="@drawable/img_mobi_shop"
+        android:adjustViewBounds="false"
+        android:scaleType="center"
+        android:alpha="0.2"
+        android:scaleX="1.4"
+        android:scaleY="1.4"
+        android:rotation="-20"/>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
+    <!-- Main Content -->
     <include layout="@layout/content_create_product" />
 
+    <!-- Loading View -->
     <FrameLayout
         android:id="@+id/frameLoading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:background="#16000000"
+        android:background="@color/colorOverlayLoading"
         tools:visibility="visible">
 
         <ProgressBar

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="create_new_product_title">Create New Product</string>
-    <string name="product_name_hint">PRODUCT NAME</string>
-    <string name="cost_price_hint">COST $</string>
-    <string name="original_price_hint">ORIGINAL $</string>
-    <string name="selling_price_hint">SELLING $</string>
-    <string name="quantity_hint">QUANTITY</string>
-    <string name="tags_hint"># TAGS</string>
-    <string name="accept_btn_label">ACCEPT</string>
+    <string name="product_name_hint">(*) Product Name</string>
+    <string name="cost_price_hint">(*) Cost $</string>
+    <string name="original_price_hint">Original $</string>
+    <string name="selling_price_hint">(*) Selling $</string>
+    <string name="quantity_hint">(*) Quantity</string>
+    <string name="tags_hint">Tags#</string>
+    <string name="accept_btn_label">Create Product</string>
     <string name="placeholder_price">$%s</string>
     <string name="error_input_name_empty">The product needs a name!</string>
     <string name="error_input_cost_price_empty">The cost price can\'t be empty!</string>
@@ -22,4 +22,6 @@
     <string name="dialog_message_ok">The product was created successfully! The new product was added to the database. You can check it out in the product list.</string>
     <string name="dialog_product_name_text">Product Name:</string>
     <string name="dialog_product_code_text">Product Code:</string>
+    <string name="create_product_explanation"><![CDATA[Fill in the fields to create a new product in the Database. The fields marked with <b>(*)</b> are mandatory. After creating a product you can continue adding new products or exit this screen. This screen is <b>only for adding new products that do not already exist in the Database</b>.]]></string>
+    <string name="main_info_title">Main Info</string>
 </resources>

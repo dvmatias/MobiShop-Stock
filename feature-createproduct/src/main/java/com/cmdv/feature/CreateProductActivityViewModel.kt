@@ -22,10 +22,6 @@ class CreateProductActivityViewModel(
             errorEmptyCostPrice.postValue(null)
         }
     var originalPrice: String = ""
-        set(value) {
-            field = value
-            errorEmptyOriginalPrice.postValue(null)
-        }
     var sellingPrice: String = ""
         set(value) {
             field = value
@@ -41,7 +37,6 @@ class CreateProductActivityViewModel(
     // Error
     val errorEmptyName = MutableLiveData<Int>()
     val errorEmptyCostPrice = MutableLiveData<Int>()
-    val errorEmptyOriginalPrice = MutableLiveData<Int>()
     val errorEmptySellingPrice = MutableLiveData<Int>()
     val errorEmptyQuantity = MutableLiveData<Int>()
 
@@ -65,10 +60,6 @@ class CreateProductActivityViewModel(
         }
         if (costPrice.isEmpty()) {
             errorEmptyCostPrice.postValue(R.string.error_input_cost_price_empty)
-            isValidFields = false
-        }
-        if (originalPrice.isEmpty()) {
-            errorEmptyOriginalPrice.postValue(R.string.error_input_original_price_empty)
             isValidFields = false
         }
         if (sellingPrice.isEmpty()) {

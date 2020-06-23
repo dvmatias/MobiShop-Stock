@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
@@ -32,6 +33,8 @@ class CreateProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_product)
 
+        setupExplanation()
+        setupBackButton()
         setupProductNameInputField()
         setupProductCostPriceInputField()
         setupProductOriginalPriceInputField()
@@ -39,6 +42,14 @@ class CreateProductActivity : AppCompatActivity() {
         setupProductQuantityInputField()
         setupProductTagsInputField()
         setupAcceptButton()
+    }
+
+    private fun setupExplanation() {
+        textViewExplanation.text = HtmlHelper.fromHtml(R.string.create_product_explanation, this)
+    }
+
+    private fun setupBackButton() {
+        imageViewBack.setOnClickListener { finish() }
     }
 
     private fun setupProductNameInputField() {
@@ -77,13 +88,6 @@ class CreateProductActivity : AppCompatActivity() {
                     it.addTextChangedListener(this)
                 }
             }
-        })
-        viewModel.errorEmptyOriginalPrice.observe(this, Observer { errorStringId ->
-            manageInputError(
-                    errorStringId,
-                    editTextProductOriginalPrice,
-                    textInputProductOriginalPrice
-            )
         })
     }
 
