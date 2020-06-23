@@ -14,6 +14,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
         ProductModel(
             e.code ?: "",
             e.id ?: -1L,
+            e.productType ?: "",
             e.name ?: "",
             e.model ?: "",
             e.imageName ?: "",
@@ -34,6 +35,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
         ProductFirebaseEntity(
             m.code,
             m.id,
+            m.productType,
             m.name,
             m.model,
             m.imageName,

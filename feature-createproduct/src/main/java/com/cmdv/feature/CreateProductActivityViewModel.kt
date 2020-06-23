@@ -1,8 +1,9 @@
 package com.cmdv.feature
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cmdv.domain.models.CreateProductStatusWrapper
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.repositories.ProductRepository
 
@@ -10,11 +11,21 @@ class CreateProductActivityViewModel(
     private val productRepository: ProductRepository
 ) : ViewModel() {
 
+    // Product types
+    private val _productTypes = MutableLiveData<LiveDataStatusWrapper<ArrayList<String>>>()
+    val productTypes: LiveData<LiveDataStatusWrapper<ArrayList<String>>>
+        get() = _productTypes
+
     // Input field value.
     var name: String = ""
         set(value) {
             field = value
             errorEmptyName.postValue(null)
+        }
+    var productType: String = ""
+        set(value) {
+            field = value
+            errorEmptyProductType.postValue(null)
         }
     var costPrice: String = ""
         set(value) {
@@ -36,14 +47,16 @@ class CreateProductActivityViewModel(
 
     // Error
     val errorEmptyName = MutableLiveData<Int>()
+    val errorEmptyProductType = MutableLiveData<Int>()
     val errorEmptyCostPrice = MutableLiveData<Int>()
     val errorEmptySellingPrice = MutableLiveData<Int>()
     val errorEmptyQuantity = MutableLiveData<Int>()
 
-    fun createProduct(): MutableLiveData<CreateProductStatusWrapper<ProductModel?>>? =
+    fun createProduct(): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>? =
         if (isValidFields()) {
             productRepository.createProduct(
                 this.name,
+                this.productType,
                 this.costPrice,
                 this.originalPrice,
                 this.sellingPrice,
@@ -52,10 +65,18 @@ class CreateProductActivityViewModel(
             )
         } else null
 
+    fun getProductTypes() {
+        productRepository.getProductTypes(_productTypes)
+    }
+
     private fun isValidFields(): Boolean {
         var isValidFields = true
         if (name.isEmpty()) {
             errorEmptyName.postValue(R.string.error_input_name_empty)
+            isValidFields = false
+        }
+        if (productType.isEmpty()) {
+            errorEmptyProductType.postValue(R.string.error_input_product_type_empty)
             isValidFields = false
         }
         if (costPrice.isEmpty()) {

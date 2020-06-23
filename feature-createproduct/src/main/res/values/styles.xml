@@ -22,22 +22,38 @@
     </style>
 
     <style name="EditTextStyle" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColor">@color/colorTextPrimaryDark</item>
-        <item name="android:textColorHint">@color/colorTextHintDark</item>
         <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="hintTextAppearance">@style/HintTextAppearance</item>
+        <item name="android:textAppearance">@style/InputTextAppearance</item>
+    </style>
+
+    <style name="InputTextAppearance" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorTextPrimaryDark</item>
         <item name="android:fontFamily">@font/cereal_medium</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HintTextAppearance" parent="Widget.AppCompat.TextView">
+        <item name="android:textColorHint">@color/colorTextHintDark</item>
+        <item name="android:fontFamily">@font/cereal_book</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
         <item name="hintAnimationEnabled">true</item>
         <item name="hintEnabled">true</item>
-        <item name="hintTextColor">@color/colorTextHintDark</item>
-        <item name="android:textColorHint">@color/colorTextHintDark</item>
+        <item name="hintTextAppearance">@style/HintTextAppearance</item>
         <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
     </style>
 
     <style name="ErrorTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FF0000</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner.Underlined">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/cereal_medium</item>
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
@@ -15,9 +16,10 @@ import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
-import com.cmdv.domain.models.CreateProductStatusWrapper
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
+import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
@@ -42,6 +44,7 @@ class CreateProductActivity : AppCompatActivity() {
         setupProductQuantityInputField()
         setupProductTagsInputField()
         setupAcceptButton()
+        observeProductTypes()
     }
 
     private fun setupExplanation() {
@@ -162,6 +165,49 @@ class CreateProductActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeProductTypes() {
+        viewModel.productTypes.observe(this, Observer { productTypes ->
+            when (productTypes?.status) {
+                Status.LOADING -> {
+                    frameLoading.visibility = View.VISIBLE
+                }
+                Status.SUCCESS,
+                Status.ERROR -> {
+                    frameLoading.visibility = View.GONE
+                    setSpinnerProductType(productTypes.data as ArrayList<String>)
+                }
+                else -> {
+                }
+            }
+        })
+        viewModel.getProductTypes()
+    }
+
+    private fun setSpinnerProductType(productTypes: ArrayList<String>) {
+        val adapter = ProductTypeSpinnerAdapter(this, productTypes)
+        spinnerProductTypes.adapter = adapter
+        spinnerProductTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {viewModel.productType =
+                if (position == 0) "" else productTypes[position]
+            }
+        }
+        viewModel.errorEmptyProductType.observe(this, Observer { errorStringId ->
+            if (errorStringId != null) {
+                textInputProductType.apply {
+                    isErrorEnabled = true
+                    error = getString(errorStringId)
+                }
+            } else {
+                textInputProductType.apply {
+                    error = null
+                    isErrorEnabled = false
+                }
+            }
+        })
+    }
+
     private fun sanitizePrice(s: CharSequence?, et: TextInputEditText): String {
         var formattedPrice = ""
         if (!s.isNullOrBlank()) {
@@ -205,7 +251,7 @@ class CreateProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFeedbackScreen(productCreation: CreateProductStatusWrapper<ProductModel?>?) {
+    private fun setFeedbackScreen(productCreation: LiveDataStatusWrapper<ProductModel?>?) {
         clearValues()
 
         val title: String

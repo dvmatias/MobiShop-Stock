@@ -20,7 +20,6 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:isScrollContainer="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewBack">
@@ -130,12 +129,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="Product Type"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textInputProductName">
 
                         <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinnerProductTypes"
+                            style="@style/SpinnerStyle"
+                            android:hint="Product Type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 

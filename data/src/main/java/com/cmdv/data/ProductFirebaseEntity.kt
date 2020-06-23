@@ -3,6 +3,7 @@ package com.cmdv.data
 data class ProductFirebaseEntity(
     val code: String?,
     val id: Long?,
+    val productType: String?,
     val name: String?,
     val model: String?,
     val imageName: String?,
@@ -12,7 +13,7 @@ data class ProductFirebaseEntity(
 ) {
 
     @Suppress("unused")
-    constructor() : this(null, null, null, null, null, null, null, null)
+    constructor() : this(null, null, null, null, null, null, null, null, null)
 
 }
 

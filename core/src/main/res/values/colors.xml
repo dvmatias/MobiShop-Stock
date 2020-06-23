@@ -2,7 +2,7 @@
 <resources>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTextHintLight">#BCFFFFFF</color>
-    <color name="colorTextHintDark">#8D000000</color>
+    <color name="colorTextHintDark">#75000000</color>
     <color name="colorTextSecondaryDark">#353535</color>
     <color name="colorTextPrimaryDark">#171717</color>
     <color name="colorOverlayLoading">#5B000000</color>
