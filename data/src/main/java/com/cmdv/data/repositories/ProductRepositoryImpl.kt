@@ -32,6 +32,7 @@ class ProductRepositoryImpl : ProductRepository {
 
     override fun createProduct(
         name: String,
+        description: String,
         productType: String,
         costPrice: String,
         originalPrice: String,
@@ -59,34 +60,17 @@ class ProductRepositoryImpl : ProductRepository {
 
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(
-                            code,
-                            id,
-                            productType,
-                            name,
-                            costPrice,
-                            originalPrice,
-                            sellingPrice,
-                            quantity,
-                            tags
-                        )
+                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, tags)
                     )
                 dbProductsRef.child(id.toString()).setValue(productFirebase)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Log.e(
-                                ProductRepositoryImpl::class.java.simpleName,
-                                "Product creation task success"
-                            )
-                            productMutableLiveData.value = LiveDataStatusWrapper.success(
-                                ProductFirebaseMapper().transformEntityToModel(productFirebase)
-                            )
+                            productMutableLiveData.value =
+                                LiveDataStatusWrapper.success(
+                                    ProductFirebaseMapper().transformEntityToModel(productFirebase))
                         } else {
-                            Log.e(
-                                ProductRepositoryImpl::class.java.simpleName,
-                                "Product creation task fail"
-                            )
-                            productMutableLiveData.value = LiveDataStatusWrapper.error("", null)
+                            productMutableLiveData.value =
+                                LiveDataStatusWrapper.error("", null)
                         }
                     }
             }
@@ -116,6 +100,7 @@ class ProductRepositoryImpl : ProductRepository {
         id: Long,
         productType: String,
         name: String,
+        description: String,
         costPrice: String,
         originalPrice: String,
         sellingPrice: String,
@@ -127,6 +112,7 @@ class ProductRepositoryImpl : ProductRepository {
             id,
             productType,
             name,
+            description,
             "temp",
             "temp",
             PriceModel(costPrice, originalPrice, sellingPrice),
@@ -134,9 +120,7 @@ class ProductRepositoryImpl : ProductRepository {
             tags
         )
 
-    override fun getProducts(): MutableLiveData<List<ProductModel>> {
-        val productsMutableLiveData = MutableLiveData<List<ProductModel>>()
-
+    override fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>) {
         dbProductsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val products = ArrayList<ProductModel>()
@@ -151,13 +135,13 @@ class ProductRepositoryImpl : ProductRepository {
                         )
                     }
                 }
-                productsMutableLiveData.postValue(products)
+                productsMutableLiveData.value = LiveDataStatusWrapper.success(products)
             }
 
-            override fun onCancelled(error: DatabaseError) {}
+            override fun onCancelled(error: DatabaseError) {
+                productsMutableLiveData.value = LiveDataStatusWrapper.error("", null)
+            }
         })
-
-        return productsMutableLiveData
     }
 
     override fun getProductTypes(mutableLiveData: MutableLiveData<LiveDataStatusWrapper<ArrayList<String>>>) {

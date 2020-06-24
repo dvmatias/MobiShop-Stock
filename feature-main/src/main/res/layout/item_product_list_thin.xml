@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Image -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewProductImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/img_no_img"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Name -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewProductName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/cereal_bold"
+            android:textColor="@color/colorTextPrimaryDark"
+            android:lines="1"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageViewProductImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Product Name" />
+
+        <!-- Description -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewProductDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/cereal_book"
+            android:maxLines="2"
+            android:textColor="@color/colorTextSecondaryDark"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewProductSellingPrice"
+            app:layout_constraintEnd_toEndOf="@id/textViewProductName"
+            app:layout_constraintStart_toStartOf="@id/textViewProductName"
+            app:layout_constraintTop_toBottomOf="@id/textViewProductName"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Product description product description description kkk" />
+
+        <!-- Selling Price -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewProductSellingPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/cereal_bold"
+            android:maxLines="2"
+            android:textColor="@color/colorOk"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/textViewProductCostPrice"
+            app:layout_constraintStart_toStartOf="@id/textViewProductName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProductDescription"
+            tools:text="$320" />
+
+        <!-- Cost Price -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewProductCostPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/cereal_bold"
+            android:maxLines="2"
+            android:textColor="@color/colorTextHintDark"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/textViewProductName"
+            tools:text="$150" />
+
+        <!-- Delete Button -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewDeleteProductButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_delete_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageViewEditProductButton"/>
+
+        <!-- Edit Button -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewEditProductButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_24"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

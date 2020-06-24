@@ -39,6 +39,7 @@ class CreateProductActivity : AppCompatActivity() {
         setupExplanation()
         setupBackButton()
         setupProductNameInputField()
+        setupProductDescriptionInputField()
         setupProductCostPriceInputField()
         setupProductOriginalPriceInputField()
         setupProductSellingPriceInputField()
@@ -65,6 +66,14 @@ class CreateProductActivity : AppCompatActivity() {
         })
         viewModel.errorEmptyName.observe(this, Observer { errorStringId ->
             manageInputError(errorStringId, editTextProductName, textInputProductName)
+        })
+    }
+
+    private fun setupProductDescriptionInputField() {
+        editTextProductDescription.addTextChangedListener(object : SimpleTextWatcher() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.description = s.toString()
+            }
         })
     }
 
@@ -310,11 +319,15 @@ class CreateProductActivity : AppCompatActivity() {
 
     private fun clearValues() {
         editTextProductName.text?.clear()
+        editTextProductDescription.text?.clear()
         editTextProductCostPrice.text?.clear()
         editTextProductOriginalPrice.text?.clear()
         editTextProductSellingPrice.text?.clear()
         editTextProductQuantity.text?.clear()
         editTextProductTags.text?.clear()
+
+        spinnerProductTypes.setSelection(0)
+
         scrollView.requestFocus()
     }
 

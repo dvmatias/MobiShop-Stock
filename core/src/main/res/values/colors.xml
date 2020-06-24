@@ -7,4 +7,5 @@
     <color name="colorTextPrimaryDark">#171717</color>
     <color name="colorOverlayLoading">#5B000000</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorOk">#1BBF04</color>
 </resources>

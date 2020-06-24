@@ -16,7 +16,7 @@
     app:cardUseCompatPadding="true"
     android:fitsSystemWindows="false"
     app:layout_constraintTop_toBottomOf="@id/cardExplanation"
-    android:layout_marginTop="26dp"
+    android:layout_marginTop="22dp"
     tools:showIn="@layout/content_create_product">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,15 +59,39 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Product Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductDescription"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/product_description_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductDescription"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusDown="@id/editTextProductCostPrice" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Type -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputProductType"
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputProductName">
+            app:layout_constraintTop_toBottomOf="@id/textInputProductDescription">
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerProductTypes"
@@ -84,7 +108,7 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/cost_price_hint"
             app:layout_constraintWidth_percent="0.4"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +132,7 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/selling_price_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputProductCostPrice"
@@ -133,7 +157,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/original_price_hint"
             app:layout_constraintStart_toEndOf="@id/textInputProductSellingPrice"
             app:layout_constraintTop_toBottomOf="@id/textInputProductCostPrice"
@@ -157,7 +181,7 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/quantity_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +205,7 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/tags_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

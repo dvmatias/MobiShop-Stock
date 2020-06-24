@@ -2,6 +2,7 @@
 <resources>
     <string name="create_new_product_title">Create New Product</string>
     <string name="product_name_hint">(*) Product Name</string>
+    <string name="product_description_hint">Product Description</string>
     <string name="cost_price_hint">(*) Cost $</string>
     <string name="original_price_hint">Original $</string>
     <string name="selling_price_hint">(*) Selling $</string>
