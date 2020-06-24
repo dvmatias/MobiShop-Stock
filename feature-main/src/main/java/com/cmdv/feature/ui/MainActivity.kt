@@ -2,28 +2,38 @@ package com.cmdv.feature.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.cmdv.core.navigator.Navigator
+import com.cmdv.core.utils.logInfoMessage
 import com.cmdv.data.repositories.ProductRepositoryImpl
 import com.cmdv.feature.R
-import com.cmdv.feature.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
     private lateinit var viewModel: MainActivityViewModel
+
+    private val navigator: Navigator by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupDataBinding()
-        setSupportActionBar(binding.toolbar)
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+        setupCreateProductButton()
         setupViewModel()
         setupRecyclerProduct()
     }
 
-    private fun setupDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+    private fun setupCreateProductButton() {
+        fab.setOnClickListener {
+            navigator.toAddProductScreen(
+                this,
+                null,
+                null,
+                false
+            )
+        }
     }
 
     private fun setupViewModel() {

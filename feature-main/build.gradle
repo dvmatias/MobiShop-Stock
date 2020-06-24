@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -44,10 +45,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    buildFeatures{
-        dataBinding = true
-    }
 }
 
 dependencies {
@@ -58,7 +55,7 @@ dependencies {
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation libs.legacy_support_v4
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraint_layout

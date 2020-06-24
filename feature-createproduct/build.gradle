@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    productFlavors {
+        QA {
+            dimension 'environment'
+            versionNameSuffix '-qa'
+        }
+        PRODUCTION {
+            dimension 'environment'
+            versionNameSuffix '-production'
+        }
+    }
+    flavorDimensions('environment')
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation project(':core')
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    testImplementation libs.junit
+    androidTestImplementation libs.ext_junit
+    androidTestImplementation libs.espresso
+
+    implementation libs.legacy_support_v4
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraint_layout
+    implementation libs.navigation_fragment
+    implementation libs.navigation_ui
+}

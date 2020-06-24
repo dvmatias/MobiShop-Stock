@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'koin'
 
 android {
     compileSdkVersion 29
@@ -41,15 +42,16 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
     flavorDimensions('environment')
 }
 
 dependencies {
+    implementation project(path: ':core')
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
     implementation project(path: ':feature-splash')
     implementation project(path: ':feature-main')
+    implementation project(path: ':feature-createproduct')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit

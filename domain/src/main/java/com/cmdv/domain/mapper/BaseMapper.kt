@@ -1,8 +1,10 @@
-package com.cmdv.core.base
+package com.cmdv.domain.mapper
 
 abstract class BaseMapper<E, M> {
 
-    abstract fun transformEntityToModel(e: E): M
+    open fun transformEntityToModel(e: E): M {
+        throw UnsupportedOperationException()
+    }
 
     open fun transformModelToEntity(m: M): E {
         throw UnsupportedOperationException()
