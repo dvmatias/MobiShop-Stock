@@ -4,6 +4,7 @@ import com.cmdv.core.navigator.Navigator
 import com.cmdv.data.repositories.ProductRepositoryImpl
 import com.cmdv.domain.repositories.ProductRepository
 import com.cmdv.feature.CreateProductActivityViewModel
+import com.cmdv.feature.ui.MainActivityViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,5 +23,6 @@ val repositoryModule = module {
 val viewModelModule = module {
 
     viewModel { CreateProductActivityViewModel(get()) }
+    viewModel { MainActivityViewModel(get()) }
 
 }
