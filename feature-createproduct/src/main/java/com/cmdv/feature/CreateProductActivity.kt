@@ -5,22 +5,26 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
-import com.cmdv.domain.models.CreateProductStatusWrapper
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
+import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
 import kotlinx.android.synthetic.main.content_create_product.*
+import kotlinx.android.synthetic.main.main_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.ref.WeakReference
 
@@ -32,6 +36,8 @@ class CreateProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_product)
 
+        setupExplanation()
+        setupBackButton()
         setupProductNameInputField()
         setupProductCostPriceInputField()
         setupProductOriginalPriceInputField()
@@ -39,6 +45,15 @@ class CreateProductActivity : AppCompatActivity() {
         setupProductQuantityInputField()
         setupProductTagsInputField()
         setupAcceptButton()
+        observeProductTypes()
+    }
+
+    private fun setupExplanation() {
+        textViewExplanation.text = HtmlHelper.fromHtml(R.string.create_product_explanation, this)
+    }
+
+    private fun setupBackButton() {
+        imageViewBack.setOnClickListener { finish() }
     }
 
     private fun setupProductNameInputField() {
@@ -77,13 +92,6 @@ class CreateProductActivity : AppCompatActivity() {
                     it.addTextChangedListener(this)
                 }
             }
-        })
-        viewModel.errorEmptyOriginalPrice.observe(this, Observer { errorStringId ->
-            manageInputError(
-                    errorStringId,
-                    editTextProductOriginalPrice,
-                    textInputProductOriginalPrice
-            )
         })
     }
 
@@ -158,6 +166,50 @@ class CreateProductActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeProductTypes() {
+        viewModel.productTypes.observe(this, Observer { productTypes ->
+            when (productTypes?.status) {
+                Status.LOADING -> {
+                    frameLoading.visibility = View.VISIBLE
+                }
+                Status.SUCCESS,
+                Status.ERROR -> {
+                    frameLoading.visibility = View.GONE
+                    if (productTypes.data != null) {
+                        setSpinnerProductType(productTypes.data as ArrayList<String>)
+                    } else {
+                        textInputProductType.visibility = View.GONE
+                        // TODO Handle this scenario because product type is mandatory to create a product in DB.
+                    }
+                }
+            }
+        })
+        viewModel.getProductTypes()
+    }
+
+    private fun setSpinnerProductType(productTypes: ArrayList<String>) {
+        val adapter = ProductTypeSpinnerAdapter(this, productTypes)
+        spinnerProductTypes.adapter = adapter
+        spinnerProductTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {viewModel.productType =
+                if (position == 0) "" else productTypes[position]
+            }
+        }
+        viewModel.errorEmptyProductType.observe(this, Observer { errorStringId ->
+            textInputProductType.apply {
+                if (errorStringId != null) {
+                    isErrorEnabled = true
+                    error = getString(errorStringId)
+                } else {
+                    error = null
+                    isErrorEnabled = false
+                }
+            }
+        })
+    }
+
     private fun sanitizePrice(s: CharSequence?, et: TextInputEditText): String {
         var formattedPrice = ""
         if (!s.isNullOrBlank()) {
@@ -201,7 +253,7 @@ class CreateProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFeedbackScreen(productCreation: CreateProductStatusWrapper<ProductModel?>?) {
+    private fun setFeedbackScreen(productCreation: LiveDataStatusWrapper<ProductModel?>?) {
         clearValues()
 
         val title: String
