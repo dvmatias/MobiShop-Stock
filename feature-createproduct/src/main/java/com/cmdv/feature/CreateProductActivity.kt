@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
 import kotlinx.android.synthetic.main.content_create_product.*
+import kotlinx.android.synthetic.main.main_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.ref.WeakReference
 
@@ -174,9 +175,12 @@ class CreateProductActivity : AppCompatActivity() {
                 Status.SUCCESS,
                 Status.ERROR -> {
                     frameLoading.visibility = View.GONE
-                    setSpinnerProductType(productTypes.data as ArrayList<String>)
-                }
-                else -> {
+                    if (productTypes.data != null) {
+                        setSpinnerProductType(productTypes.data as ArrayList<String>)
+                    } else {
+                        textInputProductType.visibility = View.GONE
+                        // TODO Handle this scenario because product type is mandatory to create a product in DB.
+                    }
                 }
             }
         })
@@ -194,13 +198,11 @@ class CreateProductActivity : AppCompatActivity() {
             }
         }
         viewModel.errorEmptyProductType.observe(this, Observer { errorStringId ->
-            if (errorStringId != null) {
-                textInputProductType.apply {
+            textInputProductType.apply {
+                if (errorStringId != null) {
                     isErrorEnabled = true
                     error = getString(errorStringId)
-                }
-            } else {
-                textInputProductType.apply {
+                } else {
                     error = null
                     isErrorEnabled = false
                 }
