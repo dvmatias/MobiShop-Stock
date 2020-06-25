@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,14 +64,25 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
+        val closeButton: ImageView = searchView.findViewById(R.id.search_close_btn) as ImageView
+        closeButton.setOnClickListener {
+            if (searchPlate.text.isNotEmpty()) {
+                searchPlate.setText("")
+                searchView.setQuery("", false)
+                searchItem.collapseActionView()
+            } else {
+                onBackPressed()
+            }
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // TODO do your logic here
-                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
+                productAdapter.filter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                productAdapter.filter.filter(newText)
                 return false
             }
         })

@@ -69,7 +69,7 @@
             android:fontFamily="@font/cereal_medium"
             android:maxLines="2"
             android:textColor="@color/colorTextPrimaryDark"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/textViewProductCostPrice"
             app:layout_constraintStart_toStartOf="@id/textViewProductName"
             app:layout_constraintTop_toBottomOf="@+id/textViewProductDescription"
@@ -80,14 +80,31 @@
             android:id="@+id/textViewProductCostPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
             android:fontFamily="@font/cereal_bold"
             android:maxLines="2"
             android:textColor="@color/colorTextHintDark"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/textViewProductName"
+            app:layout_constraintBottom_toBottomOf="@id/textViewProductSellingPrice"
+            app:layout_constraintStart_toEndOf="@id/textViewProductSellingPrice"
             tools:text="$150" />
+
+        <!-- Code -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewProductCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/cereal_medium"
+            android:lines="1"
+            android:textColor="@color/colorTextPrimaryDark"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewProductSellingPrice"
+            app:layout_constraintStart_toStartOf="@id/textViewProductName"
+            tools:text="#0000" />
+
 
         <!-- Delete Button -->
         <androidx.appcompat.widget.AppCompatImageView

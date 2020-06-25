@@ -3,32 +3,33 @@ package com.cmdv.feature.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
-import java.lang.IllegalStateException
 import java.util.*
-import kotlin.collections.ArrayList
-
-enum class ProductSortBy() {
-    TYPE,
-    ALPHABETICALLY,
-    PRICE
-}
 
 enum class ItemType(val type: Int) {
     SECTION(0),
     PRODUCT(1)
 }
 
-class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private var products: ArrayList<ProductModel> = arrayListOf()
     private var sections: ArrayList<String> = arrayListOf()
     private var data: ArrayList<Any> = arrayListOf()
+    private lateinit var fullData: ArrayList<ProductModel>
+    private var isFullDataLoaded = false
 
     fun setProducts(products: ArrayList<ProductModel>) {
+        if (!isFullDataLoaded) {
+            fullData = arrayListOf()
+            fullData.addAll(products)
+            isFullDataLoaded = true
+        }
         this.products.clear()
         this.products = products
         setSections()
@@ -47,6 +48,7 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private fun setData() {
+        this.data.clear()
         for (section in sections) {
             if (!data.contains(section)) {
                 data.add(section)
@@ -95,8 +97,9 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-
-
+    /**
+     * Product view holder.
+     */
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewProductName: AppCompatTextView =
             itemView.findViewById(R.id.textViewProductName)
@@ -106,6 +109,8 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemView.findViewById(R.id.textViewProductSellingPrice)
         private val textViewProductCostPrice: AppCompatTextView =
             itemView.findViewById(R.id.textViewProductCostPrice)
+        private val textViewProductCode: AppCompatTextView =
+            itemView.findViewById(R.id.textViewProductCode)
 
         fun bindView(product: ProductModel) {
             with(product) {
@@ -114,6 +119,7 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 textViewProductDescription.text = description
                 textViewProductSellingPrice.text = "$ ${price.sellingPrice}"
                 textViewProductCostPrice.text = "$ ${price.costPrice}"
+                textViewProductCode.text = "#${product.code}"
             }
 
             // TODO add buttons functionality: imageViewDeleteProductButton imageViewEditProductButton
@@ -121,6 +127,9 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     }
 
+    /**
+     * Section view holder.
+     */
     class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewProductName: AppCompatTextView =
             itemView.findViewById(R.id.textViewSectionName)
@@ -128,6 +137,13 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bindView(section: String) {
             textViewProductName.text = section
         }
+    }
+
+    /**
+     * Filterable implementation.
+     */
+    override fun getFilter(): Filter {
+        return ProductFilter(this, fullData)
     }
 
 }
