@@ -1,5 +1,6 @@
 package com.cmdv.feature.ui.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ enum class ItemType(val type: Int) {
     PRODUCT(1)
 }
 
-class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private var products: ArrayList<ProductModel> = arrayListOf()
     private var sections: ArrayList<String> = arrayListOf()
@@ -92,7 +93,7 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), 
                 (holder as SectionViewHolder).bindView(data[position] as String)
             }
             ItemType.PRODUCT.type -> {
-                (holder as ProductViewHolder).bindView(data[position] as ProductModel)
+                (holder as ProductViewHolder).bindView(data[position] as ProductModel, context)
             }
         }
     }
@@ -112,14 +113,14 @@ class RecyclerProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), 
         private val textViewProductCode: AppCompatTextView =
             itemView.findViewById(R.id.textViewProductCode)
 
-        fun bindView(product: ProductModel) {
+        fun bindView(product: ProductModel, context: Context) {
             with(product) {
                 // TODO product image
                 textViewProductName.text = name
                 textViewProductDescription.text = description
-                textViewProductSellingPrice.text = "$ ${price.sellingPrice}"
-                textViewProductCostPrice.text = "$ ${price.costPrice}"
-                textViewProductCode.text = "#${product.code}"
+                textViewProductSellingPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.sellingPrice)
+                textViewProductCostPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.costPrice)
+                textViewProductCode.text = String.format(context.getString(R.string.item_product_code_placeholder), code)
             }
 
             // TODO add buttons functionality: imageViewDeleteProductButton imageViewEditProductButton

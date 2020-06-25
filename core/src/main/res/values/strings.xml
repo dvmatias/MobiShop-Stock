@@ -29,4 +29,6 @@
     <string name="product_type_hint">(*) Select The Product Type</string>
     <string name="menu_title_create_product">Create Product</string>
     <string name="menu_title_search">Search</string>
+    <string name="item_product_price_placeholder">$ %s</string>
+    <string name="item_product_code_placeholder">#%s</string>
 </resources>
