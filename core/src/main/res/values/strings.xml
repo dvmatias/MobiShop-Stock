@@ -27,4 +27,6 @@
     <string name="create_product_explanation"><![CDATA[Fill in the fields to create a new product in the Database. The fields marked with <b>(*)</b> are mandatory. After creating a product you can continue adding new products or exit this screen. This screen is <b>only for adding new products that do not already exist in the Database</b>.]]></string>
     <string name="product_info_title">Product Info</string>
     <string name="product_type_hint">(*) Select The Product Type</string>
+    <string name="menu_title_create_product">Create Product</string>
+    <string name="menu_title_search">Search</string>
 </resources>
