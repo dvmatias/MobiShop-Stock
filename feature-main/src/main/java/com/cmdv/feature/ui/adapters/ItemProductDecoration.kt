@@ -11,7 +11,7 @@ import com.cmdv.core.helpers.DimensHelper.Companion.dpToPx
 private const val DIVIDER_MARGIN_START: Float = 0F
 private const val DIVIDER_HEIGHT: Float = 0.7F
 
-class ProductDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
+class ItemProductDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
 
     private var divider: Drawable? = null
 
@@ -20,7 +20,7 @@ class ProductDecoration(private val context: Context) : RecyclerView.ItemDecorat
         divider = a.getDrawable(0)
         if (divider == null) {
             Log.w(
-                ProductDecoration::class.java.simpleName,
+                ItemProductDecoration::class.java.simpleName,
                 "@android:attr/listDivider was not set in the theme used for this "
                         + "DividerItemDecoration. Please set that attribute all call setDrawable()"
             )

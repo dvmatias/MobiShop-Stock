@@ -121,6 +121,7 @@ class ProductRepositoryImpl : ProductRepository {
         )
 
     override fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>) {
+        productsMutableLiveData.value = LiveDataStatusWrapper.loading(null)
         dbProductsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val products = ArrayList<ProductModel>()

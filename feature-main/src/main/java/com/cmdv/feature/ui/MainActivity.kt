@@ -19,7 +19,7 @@ import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.adapters.ProductDecoration
+import com.cmdv.feature.ui.adapters.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -35,13 +35,18 @@ class MainActivity : AppCompatActivity() {
 
     private val productAdapter: RecyclerProductAdapter by inject()
 
+    private val itemProductDecoration: ItemProductDecoration by inject()
+
     private lateinit var searchView: SearchView
+
+    private var query: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupToolbar()
+        setupSwipeRefresh()
         setupRecyclerProduct()
     }
 
@@ -77,11 +82,13 @@ class MainActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                this@MainActivity.query = query
                 productAdapter.filter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                this@MainActivity.query = newText
                 productAdapter.filter.filter(newText)
                 return false
             }
@@ -118,8 +125,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupSwipeRefresh() {
+        swipeRefreshMain.setOnRefreshListener { onRefresh() }
+    }
+
+    private fun onRefresh() {
+        logErrorMessage("onRefresh()")
+        viewModel.getProducts()
+    }
+
     private fun setupRecyclerProduct() {
         recyclerProducts.apply {
+            addItemDecoration(itemProductDecoration)
             layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = productAdapter
@@ -128,11 +145,11 @@ class MainActivity : AppCompatActivity() {
             when (it.status) {
                 Status.LOADING -> {
                     logErrorMessage("Loading")
+                    setupLoadingScreen()
                 }
                 Status.SUCCESS -> {
                     logErrorMessage("Success")
-                    productAdapter.setProducts(it.data as ArrayList<ProductModel>)
-                    recyclerProducts.addItemDecoration(ProductDecoration(this@MainActivity))
+                    setupSuccessScreen(it.data as ArrayList<ProductModel>)
                 }
                 Status.ERROR -> {
                     logErrorMessage("Error")
@@ -140,6 +157,45 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.getProducts()
+    }
+
+    /**
+     *
+     */
+    private fun setupLoadingScreen() {
+        swipeRefreshMain.apply {
+            isRefreshing = true
+            isEnabled = false
+        }
+        contentMain.visibility = View.GONE
+    }
+
+    /**
+     *
+     */
+    private fun setupErrorScreen() {
+        swipeRefreshMain.apply {
+            isRefreshing = false
+            isEnabled = true
+        }
+        contentMain.visibility = View.GONE
+    }
+
+    /**
+     *
+     */
+    private fun setupSuccessScreen(products: ArrayList<ProductModel>) {
+        swipeRefreshMain.apply {
+            isRefreshing = false
+            isEnabled = true
+        }
+        productAdapter.apply {
+            setProducts(products)
+            if (!this@MainActivity.query.isNullOrEmpty()) {
+                filter.filter(this@MainActivity.query)
+            }
+        }
+        contentMain.visibility = View.VISIBLE
     }
 
 }

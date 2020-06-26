@@ -35,18 +35,27 @@ internal class ProductFilter(
                     }
                 }
             } else {
-                logErrorMessage("Should filter by Type, Name and Tags")
                 for (product in fullData) {
-                    for (queryWord in queryWords) {
-                        addIfContainsWord(product, product.productType.split(" "), queryWord)
-                        addIfContainsWord(product, product.name.split(" "), queryWord)
-                        addIfContainsWord(product, product.tags, queryWord)
-                        // Once the product has been added, no need to keep searching keywords here
-                        if (filteredData.contains(product))
-                            break
+                    queryWords.forEach { queryWord ->
+                        when(queryWords.size) {
+                            1 -> {
+                                searchForWord(queryWord, product)
+                            }
+                            else -> {
+                                searchForSentence(constraint.toString(), product)
+                            }
+                        }
                     }
                 }
-
+                // Filtered by sentences but no result found.
+                if (queryWords.size > 1 && filteredData.size == 0) {
+                    logErrorMessage("Filtered by sentences but no result found.")
+                    for (product in fullData) {
+                        queryWords.subList(0, 2).forEach {queryWord: String ->
+                            searchForWord(queryWord, product)
+                        }
+                    }
+                }
             }
         }
 
@@ -70,6 +79,22 @@ internal class ProductFilter(
         queryWords.size == 1 && queryWords[0].matches("^[1-9]\\d{1,3}\$".toRegex())
 
     /**
+     * Search a product by a single query word.
+     */
+    private fun searchForWord(queryWord: String, product: ProductModel) {
+        logErrorMessage("Search for Word  >>  $queryWord")
+        if (!isValidWordToSearch(queryWord)) {
+            return
+        }
+        addIfContainsWord(product, product.productType.split(" "), queryWord)
+        addIfContainsWord(product, product.name.split(" "), queryWord)
+        addIfContainsWord(product, product.tags, queryWord)
+    }
+
+    private fun isValidWordToSearch(queryWord: String): Boolean =
+        queryWord.length >= 2
+
+    /**
      * Check if the array of key words contain the query word, if does it then the product
      * is added to the filtered results.
      */
@@ -84,6 +109,28 @@ internal class ProductFilter(
                     filteredData.add(product)
                     break
                 }
+            }
+        }
+    }
+
+    /**
+     * Search a product for a sentence (two or more query words).
+     */
+    private fun searchForSentence(querySentence: String, product: ProductModel) {
+        logErrorMessage("Search for Sentence  >>  $querySentence")
+        addIfContainsSentence(product, product.productType, querySentence)
+        addIfContainsSentence(product, product.name, querySentence)
+    }
+
+    private fun addIfContainsSentence(
+        product: ProductModel,
+        keySentence: String,
+        querySentence: String
+    ) {
+        if (!filteredData.contains(product)) {
+            if (keySentence.contains(querySentence, true)) {
+                filteredData.add(product)
+                return
             }
         }
     }
