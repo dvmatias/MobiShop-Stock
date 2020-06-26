@@ -19,6 +19,7 @@ import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
+import com.cmdv.feature.ui.adapters.ProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -129,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     logErrorMessage("Success")
                     productAdapter.setProducts(it.data as ArrayList<ProductModel>)
+                    recyclerProducts.addItemDecoration(ProductDecoration(this@MainActivity))
                 }
                 Status.ERROR -> {
                     logErrorMessage("Error")

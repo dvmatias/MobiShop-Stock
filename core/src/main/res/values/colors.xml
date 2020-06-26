@@ -8,4 +8,5 @@
     <color name="colorOverlayLoading">#5B000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorOk">#1BBF04</color>
+    <color name="colorWindowsLightBackground">#F1F1F1</color>
 </resources>

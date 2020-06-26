@@ -81,7 +81,7 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int =
-        this.products.size + sections.size
+        this.data.size
 
     override fun getItemViewType(position: Int): Int {
         return if (data[position] is String) ItemType.SECTION.type else ItemType.PRODUCT.type

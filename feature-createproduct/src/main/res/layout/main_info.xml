@@ -120,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:lines="1"
                 android:nextFocusRight="@id/editTextProductOriginalPrice" />
 
@@ -144,7 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:lines="1"
                 android:nextFocusDown="@id/editTextProductQuantity" />
 
@@ -169,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:lines="1"
                 android:nextFocusRight="@id/editTextProductSellingPrice" />
 
