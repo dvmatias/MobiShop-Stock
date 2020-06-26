@@ -9,4 +9,10 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/actionCreateProduct"
+        android:icon="@drawable/ic_action_create_product"
+        android:title="@string/menu_title_create_product"
+        app:showAsAction="always"/>
+
 </menu>

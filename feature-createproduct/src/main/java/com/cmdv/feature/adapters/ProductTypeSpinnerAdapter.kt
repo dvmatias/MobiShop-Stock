@@ -53,6 +53,8 @@ class ProductTypeSpinnerAdapter(private val context: Context, private val produc
             label.text = productType
             if (position == 0) {
                 label.setTextColor(ContextCompat.getColor(context, R.color.colorTextHintDark))
+            } else {
+                label.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimaryDark))
             }
         }
 

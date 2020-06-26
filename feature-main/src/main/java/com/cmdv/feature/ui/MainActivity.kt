@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupToolbar()
-        setupCreateProductButton()
         setupRecyclerProduct()
     }
 
@@ -94,6 +93,15 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.actionCreateProduct -> {
+                navigator.toAddProductScreen(this, null, null, false)
+            }
+        }
+        return true
+    }
+
     override fun onBackPressed() {
         if (!searchView.isIconified) {
             searchView.onActionViewCollapsed()
@@ -107,12 +115,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.let {
             it.title = null
             it.setDisplayHomeAsUpEnabled(true)
-        }
-    }
-
-    private fun setupCreateProductButton() {
-        fab.setOnClickListener {
-            navigator.toAddProductScreen(this, null, null, false)
         }
     }
 

@@ -5,10 +5,10 @@
         <shape>
             <stroke
                 android:width="3dp"
-                android:color="#63E0FD" />
+                android:color="@color/colorAccent" />
 
             <solid
-                android:color="#63E0FD" />
+                android:color="@color/colorAccent" />
 
             <corners
                 android:bottomLeftRadius="8dp"
