@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.PriceModel
 import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.QuantityModel
 import com.cmdv.domain.repositories.ProductRepository
 
 class CreateProductActivityViewModel(
@@ -22,6 +24,7 @@ class CreateProductActivityViewModel(
             field = value
             errorEmptyName.postValue(null)
         }
+    var description: String = ""
     var productType: String = ""
         set(value) {
             field = value
@@ -56,6 +59,7 @@ class CreateProductActivityViewModel(
         if (isValidFields()) {
             productRepository.createProduct(
                 this.name,
+                this.description,
                 this.productType,
                 this.costPrice,
                 this.originalPrice,
@@ -94,5 +98,30 @@ class CreateProductActivityViewModel(
 
         return isValidFields
     }
+
+    private fun getProductModel(
+        code: String,
+        id: Long,
+        productType: String,
+        name: String,
+        description: String,
+        costPrice: String,
+        originalPrice: String,
+        sellingPrice: String,
+        quantity: Int,
+        tags: List<String>
+    ): ProductModel =
+        ProductModel(
+            code,
+            id,
+            productType,
+            name,
+            description,
+            "temp",
+            "temp",
+            PriceModel(costPrice, originalPrice, sellingPrice),
+            QuantityModel(quantity, quantity, 0),
+            tags
+        )
 
 }

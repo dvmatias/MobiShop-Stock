@@ -16,6 +16,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             e.id ?: -1L,
             e.productType ?: "",
             e.name ?: "",
+            e.description ?: "",
             e.model ?: "",
             e.imageName ?: "",
             PriceModel(
@@ -28,7 +29,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
                 e.quantity?.available ?: 0,
                 e.quantity?.sold ?: 0
             ),
-            listOf() // TODO transform entity to model tags
+            e.tags?.map { it.values.toString() } ?: listOf()
         )
 
     override fun transformModelToEntity(m: ProductModel): ProductFirebaseEntity =
@@ -37,6 +38,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             m.id,
             m.productType,
             m.name,
+            m.description,
             m.model,
             m.imageName,
             PriceEntity(m.price.costPrice, m.price.originalPrice, m.price.sellingPrice),

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Image -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewProductImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/img_no_img"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Name -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewProductName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/cereal_medium"
+        android:textColor="@color/colorTextPrimaryDark"
+        android:lines="1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageViewProductImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Product Name" />
+
+    <!-- Description -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewProductDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/cereal_book"
+        android:maxLines="2"
+        android:textColor="@color/colorTextSecondaryDark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewProductSellingPrice"
+        app:layout_constraintEnd_toEndOf="@id/textViewProductName"
+        app:layout_constraintStart_toStartOf="@id/textViewProductName"
+        app:layout_constraintTop_toBottomOf="@id/textViewProductName"
+        tools:text="Product description product description description kkk" />
+
+    <!-- Selling Price -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewProductSellingPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/cereal_medium"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:textColor="@color/colorTextPrimaryDark"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/textViewProductCostPrice"
+        app:layout_constraintStart_toStartOf="@id/textViewProductName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProductDescription"
+        tools:text="$320" />
+
+    <!-- Cost Price -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewProductCostPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:fontFamily="@font/cereal_bold"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:textColor="@color/colorTextHintDark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewProductSellingPrice"
+        app:layout_constraintStart_toEndOf="@id/textViewProductSellingPrice"
+        app:layout_constraintTop_toTopOf="@id/textViewProductSellingPrice"
+        tools:text="$150" />
+
+    <!-- Code -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewProductCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="18dp"
+        android:fontFamily="@font/cereal_medium"
+        android:lines="1"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:background="@drawable/shape_item_product_list_thin_code"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewProductSellingPrice"
+        app:layout_constraintStart_toStartOf="@id/textViewProductName"
+        tools:text="#0000" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ data class ProductFirebaseEntity(
     val id: Long?,
     val productType: String?,
     val name: String?,
+    val description: String?,
     val model: String?,
     val imageName: String?,
     val price: PriceEntity?,
@@ -13,7 +14,7 @@ data class ProductFirebaseEntity(
 ) {
 
     @Suppress("unused")
-    constructor() : this(null, null, null, null, null, null, null, null, null)
+    constructor() : this(null, null, null, null, null, null, null, null, null, null)
 
 }
 

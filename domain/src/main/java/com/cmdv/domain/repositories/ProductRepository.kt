@@ -10,6 +10,7 @@ interface ProductRepository {
 
     fun createProduct(
         name: String,
+        description: String,
         productType: String,
         costPrice: String,
         originalPrice: String,
@@ -18,7 +19,7 @@ interface ProductRepository {
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>
 
-    fun getProducts(): MutableLiveData<List<ProductModel>>
+    fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>)
 
     fun getProductTypes(mutableLiveData: MutableLiveData<LiveDataStatusWrapper<ArrayList<String>>>)
 
