@@ -5,6 +5,7 @@ data class ProductModel (
     val id: Long,
     val productType: String,
     val name: String,
+    val description: String,
     val model: String,
     val imageName: String,
     val price: PriceModel,

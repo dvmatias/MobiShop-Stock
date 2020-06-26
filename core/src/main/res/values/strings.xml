@@ -2,6 +2,7 @@
 <resources>
     <string name="create_new_product_title">Create New Product</string>
     <string name="product_name_hint">(*) Product Name</string>
+    <string name="product_description_hint">Product Description</string>
     <string name="cost_price_hint">(*) Cost $</string>
     <string name="original_price_hint">Original $</string>
     <string name="selling_price_hint">(*) Selling $</string>
@@ -26,4 +27,8 @@
     <string name="create_product_explanation"><![CDATA[Fill in the fields to create a new product in the Database. The fields marked with <b>(*)</b> are mandatory. After creating a product you can continue adding new products or exit this screen. This screen is <b>only for adding new products that do not already exist in the Database</b>.]]></string>
     <string name="product_info_title">Product Info</string>
     <string name="product_type_hint">(*) Select The Product Type</string>
+    <string name="menu_title_create_product">Create Product</string>
+    <string name="menu_title_search">Search</string>
+    <string name="item_product_price_placeholder">$ %s</string>
+    <string name="item_product_code_placeholder">#%s</string>
 </resources>

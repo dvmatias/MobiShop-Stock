@@ -11,7 +11,7 @@ import com.cmdv.feature.R
 
 class ProductTypeSpinnerAdapter(private val context: Context, private val productTypes: ArrayList<String>) : BaseAdapter() {
 
-    val inflater: LayoutInflater = LayoutInflater.from(context)
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     init {
         // Ad hint text.
@@ -30,10 +30,7 @@ class ProductTypeSpinnerAdapter(private val context: Context, private val produc
             holder = view.tag as ViewHolder
         }
 
-        holder.label.text = productTypes[position]
-        if (position == 0) {
-            holder.label.setTextColor(ContextCompat.getColor(context, R.color.colorTextHintDark))
-        }
+        holder.bindItem(productTypes[position], position, context)
 
         return view
     }
@@ -51,6 +48,13 @@ class ProductTypeSpinnerAdapter(private val context: Context, private val produc
     private class ViewHolder(row: View?) {
 
         val label: AppCompatTextView = row?.findViewById(R.id.textViewProductType) as AppCompatTextView
+
+        fun bindItem(productType: String, position: Int, context: Context) {
+            label.text = productType
+            if (position == 0) {
+                label.setTextColor(ContextCompat.getColor(context, R.color.colorTextHintDark))
+            }
+        }
 
     }
 }
