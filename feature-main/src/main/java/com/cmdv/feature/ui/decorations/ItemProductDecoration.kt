@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.adapters
+package com.cmdv.feature.ui.decorations
 
 import android.content.Context
 import android.graphics.Canvas
@@ -34,14 +34,18 @@ class ItemProductDecoration(private val context: Context) : RecyclerView.ItemDec
         }
 
         c.save()
-        val left = parent.paddingLeft + dpToPx(context, DIVIDER_MARGIN_START)
+        val left = parent.paddingLeft + dpToPx(context,
+            DIVIDER_MARGIN_START
+        )
         val right = parent.width
         val childCount = parent.childCount
 
         for (i in 0 until childCount) {
             val child: View = parent.getChildAt(i)
             val params: RecyclerView.LayoutParams = child.layoutParams as RecyclerView.LayoutParams
-            val top: Float = child.bottom - dpToPx(context, DIVIDER_HEIGHT)
+            val top: Float = child.bottom - dpToPx(context,
+                DIVIDER_HEIGHT
+            )
 
             divider?.apply {
                 setBounds(child.left, top.toInt(), child.right, child.bottom)

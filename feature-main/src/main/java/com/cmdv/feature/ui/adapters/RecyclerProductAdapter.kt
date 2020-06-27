@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
+import com.cmdv.feature.ui.filters.ProductFilter
 import java.util.*
 
 enum class ItemType(val type: Int) {

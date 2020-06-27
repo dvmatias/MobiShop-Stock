@@ -1,8 +1,9 @@
-package com.cmdv.feature.ui.adapters
+package com.cmdv.feature.ui.filters
 
 import android.widget.Filter
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
+import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import java.util.*
 
 internal class ProductFilter(

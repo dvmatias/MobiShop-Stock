@@ -19,7 +19,7 @@ import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.adapters.ItemProductDecoration
+import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
