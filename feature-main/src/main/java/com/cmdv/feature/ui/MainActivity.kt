@@ -188,6 +188,7 @@ class MainActivity : AppCompatActivity() {
             isEnabled = true
         }
         contentMain.visibility = View.GONE
+        noProductsFoundLayout.visibility = View.GONE
     }
 
     /**
@@ -206,8 +207,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             contentMain.visibility = View.VISIBLE
+            noProductsFoundLayout.visibility = View.GONE
         } else {
             noProductsFoundLayout.visibility = View.VISIBLE
+            contentMain.visibility = View.GONE
         }
     }
 
