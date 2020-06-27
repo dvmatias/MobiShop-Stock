@@ -29,13 +29,13 @@
 
     <style name="InputTextAppearance" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/colorTextPrimaryDark</item>
-        <item name="android:fontFamily">@font/cereal_medium</item>
+        <item name="android:fontFamily">@font/cereal_book</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="HintTextAppearance" parent="Widget.AppCompat.TextView">
         <item name="android:textColorHint">@color/colorTextHintDark</item>
-        <item name="android:fontFamily">@font/cereal_book</item>
+        <item name="android:fontFamily">@font/cereal_light</item>
         <item name="android:textSize">14sp</item>
     </style>
 

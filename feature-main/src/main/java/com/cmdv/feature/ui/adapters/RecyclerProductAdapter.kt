@@ -1,17 +1,25 @@
 package com.cmdv.feature.ui.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.filters.ProductFilter
+import kotlinx.android.synthetic.main.item_product_list_thin.view.*
 import java.util.*
+
 
 enum class ItemType(val type: Int) {
     SECTION(0),
@@ -113,6 +121,10 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
             itemView.findViewById(R.id.textViewProductCostPrice)
         private val textViewProductCode: AppCompatTextView =
             itemView.findViewById(R.id.textViewProductCode)
+        private val textViewAvailableQuantity: AppCompatTextView =
+            itemView.findViewById(R.id.textViewAvailableQuantity)
+        private val availableQuantityIndicator: View =
+            itemView.findViewById(R.id.availableQuantityIndicator)
 
         fun bindView(product: ProductModel, context: Context) {
             with(product) {
@@ -122,9 +134,27 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
                 textViewProductSellingPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.sellingPrice)
                 textViewProductCostPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.costPrice)
                 textViewProductCode.text = String.format(context.getString(R.string.item_product_code_placeholder), code)
+                textViewAvailableQuantity.text = quantity.available.toString()
+                setupAvailableQuantity(product, context)
             }
 
-            // TODO add buttons functionality: imageViewDeleteProductButton imageViewEditProductButton
+        }
+
+        private fun setupAvailableQuantity(product: ProductModel, context: Context) {
+            textViewAvailableQuantity.text = product.quantity.available.toString()
+            val available = product.quantity.available
+            val lowBarrier = product.quantity.lowBarrier
+            val colorBackground: Int =
+                if (available == 0) {
+                    ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundZero)
+                } else if (available < lowBarrier) {
+                    ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundLow)
+                } else if (available > lowBarrier && available < lowBarrier * 1.25) {
+                    ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundWarning)
+                } else {
+                    ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundGood)
+                }
+            availableQuantityIndicator.setBackgroundColor(colorBackground)
         }
 
     }

@@ -27,7 +27,8 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             QuantityModel(
                 e.quantity?.initial ?: 0,
                 e.quantity?.available ?: 0,
-                e.quantity?.sold ?: 0
+                e.quantity?.sold ?: 0,
+                e.quantity?.lowBarrier ?: 5
             ),
             e.tags?.map { it.values.toString() } ?: listOf()
         )
@@ -42,7 +43,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             m.model,
             m.imageName,
             PriceEntity(m.price.costPrice, m.price.originalPrice, m.price.sellingPrice),
-            QuantityEntity(m.quantity.initial, m.quantity.available, m.quantity.sold),
+            QuantityEntity(m.quantity.initial, m.quantity.available, m.quantity.sold, m.quantity.lowBarrier),
             transformTagsModelToEntity(m.tags)
         )
 

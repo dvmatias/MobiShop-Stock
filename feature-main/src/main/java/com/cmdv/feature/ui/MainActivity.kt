@@ -13,6 +13,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
@@ -21,6 +22,7 @@ import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import com.cmdv.feature.ui.controllers.SwipeToDeleteEditProductCallback
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
         setupSwipeRefresh()
         setupRecyclerProduct()
+        getProducts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -141,6 +144,11 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = productAdapter
         }
+        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(SwipeToDeleteEditProductCallback(this))
+        itemTouchHelper.attachToRecyclerView(recyclerProducts)
+    }
+
+    private fun getProducts() {
         viewModel.products.observe(this, Observer {
             when (it.status) {
                 Status.LOADING -> {
@@ -153,6 +161,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 Status.ERROR -> {
                     logErrorMessage("Error")
+                    setupErrorScreen()
                 }
             }
         })
@@ -189,13 +198,17 @@ class MainActivity : AppCompatActivity() {
             isRefreshing = false
             isEnabled = true
         }
-        productAdapter.apply {
-            setProducts(products)
-            if (!this@MainActivity.query.isNullOrEmpty()) {
-                filter.filter(this@MainActivity.query)
+        if (products.size > 0) {
+            productAdapter.apply {
+                setProducts(products)
+                if (!this@MainActivity.query.isNullOrEmpty()) {
+                    filter.filter(this@MainActivity.query)
+                }
             }
+            contentMain.visibility = View.VISIBLE
+        } else {
+            noProductsFoundLayout.visibility = View.VISIBLE
         }
-        contentMain.visibility = View.VISIBLE
     }
 
 }

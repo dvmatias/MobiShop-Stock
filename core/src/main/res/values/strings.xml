@@ -31,4 +31,17 @@
     <string name="menu_title_search">Search</string>
     <string name="item_product_price_placeholder">$ %s</string>
     <string name="item_product_code_placeholder">#%s</string>
+    <string name="add_your_first_product">Add your first product ;)</string>
+    <string name="woops_no_products">Woops! \n It seems that you have not yet loaded any product in your database ... Time to start!</string>
+
+    <string-array name="lowBarriers">
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+    </string-array>
 </resources>

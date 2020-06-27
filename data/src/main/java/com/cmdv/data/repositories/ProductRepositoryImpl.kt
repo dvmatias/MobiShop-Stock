@@ -38,6 +38,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>> {
         // Reset Live data object to avoid older values.
@@ -60,7 +61,7 @@ class ProductRepositoryImpl : ProductRepository {
 
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, tags)
+                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, lowBarrier, tags)
                     )
                 dbProductsRef.child(id.toString()).setValue(productFirebase)
                     .addOnCompleteListener { task ->
@@ -105,6 +106,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        lowBarrier: Int,
         tags: List<String>
     ): ProductModel =
         ProductModel(
@@ -116,7 +118,7 @@ class ProductRepositoryImpl : ProductRepository {
             "temp",
             "temp",
             PriceModel(costPrice, originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0),
+            QuantityModel(quantity, quantity, 0, lowBarrier),
             tags
         )
 

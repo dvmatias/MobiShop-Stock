@@ -16,6 +16,7 @@ interface ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>
 

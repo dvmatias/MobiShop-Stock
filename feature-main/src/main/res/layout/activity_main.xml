@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.cmdv.feature.ui.MainActivity">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -30,12 +31,23 @@
             android:padding="14dp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- MAIN CONTENT -->
+    <include
+        android:id="@+id/noProductsFoundLayout"
+        layout="@layout/no_product_found_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:visibility="visible" />
+
+    <!-- Main Content -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshMain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorWindowsLightBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
