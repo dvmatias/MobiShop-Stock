@@ -26,7 +26,7 @@ enum class ButtonShowedState {
     EDIT_VISIBLE
 }
 
-class SwipeToDeleteEditProductCallback(context: Context) : ItemTouchHelper.Callback() {
+class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callback() {
 
     private var buttonShowedState: ButtonShowedState = ButtonShowedState.GONE
     private var swipeBack: Boolean = false

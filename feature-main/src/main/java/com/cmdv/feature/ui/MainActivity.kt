@@ -22,7 +22,7 @@ import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
-import com.cmdv.feature.ui.controllers.SwipeToDeleteEditProductCallback
+import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = productAdapter
         }
-        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(SwipeToDeleteEditProductCallback(this))
+        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(SwipeToAddToCartOrEditCallback(this))
         itemTouchHelper.attachToRecyclerView(recyclerProducts)
     }
 
