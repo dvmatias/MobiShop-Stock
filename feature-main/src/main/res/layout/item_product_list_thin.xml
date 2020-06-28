@@ -10,8 +10,9 @@
         android:id="@+id/imageViewProductImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/img_no_img"
-        android:scaleType="center"
+        android:src="@drawable/img_product_item_no_image_found"
+        android:scaleType="centerInside"
+        android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/cereal_medium"
-        android:textColor="@color/colorTextPrimaryDark"
+        android:textColor="@color/colorTextDark1"
         android:lines="1"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +44,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/cereal_book"
         android:maxLines="2"
-        android:textColor="@color/colorTextSecondaryDark"
+        android:textColor="@color/colorTextDark2"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewProductSellingPrice"
         app:layout_constraintEnd_toEndOf="@id/textViewProductName"
@@ -61,7 +62,7 @@
         android:fontFamily="@font/cereal_medium"
         android:includeFontPadding="false"
         android:maxLines="2"
-        android:textColor="@color/colorTextPrimaryDark"
+        android:textColor="@color/colorTextDark1"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/textViewProductCostPrice"
         app:layout_constraintStart_toStartOf="@id/textViewProductName"
@@ -104,5 +105,31 @@
         app:layout_constraintTop_toBottomOf="@id/textViewProductSellingPrice"
         app:layout_constraintStart_toStartOf="@id/textViewProductName"
         tools:text="#0000" />
+
+    <!-- Available Quantity -->
+    <TextView
+        android:id="@+id/textViewAvailableQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_item_product_available_quantity_background"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textSize="16sp"
+        android:layout_margin="8dp"
+        android:textColor="@color/colorTextDark2"
+        android:fontFamily="@font/cereal_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="10"/>
+
+    <View
+        android:id="@+id/availableQuantityIndicator"
+        android:layout_width="5dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

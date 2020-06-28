@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
@@ -32,6 +33,8 @@ class CreateProductActivity : AppCompatActivity() {
 
     val viewModel: CreateProductActivityViewModel by viewModel()
 
+    private lateinit var lowBarriers: Array<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_product)
@@ -44,6 +47,7 @@ class CreateProductActivity : AppCompatActivity() {
         setupProductOriginalPriceInputField()
         setupProductSellingPriceInputField()
         setupProductQuantityInputField()
+        setupProductQuantityLowBarrierInputField()
         setupProductTagsInputField()
         setupAcceptButton()
         observeProductTypes()
@@ -116,9 +120,9 @@ class CreateProductActivity : AppCompatActivity() {
         })
         viewModel.errorEmptySellingPrice.observe(this, Observer { errorStringId ->
             manageInputError(
-                    errorStringId,
-                    editTextProductSellingPrice,
-                    textInputProductSellingPrice
+                errorStringId,
+                editTextProductSellingPrice,
+                textInputProductSellingPrice
             )
         })
     }
@@ -138,14 +142,33 @@ class CreateProductActivity : AppCompatActivity() {
         })
     }
 
+    private fun setupProductQuantityLowBarrierInputField() {
+        lowBarriers = resources.getStringArray(R.array.lowBarriers)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lowBarriers)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerProductQuantityLowBarrier.apply {
+            this.adapter = adapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) { }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                    if (position == 0)
+                        viewModel.lowBarrier = lowBarriers[4].toInt()
+                    else
+                        viewModel.lowBarrier = lowBarriers[position].toInt()
+                }
+            }
+        }
+    }
+
     private fun setupProductTagsInputField() {
         editTextProductTags.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val tags: List<String> = s.toString().replace(" ", "").split("_")
                 viewModel.tags.clear()
                 for (tag in tags) {
-                    with (tag) {
-                        if (isNotEmpty() && !viewModel.tags.contains(this))  {
+                    with(tag) {
+                        if (isNotEmpty() && !viewModel.tags.contains(this)) {
                             viewModel.tags.add(this)
                         }
                     }
@@ -200,10 +223,11 @@ class CreateProductActivity : AppCompatActivity() {
         val adapter = ProductTypeSpinnerAdapter(this, productTypes)
         spinnerProductTypes.adapter = adapter
         spinnerProductTypes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
 
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {viewModel.productType =
-                if (position == 0) "" else productTypes[position]
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                viewModel.productType =
+                    if (position == 0) "" else productTypes[position]
             }
         }
         viewModel.errorEmptyProductType.observe(this, Observer { errorStringId ->
@@ -227,12 +251,12 @@ class CreateProductActivity : AppCompatActivity() {
                 formattedPrice = formatPrice(price.toFloat())
                 et.apply {
                     setText(
-                            StringBuilder(
-                                    String.format(
-                                            getString(R.string.placeholder_price),
-                                            formattedPrice
-                                    )
+                        StringBuilder(
+                            String.format(
+                                getString(R.string.placeholder_price),
+                                formattedPrice
                             )
+                        )
                     )
                     setSelection(et.text.toString().length)
                 }
@@ -284,18 +308,18 @@ class CreateProductActivity : AppCompatActivity() {
             setCancelable(false)
             setContentView(R.layout.dialog_product_created_dialog)
             (this.findViewById(R.id.imageViewStatus) as AppCompatImageView).setImageDrawable(
-                    ContextCompat.getDrawable(
-                            this@CreateProductActivity,
-                            if (statusOk) R.drawable.ic_dialog_ok_32 else R.drawable.ic_dialog_ko_32
-                    )
+                ContextCompat.getDrawable(
+                    this@CreateProductActivity,
+                    if (statusOk) R.drawable.ic_dialog_ok_32 else R.drawable.ic_dialog_ko_32
+                )
             )
             (this.findViewById(R.id.textViewTitle) as AppCompatTextView).text = title
             (this.findViewById(R.id.textViewMessage) as AppCompatTextView).text = message
             if (statusOk) {
                 (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).text =
-                        productCreation?.data?.name ?: ""
+                    productCreation?.data?.name ?: ""
                 (this.findViewById(R.id.textViewProductCodeValue) as AppCompatTextView).text =
-                        productCreation?.data?.code ?: ""
+                    productCreation?.data?.code ?: ""
             } else {
                 (this.findViewById(R.id.textViewProductNameTitle) as AppCompatTextView).visibility = View.GONE
                 (this.findViewById(R.id.textViewProductNameValue) as AppCompatTextView).visibility = View.GONE
@@ -311,8 +335,8 @@ class CreateProductActivity : AppCompatActivity() {
             }
             show()
             window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
     }

@@ -1,7 +1,7 @@
 package com.cmdv.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.cmdv.data.BuildConfig
 import com.cmdv.data.ProductFirebaseEntity
 import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.LiveDataStatusWrapper
@@ -13,18 +13,15 @@ import com.google.firebase.database.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val DB_PRODUCTS_PATH = "products"
-const val DB_PRODUCT_TYPE_PATH = "productType"
-
 class ProductRepositoryImpl : ProductRepository {
 
     var productMutableLiveData = MutableLiveData<LiveDataStatusWrapper<ProductModel?>>()
 
     private val dbRootRef: FirebaseDatabase = FirebaseDatabase.getInstance()
 
-    private val dbProductsRef: DatabaseReference = dbRootRef.getReference(DB_PRODUCTS_PATH)
+    private val dbProductsRef: DatabaseReference = dbRootRef.getReference(BuildConfig.DB_PRODUCTS_ROOT_PATH)
 
-    private val dbProductTypeRef: DatabaseReference = dbRootRef.getReference(DB_PRODUCT_TYPE_PATH)
+    private val dbProductTypeRef: DatabaseReference = dbRootRef.getReference(BuildConfig.DB_PRODUCT_TYPE_ROOT_PATH)
 
     override fun updateProduct(id: Int, product: ProductModel): MutableLiveData<ProductModel> {
         TODO("Not yet implemented")
@@ -38,6 +35,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>> {
         // Reset Live data object to avoid older values.
@@ -45,29 +43,24 @@ class ProductRepositoryImpl : ProductRepository {
         // Set loading status.
         productMutableLiveData.value = (LiveDataStatusWrapper.loading(null))
 
-        dbProductsRef.addValueEventListener(object : ValueEventListener {
+        dbProductsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var id = 0L
-                var code = ""
-                if (dataSnapshot.exists()) {
-                    id = dataSnapshot.childrenCount
-                    code = generateUniqueRandomCode(dataSnapshot)
-                }
-
-                dbProductsRef.removeEventListener(this)
-
+                val id: Long = dataSnapshot.childrenCount
+                val code: String = generateUniqueRandomCode(dataSnapshot)
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, tags)
+                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, lowBarrier, tags)
                     )
+
                 dbProductsRef.child(id.toString()).setValue(productFirebase)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             productMutableLiveData.value =
                                 LiveDataStatusWrapper.success(
-                                    ProductFirebaseMapper().transformEntityToModel(productFirebase))
+                                    ProductFirebaseMapper().transformEntityToModel(productFirebase)
+                                )
                         } else {
                             productMutableLiveData.value =
                                 LiveDataStatusWrapper.error("", null)
@@ -105,6 +98,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        lowBarrier: Int,
         tags: List<String>
     ): ProductModel =
         ProductModel(
@@ -115,12 +109,21 @@ class ProductRepositoryImpl : ProductRepository {
             description,
             "temp",
             "temp",
-            PriceModel(costPrice, originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0),
+            PriceModel(
+                costPrice,
+                if (originalPrice.isEmpty()) sellingPrice else originalPrice,
+                sellingPrice
+            ),
+            QuantityModel(
+                quantity,
+                quantity,
+                0,
+                lowBarrier),
             tags
         )
 
     override fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>) {
+        productsMutableLiveData.value = LiveDataStatusWrapper.loading(null)
         dbProductsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val products = ArrayList<ProductModel>()

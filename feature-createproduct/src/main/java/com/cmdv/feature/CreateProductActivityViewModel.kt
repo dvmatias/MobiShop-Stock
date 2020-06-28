@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
-import com.cmdv.domain.models.PriceModel
 import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.QuantityModel
 import com.cmdv.domain.repositories.ProductRepository
 
 class CreateProductActivityViewModel(
@@ -46,6 +44,7 @@ class CreateProductActivityViewModel(
             field = value
             errorEmptyQuantity.postValue(null)
         }
+    var lowBarrier: Int = -1
     var tags: ArrayList<String> = arrayListOf()
 
     // Error
@@ -65,6 +64,7 @@ class CreateProductActivityViewModel(
                 this.originalPrice,
                 this.sellingPrice,
                 this.quantity,
+                this.lowBarrier,
                 this.tags
             )
         } else null
@@ -98,30 +98,5 @@ class CreateProductActivityViewModel(
 
         return isValidFields
     }
-
-    private fun getProductModel(
-        code: String,
-        id: Long,
-        productType: String,
-        name: String,
-        description: String,
-        costPrice: String,
-        originalPrice: String,
-        sellingPrice: String,
-        quantity: Int,
-        tags: List<String>
-    ): ProductModel =
-        ProductModel(
-            code,
-            id,
-            productType,
-            name,
-            description,
-            "temp",
-            "temp",
-            PriceModel(costPrice, originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0),
-            tags
-        )
 
 }
