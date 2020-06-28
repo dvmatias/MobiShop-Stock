@@ -26,22 +26,28 @@ android {
         }
     }
 
+    flavorDimensions "environment"
     productFlavors {
         QA {
-            dimension 'environment'
+            dimension "environment"
             versionNameSuffix '-qa'
+
+            buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products_qa\"'
+            buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType_qa\"'
         }
         PRODUCTION {
-            dimension 'environment'
+            dimension "environment"
             versionNameSuffix '-production'
+
+            buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products\"'
+            buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType\"'
         }
     }
-    flavorDimensions('environment')
 
 }
 
 dependencies {
-    implementation project(':core')
+    implementation project(path: ':core')
     implementation project(path: ':feature-main')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])

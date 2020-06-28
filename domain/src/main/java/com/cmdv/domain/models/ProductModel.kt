@@ -22,5 +22,6 @@ data class PriceModel(
 data class QuantityModel(
     val initial: Int,
     val available: Int,
-    val sold: Int
+    val sold: Int,
+    val lowBarrier: Int
 )

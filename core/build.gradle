@@ -22,6 +22,27 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+        QA {
+            dimension "environment"
+            versionNameSuffix '-qa'
+
+            buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products_qa\"'
+            buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType_qa\"'
+        }
+        PRODUCTION {
+            dimension "environment"
+            versionNameSuffix '-production'
+
+            buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products\"'
+            buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType\"'
+        }
     }
 }
 
