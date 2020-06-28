@@ -30,7 +30,7 @@
             android:fontFamily="@font/cereal_bold"
             android:text="@string/product_info_title"
             android:layout_marginTop="8dp"
-            android:textColor="@color/colorTextSecondaryDark"
+            android:textColor="@color/colorTextDark2"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

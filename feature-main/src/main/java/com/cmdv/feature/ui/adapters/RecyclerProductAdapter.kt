@@ -141,7 +141,6 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
         }
 
         private fun setupAvailableQuantity(product: ProductModel, context: Context) {
-            textViewAvailableQuantity.text = product.quantity.available.toString()
             val available = product.quantity.available
             val lowBarrier = product.quantity.lowBarrier
             val colorBackground: Int =
@@ -154,6 +153,7 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
                 } else {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundGood)
                 }
+            textViewAvailableQuantity.text = product.quantity.available.toString()
             availableQuantityIndicator.setBackgroundColor(colorBackground)
         }
 

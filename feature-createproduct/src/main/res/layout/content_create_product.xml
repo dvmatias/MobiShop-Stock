@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:fontFamily="@font/cereal_book"
-            android:textColor="@color/colorTextSecondaryDark"
+            android:textColor="@color/colorTextDark2"
             android:textSize="13sp" />
     </androidx.cardview.widget.CardView>
 

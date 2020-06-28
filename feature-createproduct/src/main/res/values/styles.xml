@@ -28,7 +28,7 @@
     </style>
 
     <style name="InputTextAppearance" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/colorTextPrimaryDark</item>
+        <item name="android:textColor">@color/colorTextDark1</item>
         <item name="android:fontFamily">@font/cereal_book</item>
         <item name="android:textSize">16sp</item>
     </style>

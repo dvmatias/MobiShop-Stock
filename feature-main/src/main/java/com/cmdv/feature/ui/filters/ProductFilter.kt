@@ -36,7 +36,7 @@ internal class ProductFilter(
                     }
                 }
             } else {
-                for (product in fullData) {
+                for (product: ProductModel in fullData) {
                     queryWords.forEach { queryWord ->
                         when(queryWords.size) {
                             1 -> {

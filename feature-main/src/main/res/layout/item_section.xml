@@ -15,7 +15,7 @@
         android:paddingTop="18dp"
         android:paddingEnd="6dp"
         android:paddingBottom="4dp"
-        android:textColor="@color/colorTextSecondaryDark"
+        android:textColor="@color/colorTextDark2"
         android:textSize="12sp"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
