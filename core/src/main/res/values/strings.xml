@@ -35,6 +35,10 @@
     <string name="woops_no_products">Woops! \n It seems that you have not yet loaded any product in your database ... Time to start!</string>
 
     <string-array name="lowBarriers">
+        <item>Minimum desired</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
         <item>5</item>
         <item>7</item>
         <item>10</item>

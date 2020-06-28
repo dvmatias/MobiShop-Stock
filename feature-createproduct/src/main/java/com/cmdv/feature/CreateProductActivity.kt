@@ -152,7 +152,10 @@ class CreateProductActivity : AppCompatActivity() {
                 override fun onNothingSelected(p0: AdapterView<*>?) { }
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                    viewModel.lowBarrier = lowBarriers[position].toInt()
+                    if (position == 0)
+                        viewModel.lowBarrier = lowBarriers[4].toInt()
+                    else
+                        viewModel.lowBarrier = lowBarriers[position].toInt()
                 }
             }
         }
