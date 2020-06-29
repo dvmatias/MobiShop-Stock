@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -43,27 +42,14 @@ android {
             buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType\"'
         }
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
 }
 
 dependencies {
     implementation project(':core')
-    implementation project(':components')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
 
-    implementation libs.legacy_support_v4
-    implementation libs.appcompat
-    implementation libs.material
-    implementation libs.constraint_layout
-    implementation libs.navigation_fragment
-    implementation libs.navigation_ui
 }
