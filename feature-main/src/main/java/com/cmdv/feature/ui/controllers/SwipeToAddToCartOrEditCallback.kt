@@ -5,50 +5,55 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
+import com.cmdv.core.helpers.DimensHelper
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import kotlin.math.abs
 
 
-private const val dragNotAllowedFlag: Int = 0
-private const val swipeNotAllowedFlag: Int = 0
-private const val swipeLeftRightFlags: Int = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+private const val DRAG_NOT_ALLOWED_FLAGS: Int = 0
+private const val SWIPE_NOT_ALLOWED_FLAG: Int = 0
+private const val SWIPE_LEFT_RIGHT_FLAGS: Int = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+private const val FULL_BACKGROUND_ALPHA: Int = 255
 
 enum class ButtonShowedState {
     GONE,
-    DELETE_VISIBLE,
+    ADD_TO_CART_VISIBLE,
     EDIT_VISIBLE
 }
 
-class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callback() {
+class SwipeToAddToCartOrEditCallback(context: Context, private val swipeActionListener: SwipeActionListener) : ItemTouchHelper.Callback() {
 
     private var buttonShowedState: ButtonShowedState = ButtonShowedState.GONE
     private var swipeBack: Boolean = false
     private var paint: Paint
-    private var mBackground: ColorDrawable? = null
-    private var backgroundDeleteColor = 0
-    private var backgroundEditColor = 0
-    private var deleteDrawable: Drawable? = null
+    private var editBackgroundDrawable: Drawable? = null
+    private var addToCartBackgroundDrawable: Drawable? = null
     private var editDrawable: Drawable? = null
+    private var addToCartDrawable: Drawable? = null
     private var intrinsicWidth = 0
     private var intrinsicHeight = 0
+    private var minDxToTriggerAction: Int = 0
 
     init {
-        mBackground = ColorDrawable()
-        backgroundDeleteColor = Color.parseColor("#b80f0a")
-        backgroundEditColor = Color.parseColor("#1BBF04")
+        editBackgroundDrawable =
+            ColorDrawable(ContextCompat.getColor(context, R.color.colorEditProductBackground)).mutate()
+        addToCartBackgroundDrawable =
+            ColorDrawable(ContextCompat.getColor(context, R.color.colorAddToCartProductBackground)).mutate()
         paint = Paint()
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-        deleteDrawable = ContextCompat.getDrawable(context, R.drawable.ic_item_product_delete)
-        editDrawable = ContextCompat.getDrawable(context, R.drawable.ic_item_product_edit)
-        intrinsicWidth = deleteDrawable!!.intrinsicWidth
-        intrinsicHeight = deleteDrawable!!.intrinsicHeight
+        addToCartDrawable = ContextCompat.getDrawable(context, R.drawable.ic_item_product_delete)
+        editDrawable = ContextCompat.getDrawable(context, R.drawable.ic_edit_product)
+        intrinsicWidth = DimensHelper.dpToPx(context, 36F).toInt()
+        intrinsicHeight = DimensHelper.dpToPx(context, 36F).toInt()
     }
 
     override fun getMovementFlags(
@@ -57,9 +62,9 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
     ): Int {
         logErrorMessage("getMovementFlags()")
         return if (viewHolder is RecyclerProductAdapter.SectionViewHolder)
-            makeMovementFlags(dragNotAllowedFlag, swipeNotAllowedFlag)
+            makeMovementFlags(DRAG_NOT_ALLOWED_FLAGS, SWIPE_NOT_ALLOWED_FLAG)
         else
-            makeMovementFlags(dragNotAllowedFlag, swipeLeftRightFlags)
+            makeMovementFlags(DRAG_NOT_ALLOWED_FLAGS, SWIPE_LEFT_RIGHT_FLAGS)
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean =
@@ -71,20 +76,32 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
     ) {
         logErrorMessage("setTouchListener()")
         recyclerView.setOnTouchListener { _, event ->
-            swipeBack =
-                event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
-
             if (dX < -5) {
-                buttonShowedState = ButtonShowedState.DELETE_VISIBLE
+                buttonShowedState = ButtonShowedState.ADD_TO_CART_VISIBLE
             } else if (dX > 5) {
                 buttonShowedState = ButtonShowedState.EDIT_VISIBLE
             }
 
-            if (buttonShowedState != ButtonShowedState.GONE) {
-                setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                setItemsClickable(recyclerView, false)
+            swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
+            if (swipeBack) {
+                if (buttonShowedState != ButtonShowedState.GONE) {
+                    setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    setItemsClickable(recyclerView, false)
+                    triggerAction(dX, viewHolder.adapterPosition)
+                }
             }
             false
+        }
+    }
+    
+    private fun triggerAction(dX: Float, position: Int) {
+        if (abs(dX) >= minDxToTriggerAction) {
+            logErrorMessage("Should trigger?? dX = $dX")
+            if (buttonShowedState == ButtonShowedState.EDIT_VISIBLE) {
+                swipeActionListener.onActionEdit(position)
+            } else if (buttonShowedState == ButtonShowedState.ADD_TO_CART_VISIBLE) {
+                swipeActionListener.onActionAddToCart(position)
+            }
         }
     }
 
@@ -106,8 +123,11 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
     ) {
         logErrorMessage("setTouchDownListener()")
         recyclerView.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
-                setTouchUpListener(c, recyclerView, viewHolder, dX, dY, actionState, currentlyActive)
+            when (event.action) {
+                MotionEvent.ACTION_DOWN,
+                MotionEvent.ACTION_MOVE -> {
+                    setTouchUpListener(c, recyclerView, viewHolder, dX, dY, actionState, currentlyActive)
+                }
             }
             false
         }
@@ -118,7 +138,7 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
         c: Canvas,
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
-        dX: Float,
+        @Suppress("UNUSED_PARAMETER") dX: Float,
         dY: Float,
         actionState: Int,
         currentlyActive: Boolean
@@ -170,6 +190,8 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
 
         val itemView: View = viewHolder.itemView
         val itemHeight: Int = itemView.height
+        val itemWidth: Int = itemView.width
+        minDxToTriggerAction = (itemWidth * 0.4).toInt()
 
         val isCancelled: Boolean = (dX == 0F && !isCurrentlyActive)
 
@@ -179,34 +201,33 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
             return
         }
 
-        if (buttonShowedState == ButtonShowedState.DELETE_VISIBLE) {
-            mBackground?.let {
-                it.color = backgroundDeleteColor
+        if (buttonShowedState == ButtonShowedState.ADD_TO_CART_VISIBLE) {
+            addToCartBackgroundDrawable?.let {
+                it.alpha = getButtonBackgroundAlpha(dX)
                 it.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
                 it.draw(c)
             }
 
-            val deleteIconTop: Int = itemView.top + (itemHeight - intrinsicHeight) / 2
-            val deleteIconMargin: Int = (itemHeight - intrinsicHeight) / 2
-            val deleteIconLeft: Int = itemView.right - deleteIconMargin
-            val deleteIconRight: Int = itemView.right - deleteIconMargin + intrinsicWidth
-            val deleteIconBottom: Int = deleteIconTop + intrinsicHeight
+            val addToCartIconTop: Int = itemView.top + (itemHeight - intrinsicHeight) / 2
+            val addToCartIconMargin: Int = (itemHeight - intrinsicHeight) / 2
+            val addToCartIconLeft: Int = itemView.right - addToCartIconMargin
+            val addToCartIconRight: Int = itemView.right - addToCartIconMargin + intrinsicWidth
+            val addToCartIconBottom: Int = addToCartIconTop + intrinsicHeight
 
-            deleteDrawable?.let {
-                it.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+            addToCartDrawable?.let {
+                it.setBounds(addToCartIconLeft, addToCartIconTop, addToCartIconRight, addToCartIconBottom)
                 it.draw(c)
             }
 
-            val p = Paint()
-            p.color = Color.WHITE
-            p.isAntiAlias = true
-            p.textSize = 50F
-            val textWidth = p.measureText("Delete")
-            c.drawText("Delete", deleteIconLeft.toFloat() - textWidth - 30F, deleteIconTop.toFloat() + 50F, p)
+            paint.color = Color.WHITE
+            paint.isAntiAlias = true
+            paint.textSize = 50F
+            val textWidth: Float = paint.measureText("Add To Cart")
+            c.drawText("Add To Cart", addToCartIconLeft.toFloat() - textWidth - 30F, addToCartIconTop.toFloat() + 50F, paint)
 
         } else if ((buttonShowedState == ButtonShowedState.EDIT_VISIBLE)) {
-            mBackground?.let {
-                it.color = backgroundEditColor
+            editBackgroundDrawable?.let {
+                it.alpha = getButtonBackgroundAlpha(dX)
                 it.setBounds(
                     itemView.left,
                     itemView.top,
@@ -217,22 +238,41 @@ class SwipeToAddToCartOrEditCallback(context: Context) : ItemTouchHelper.Callbac
             }
 
             val editIconTop: Int = itemView.top + (itemHeight - intrinsicHeight) / 2
-            val editIconMargin: Int = (itemHeight - intrinsicHeight) / 2
-            val editIconLeft: Int = itemView.left + editIconMargin - intrinsicWidth
-            val editIconRight: Int = itemView.left + editIconMargin
+            val editIconLeft = 50
+            val editIconRight: Int = 50 + intrinsicWidth
             val editIconBottom: Int = editIconTop + intrinsicHeight
 
             editDrawable?.let {
                 it.setBounds(editIconLeft, editIconTop, editIconRight, editIconBottom)
                 it.draw(c)
             }
+
+            val p = TextPaint()
+            p.color = Color.WHITE
+            p.isAntiAlias = true
+            p.textSize = 60F
+            c.drawText("Edit", editIconRight + 60F, ((itemView.bottom.toFloat() - itemView.top.toFloat()) / 2) + itemView.top + 30F, p)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
     }
 
+    private fun getButtonBackgroundAlpha(dX: Float): Int {
+        val alpha: Int = (FULL_BACKGROUND_ALPHA * (abs(dX) / minDxToTriggerAction)).toInt()
+        logErrorMessage("alpha $alpha")
+        return if (alpha >= FULL_BACKGROUND_ALPHA) FULL_BACKGROUND_ALPHA else alpha
+    }
+
     private fun clearCanvas(c: Canvas, left: Float, top: Float, right: Float, bottom: Float) {
         c.drawRect(left, top, right, bottom, paint)
+    }
+
+    /**
+     * Interface to communicate actions.
+     */
+    interface SwipeActionListener {
+        fun onActionEdit(position: Int)
+        fun onActionAddToCart(position: Int)
     }
 
 }

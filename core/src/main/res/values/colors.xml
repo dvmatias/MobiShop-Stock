@@ -9,6 +9,9 @@
     <color name="colorTextDark2">#494949</color>
     <color name="colorTextDark3">#6E6E6E</color>
 
+    <color name="colorEditProductBackground">#1BBF04</color>
+    <color name="colorAddToCartProductBackground">#b80f0a</color>
+
     <color name="colorOverlayLoading">#5B000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorOk">#1BBF04</color>

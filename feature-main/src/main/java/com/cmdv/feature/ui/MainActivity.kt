@@ -20,9 +20,11 @@ import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
+import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback.SwipeActionListener
+import com.cmdv.feature.ui.decorations.ItemProductDecoration
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
@@ -144,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = productAdapter
         }
-        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(SwipeToAddToCartOrEditCallback(this))
+        val itemTouchHelper = ItemTouchHelper(SwipeToAddToCartOrEditCallback(this, swipeActionListener))
         itemTouchHelper.attachToRecyclerView(recyclerProducts)
     }
 
@@ -211,6 +213,19 @@ class MainActivity : AppCompatActivity() {
         } else {
             noProductsFoundLayout.visibility = View.VISIBLE
             contentMain.visibility = View.GONE
+        }
+    }
+
+    /**
+     * [SwipeActionListener] implementation.
+     */
+    private val swipeActionListener = object : SwipeActionListener {
+        override fun onActionEdit(position: Int) {
+            Snackbar.make(window.decorView.rootView, "Action Edit detected on product position $position", Snackbar.LENGTH_SHORT).show()
+        }
+
+        override fun onActionAddToCart(position: Int) {
+            Snackbar.make(window.decorView.rootView, "Action Ad To Cart detected on product position $position", Snackbar.LENGTH_SHORT).show()
         }
     }
 
