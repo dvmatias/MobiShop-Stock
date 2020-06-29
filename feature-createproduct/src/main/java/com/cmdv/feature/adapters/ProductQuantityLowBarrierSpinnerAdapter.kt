@@ -22,7 +22,7 @@ class ProductQuantityLowBarrierSpinnerAdapter(private val context: Context, priv
         val view: View
         val holder: ViewHolder
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_product_quantity_low_barrier, parent, false)
+            view = inflater.inflate(R.layout.item_product_quantity_low_barrier_spinner, parent, false)
             holder = ViewHolder(view)
             view?.tag = holder
         } else {
