@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#ED2A48</color>
+    <color name="colorPrimaryDark">#A3162B</color>
     <color name="colorAccent">#2BAECB</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTextHintLight">#BCFFFFFF</color>
     <color name="colorTextHintDark">#75000000</color>
@@ -8,6 +11,8 @@
     <color name="colorTextDark1">#292929</color>
     <color name="colorTextDark2">#494949</color>
     <color name="colorTextDark3">#6E6E6E</color>
+
+    <color name="colorSplashActivityWindowsBackground">#171717</color>
 
     <color name="colorEditProductBackground">#1BBF04</color>
     <color name="colorAddToCartProductBackground">#b80f0a</color>

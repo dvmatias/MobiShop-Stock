@@ -38,7 +38,7 @@
         <activity android:name="com.cmdv.feature.EditProductActivity"
             android:label="@string/title_activity_edit_product"
             android:screenOrientation="portrait"
-            android:theme="@style/EditProductActivityTheme"/>
+            android:theme="@style/AppTheme.EditProductActivityTheme"/>
 
     </application>
 
