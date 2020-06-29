@@ -205,13 +205,11 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="12dp"
             android:hint="@string/quantity_hint"
-            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintStart_toEndOf="@id/textInputProductQuantity"
-            app:layout_constraintTop_toTopOf="@id/textInputProductQuantity"
-            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantity">
+            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantity"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinnerProductQuantityLowBarrier"

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
@@ -20,6 +19,7 @@ import com.cmdv.core.helpers.formatPrice
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
+import com.cmdv.feature.adapters.ProductQuantityLowBarrierSpinnerAdapter
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -143,9 +143,8 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupProductQuantityLowBarrierInputField() {
-        lowBarriers = resources.getStringArray(R.array.lowBarriers)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lowBarriers)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        lowBarriers = resources.getStringArray(R.array.product_quantity_low_barriers)
+        val adapter = ProductQuantityLowBarrierSpinnerAdapter(this, lowBarriers.toCollection(java.util.ArrayList()))
         spinnerProductQuantityLowBarrier.apply {
             this.adapter = adapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

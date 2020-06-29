@@ -34,8 +34,9 @@
     <string name="add_your_first_product">Add your first product ;)</string>
     <string name="woops_no_products">Woops! \n It seems that you have not yet loaded any product in your database ... Time to start!</string>
 
-    <string-array name="lowBarriers">
-        <item>Minimum desired</item>
+    <string name="product_quantity_low_barrier_hint">Minimum desired</string>
+    <string-array name="product_quantity_low_barriers">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
