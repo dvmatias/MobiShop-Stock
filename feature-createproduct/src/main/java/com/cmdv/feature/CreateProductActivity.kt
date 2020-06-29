@@ -25,7 +25,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
 import kotlinx.android.synthetic.main.content_create_product.*
-import kotlinx.android.synthetic.main.main_info.*
+import kotlinx.android.synthetic.main.price_info.*
+import kotlinx.android.synthetic.main.product_info.*
+import kotlinx.android.synthetic.main.quantity_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.ref.WeakReference
 
