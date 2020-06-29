@@ -351,6 +351,7 @@ class CreateProductActivity : AppCompatActivity() {
         editTextProductTags.text?.clear()
 
         spinnerProductTypes.setSelection(0)
+        spinnerProductQuantityLowBarrier.setSelection(0)
 
         scrollView.requestFocus()
     }
