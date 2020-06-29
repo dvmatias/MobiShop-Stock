@@ -1,13 +1,16 @@
 package com.cmdv.feature.ui
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -15,6 +18,7 @@ import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
@@ -58,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         val searchItem: MenuItem = menu!!.findItem(R.id.actionSearch)
+        @Suppress("DEPRECATION")
         searchView = MenuItemCompat.getActionView(searchItem) as SearchView
         searchView.setOnCloseListener { true }
         searchView.maxWidth = Integer.MAX_VALUE
@@ -221,7 +226,7 @@ class MainActivity : AppCompatActivity() {
      */
     private val swipeActionListener = object : SwipeActionListener {
         override fun onActionEdit(position: Int) {
-            Snackbar.make(window.decorView.rootView, "Action Edit detected on product position $position", Snackbar.LENGTH_SHORT).show()
+            navigator.toEditProductScreenForResult(this@MainActivity, null, null, REQUEST_CODE_EDIT_PRODUCT, false)
         }
 
         override fun onActionAddToCart(position: Int) {
@@ -229,4 +234,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     *
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_CODE_EDIT_PRODUCT -> {
+                if (Activity.RESULT_OK == resultCode) {
+                    Toast.makeText(this, "EditProductActivity RESULT_OK", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "EditProductActivity RESULT_KO", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 }

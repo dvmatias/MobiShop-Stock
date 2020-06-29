@@ -1,4 +1,4 @@
-package com.cmdv.feature_editproduct
+package com.cmdv.feature
 
 import org.junit.Test
 

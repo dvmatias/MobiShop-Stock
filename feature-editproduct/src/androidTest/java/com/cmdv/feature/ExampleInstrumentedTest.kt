@@ -1,4 +1,4 @@
-package com.cmdv.feature_editproduct
+package com.cmdv.feature
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

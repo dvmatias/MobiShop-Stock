@@ -8,5 +8,6 @@ interface Navigator {
 
     fun toMainScreen(activityOrigin: Activity, bundle: Bundle?, options: ActivityOptionsCompat?, finish: Boolean)
     fun toAddProductScreen(activityOrigin: Activity, bundle: Bundle?, options: ActivityOptionsCompat?, finish: Boolean)
+    fun toEditProductScreenForResult(activityOrigin: Activity, bundle: Bundle?, options: ActivityOptionsCompat?, requestCode: Int, finish: Boolean)
 
 }
