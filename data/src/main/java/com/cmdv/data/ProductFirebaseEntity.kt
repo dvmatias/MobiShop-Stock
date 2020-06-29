@@ -10,11 +10,12 @@ data class ProductFirebaseEntity(
     val imageName: String?,
     val price: PriceEntity?,
     val quantity: QuantityEntity?,
-    val tags: List<Map<String, String>>?
+    val tags: List<Map<String, String>>?,
+    val date: DateEntity?
 ) {
 
     @Suppress("unused")
-    constructor() : this(null, null, null, null, null, null, null, null, null, null)
+    constructor() : this(null, null, null, null, null, null, null, null, null, null, null)
 
 }
 
@@ -38,5 +39,15 @@ data class QuantityEntity(
 
     @Suppress("unused")
     constructor() : this(null, null, null, null)
+
+}
+
+data class DateEntity(
+    val createdDate: String?,
+    val updatedDate: String?
+) {
+
+    @Suppress("unused")
+    constructor() : this(null, null)
 
 }

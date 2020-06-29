@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.BuildConfig
 import com.cmdv.data.ProductFirebaseEntity
 import com.cmdv.data.mappers.ProductFirebaseMapper
-import com.cmdv.domain.models.LiveDataStatusWrapper
-import com.cmdv.domain.models.PriceModel
-import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.QuantityModel
+import com.cmdv.domain.models.*
 import com.cmdv.domain.repositories.ProductRepository
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+
+private const val DATE_FORMAT_DD_MM_YY = "dd/MM/yyyy"
 
 class ProductRepositoryImpl : ProductRepository {
 
@@ -100,8 +100,11 @@ class ProductRepositoryImpl : ProductRepository {
         quantity: Int,
         lowBarrier: Int,
         tags: List<String>
-    ): ProductModel =
-        ProductModel(
+    ): ProductModel {
+
+        val dateString = SimpleDateFormat(DATE_FORMAT_DD_MM_YY, Locale.getDefault()).format(Date().time)
+
+        return ProductModel(
             code,
             id,
             productType,
@@ -109,18 +112,12 @@ class ProductRepositoryImpl : ProductRepository {
             description,
             "temp",
             "temp",
-            PriceModel(
-                costPrice,
-                if (originalPrice.isEmpty()) sellingPrice else originalPrice,
-                sellingPrice
-            ),
-            QuantityModel(
-                quantity,
-                quantity,
-                0,
-                lowBarrier),
-            tags
+            PriceModel(costPrice, if (originalPrice.isEmpty()) sellingPrice else originalPrice, sellingPrice),
+            QuantityModel(quantity, quantity, 0, lowBarrier),
+            tags,
+            DateModel(dateString, dateString)
         )
+    }
 
     override fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>) {
         productsMutableLiveData.value = LiveDataStatusWrapper.loading(null)

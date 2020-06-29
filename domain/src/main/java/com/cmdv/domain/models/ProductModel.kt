@@ -1,6 +1,6 @@
 package com.cmdv.domain.models
 
-data class ProductModel (
+data class ProductModel(
     val code: String,
     val id: Long,
     val productType: String,
@@ -10,7 +10,8 @@ data class ProductModel (
     val imageName: String,
     val price: PriceModel,
     val quantity: QuantityModel,
-    val tags: List<String>
+    val tags: List<String>,
+    val date: DateModel
 )
 
 data class PriceModel(
@@ -24,4 +25,9 @@ data class QuantityModel(
     val available: Int,
     val sold: Int,
     val lowBarrier: Int
+)
+
+data class DateModel(
+    val createdDate: String,
+    val updatedDate: String
 )
