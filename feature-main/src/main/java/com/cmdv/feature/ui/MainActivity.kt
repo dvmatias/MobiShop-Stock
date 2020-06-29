@@ -18,6 +18,7 @@ import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
@@ -29,6 +30,7 @@ import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
 import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback.SwipeActionListener
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
@@ -44,6 +46,8 @@ class MainActivity : AppCompatActivity() {
     private val productAdapter: RecyclerProductAdapter by inject()
 
     private val itemProductDecoration: ItemProductDecoration by inject()
+
+    private val gson: Gson by inject()
 
     private lateinit var searchView: SearchView
 
@@ -226,7 +230,18 @@ class MainActivity : AppCompatActivity() {
      */
     private val swipeActionListener = object : SwipeActionListener {
         override fun onActionEdit(position: Int) {
-            navigator.toEditProductScreenForResult(this@MainActivity, null, null, REQUEST_CODE_EDIT_PRODUCT, false)
+            val bundle = Bundle()
+            bundle.putString(
+                EXTRA_PRODUCT_KEY,
+                gson.toJson(productAdapter.getProduct(position), ProductModel::class.java)
+            )
+            navigator.toEditProductScreenForResult(
+                activityOrigin = this@MainActivity,
+                bundle = bundle,
+                options = null,
+                requestCode = REQUEST_CODE_EDIT_PRODUCT,
+                finish = false
+            )
         }
 
         override fun onActionAddToCart(position: Int) {

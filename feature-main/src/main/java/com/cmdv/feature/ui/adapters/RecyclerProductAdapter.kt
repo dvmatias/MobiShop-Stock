@@ -178,4 +178,12 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
         return ProductFilter(this, fullData)
     }
 
+    fun getProduct(position: Int): ProductModel =
+        if (data[position] is ProductModel) {
+            data[position] as ProductModel
+        } else {
+            throw IllegalAccessError("Can't edit a non Product object.")
+        }
+
+
 }

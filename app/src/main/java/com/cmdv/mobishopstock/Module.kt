@@ -7,6 +7,7 @@ import com.cmdv.feature.CreateProductActivityViewModel
 import com.cmdv.feature.ui.MainActivityViewModel
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -43,5 +44,11 @@ val itemDecorationModule = module {
             androidContext()
         )
     }
+
+}
+
+val librariesModule = module {
+
+    single { Gson() }
 
 }
