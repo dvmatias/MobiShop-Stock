@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Handler
 import android.text.TextPaint
 import android.view.MotionEvent
 import android.view.View
@@ -97,11 +98,14 @@ class SwipeToAddToCartOrEditCallback(context: Context, private val swipeActionLi
     private fun triggerAction(dX: Float, position: Int) {
         if (abs(dX) >= minDxToTriggerAction) {
             logErrorMessage("Should trigger?? dX = $dX")
-            if (buttonShowedState == ButtonShowedState.EDIT_VISIBLE) {
-                swipeActionListener.onActionEdit(position)
-            } else if (buttonShowedState == ButtonShowedState.ADD_TO_CART_VISIBLE) {
-                swipeActionListener.onActionAddToCart(position)
-            }
+            // TODO this should trigger the action once the back animation is done. this delay emulates this. Refactor.
+            Handler().postDelayed({
+                if (buttonShowedState == ButtonShowedState.EDIT_VISIBLE) {
+                    swipeActionListener.onActionEdit(position)
+                } else if (buttonShowedState == ButtonShowedState.ADD_TO_CART_VISIBLE) {
+                    swipeActionListener.onActionAddToCart(position)
+                }
+            }, 100)
         }
     }
 

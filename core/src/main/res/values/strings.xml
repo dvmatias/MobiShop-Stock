@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="create_new_product_title">Create New Product</string>
-    <string name="product_name_hint">(*) Product Name</string>
-    <string name="product_description_hint">Product Description</string>
-    <string name="cost_price_hint">(*) Cost $</string>
-    <string name="original_price_hint">Original $</string>
-    <string name="selling_price_hint">(*) Selling $</string>
-    <string name="quantity_hint">(*) Quantity</string>
-    <string name="tags_hint">Tags#</string>
+    <string name="hint_create_product_name">(*) Product Name</string>
+    <string name="hint_create_product_description">Product Description</string>
+    <string name="hint_create_product_cost_price">(*) Cost $</string>
+    <string name="hint_create_product_original_price">Original $</string>
+    <string name="hint_create_product_selling_price">(*) Selling $</string>
+    <string name="hint_create_product_quantity">(*) Quantity</string>
+    <string name="hint_create_product_tags">Tags#</string>
     <string name="accept_btn_label">Create Product</string>
     <string name="placeholder_price">$%s</string>
     <string name="error_input_name_empty">The product needs a name!</string>
@@ -51,6 +51,17 @@
         <item>40</item>
         <item>50</item>
     </string-array>
+
+    <string name="hint_edit_product_name">Product Name</string>
+    <string name="hint_edit_product_cost_price">Cost $</string>
+    <string name="hint_edit_product_original_price">Original $</string>
+    <string name="hint_edit_product_selling_price">Selling $</string>
+    <string name="hint_edit_product_initial_quantity">Total</string>
+    <string name="hint_edit_product_available_quantity">Available</string>
+    <string name="hint_edit_product_sold_quantity">Sold</string>
+    <string name="error_input_initial_quantity_empty">Lorem ipsum</string>
+    <string name="error_input_available_quantity_empty">Lorem ipsum</string>
+    <string name="error_input_sold_quantity_empty">Lorem ipsum</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

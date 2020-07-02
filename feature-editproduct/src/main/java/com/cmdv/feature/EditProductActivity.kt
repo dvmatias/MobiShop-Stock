@@ -1,35 +1,175 @@
 package com.cmdv.feature
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
-import com.cmdv.core.utils.logInfoMessage
+import com.cmdv.core.helpers.SimpleTextWatcher
+import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.Status
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_edit_product.*
+import kotlinx.android.synthetic.main.content_edit_product.*
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class EditProductActivity : AppCompatActivity() {
 
+    private val viewModel: EditProductActivityViewModel by viewModel()
+
     private val gson: Gson by inject()
 
-    private var productOriginal: ProductModel? = null
+    private var product: ProductModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_product)
 
         getExtras()
+        setupToolbar()
 
-        setSupportActionBar(toolbar)
+        setupProductNameInputField()
+        setupProductTypeInputField()
+        setupProductDescriptionInputField()
+        setupProductPricesInputField()
+        setupProductQuantityInputField()
     }
 
     private fun getExtras() {
         intent.extras?.let {
             if (it.containsKey(EXTRA_PRODUCT_KEY)) {
-                productOriginal =
+                product =
                     gson.fromJson(it.getString(EXTRA_PRODUCT_KEY), ProductModel::class.java)
             }
         }
     }
-}   
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setupProductNameInputField() {
+        editTextProductName.apply {
+            addTextChangedListener(object : SimpleTextWatcher() {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    viewModel.name = s?.toString() ?: ""
+                }
+            })
+            setText(product?.name)
+        }
+    }
+
+    private fun setupProductTypeInputField() {
+        // TODO
+    }
+
+    private fun setupProductDescriptionInputField() {
+        editTextProductDescription.apply {
+            addTextChangedListener(object : SimpleTextWatcher() {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    viewModel.description = s?.toString() ?: ""
+                }
+            })
+            setText(product?.description)
+        }
+    }
+
+    private fun setupProductPricesInputField() {
+        product?.price?.let { price ->
+            editTextProductCostPrice.apply {
+                addTextChangedListener(object : SimpleTextWatcher() {
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        viewModel.costPrice = s?.toString() ?: ""
+                    }
+                })
+                setText(price.costPrice)
+            }
+            editTextProductSellingPrice.apply {
+                addTextChangedListener(object : SimpleTextWatcher() {
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        viewModel.sellingPrice = s?.toString() ?: ""
+                    }
+                })
+                setText(price.sellingPrice)
+            }
+            editTextProductOriginalPrice.apply {
+                addTextChangedListener(object : SimpleTextWatcher() {
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        viewModel.originalPrice = s?.toString() ?: ""
+                    }
+                })
+                setText(price.originalPrice)
+            }
+        }
+    }
+
+    private fun setupProductQuantityInputField() {
+        product?.quantity?.let { quantity ->
+            editTextProductQuantityInitial.apply {
+                addTextChangedListener(object : SimpleTextWatcher() {
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        s?.let {
+                            viewModel.initialQuantity =
+                                if (s.isEmpty()) -1 else s.toString().toInt()
+                        } ?: run { viewModel.initialQuantity = -1 }
+                    }
+                })
+                setText(quantity.initial.toString())
+            }
+            editTextProductQuantityAvailable.apply {
+                addTextChangedListener(object : SimpleTextWatcher() {
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        s?.let {
+                            viewModel.availableQuantity =
+                                if (s.isEmpty()) -1 else s.toString().toInt()
+                        } ?: run { viewModel.availableQuantity = -1 }
+                    }
+                })
+                setText(quantity.available.toString())
+            }
+            editTextProductQuantitySold.apply {
+                addTextChangedListener(object : SimpleTextWatcher() {
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        s?.let {
+                            viewModel.soldQuantity =
+                                if (s.isEmpty()) -1 else s.toString().toInt()
+                        } ?: run { viewModel.soldQuantity = -1 }
+                    }
+                })
+                setText(quantity.sold.toString())
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_edit_product, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.actionUpdateProduct -> {
+                viewModel.productLiveData.observe(this, Observer { updateProductWrapper ->
+                    when (updateProductWrapper.status) {
+                        Status.LOADING -> {
+                            //TODO
+                        }
+                        Status.SUCCESS -> {
+                            //TODO
+                        }
+                        Status.ERROR -> {
+                            logErrorMessage("${updateProductWrapper.message}")
+                        }
+                    }
+                })
+                product?.let { viewModel.updateProduct(it) }
+            }
+        }
+        return true
+    }
+
+}

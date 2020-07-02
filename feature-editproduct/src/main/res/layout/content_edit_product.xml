@@ -8,10 +8,213 @@
     tools:context=".EditProductActivity"
     tools:showIn="@layout/activity_edit_product">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/large_text" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- Product Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductName"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_edit_product_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Type -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductType"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductName">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerProductTypes"
+                style="@style/SpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductDescription"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_create_product_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductType">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductDescription"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Cost Price -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductCostPrice"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_edit_product_cost_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductDescription"
+            app:layout_constraintWidth_percent="0.31">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductCostPrice"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Selling Price -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductSellingPrice"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_edit_product_selling_price"
+            app:layout_constraintStart_toEndOf="@id/textInputProductCostPrice"
+            app:layout_constraintBottom_toBottomOf="@id/textInputProductCostPrice"
+            app:layout_constraintEnd_toStartOf="@id/textInputProductOriginalPrice">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductSellingPrice"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Original Price -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductOriginalPrice"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:hint="@string/hint_edit_product_original_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textInputProductCostPrice"
+            app:layout_constraintWidth_percent="0.31">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductOriginalPrice"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Quantity Initial -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductQuantityInitial"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_edit_product_initial_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductOriginalPrice"
+            app:layout_constraintWidth_percent="0.31">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductQuantityInitial"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Quantity Available -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductQuantityAvailable"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_edit_product_available_quantity"
+            app:layout_constraintStart_toEndOf="@id/textInputProductQuantityInitial"
+            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantityInitial"
+            app:layout_constraintEnd_toStartOf="@id/textInputProductQuantitySold">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductQuantityAvailable"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product Quantity Sold -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputProductQuantitySold"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:hint="@string/hint_edit_product_sold_quantity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantityInitial"
+            app:layout_constraintWidth_percent="0.31">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProductQuantitySold"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

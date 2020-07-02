@@ -17,12 +17,11 @@ import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
-import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
-import com.cmdv.feature.adapters.SpinnerQuantityLowBarrierAdapter
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
+import com.cmdv.feature.adapters.SpinnerQuantityLowBarrierAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
@@ -157,7 +156,7 @@ class CreateProductActivity : AppCompatActivity() {
         spinnerProductQuantityLowBarrier.apply {
             this.adapter = adapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) { }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                     if (position == 0)

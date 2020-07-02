@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-private const val DATE_FORMAT_DD_MM_YY = "dd/MM/yyyy"
+private const val DATE_FORMAT_DD_MM_YY = "dd-MM-yyyy'T'HH:mm:ss.SSS"
 
 class ProductRepositoryImpl : ProductRepository {
 
@@ -23,8 +23,29 @@ class ProductRepositoryImpl : ProductRepository {
 
     private val dbProductTypeRef: DatabaseReference = dbRootRef.getReference(BuildConfig.DB_PRODUCT_TYPE_ROOT_PATH)
 
-    override fun updateProduct(id: Int, product: ProductModel): MutableLiveData<ProductModel> {
-        TODO("Not yet implemented")
+    override fun updateProduct(
+        productMutableLiveData: MutableLiveData<LiveDataStatusWrapper<ProductModel>>,
+        id: Int,
+        product: ProductModel
+    ) {
+        // Set loading status.
+        productMutableLiveData.value = LiveDataStatusWrapper.loading(null)
+
+        val productFirebase: ProductFirebaseEntity =
+            ProductFirebaseMapper().transformModelToEntity(product)
+        dbProductsRef.child(id.toString()).setValue(
+            productFirebase
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                productMutableLiveData.value =
+                    LiveDataStatusWrapper.success(
+                        ProductFirebaseMapper().transformEntityToModel(productFirebase)
+                    )
+            } else {
+                productMutableLiveData.value =
+                    LiveDataStatusWrapper.error("There was an error trying to update product with id-$id.", null)
+            }
+        }
     }
 
     override fun createProduct(
@@ -49,10 +70,23 @@ class ProductRepositoryImpl : ProductRepository {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val id: Long = dataSnapshot.childrenCount
-                val code: String = generateUniqueRandomCode(dataSnapshot)
+                val code: String = generateUniqueRandomProductCode(dataSnapshot)
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, colorQuantities, lowBarrier, tags)
+                        getProductModel(
+                            code,
+                            id,
+                            productType,
+                            name,
+                            description,
+                            costPrice,
+                            originalPrice,
+                            sellingPrice,
+                            quantity,
+                            colorQuantities,
+                            lowBarrier,
+                            tags
+                        )
                     )
 
                 dbProductsRef.child(id.toString()).setValue(productFirebase)
@@ -77,13 +111,13 @@ class ProductRepositoryImpl : ProductRepository {
      * Generates a random code of four digits and return as String.
      * This value must be unique in DB so only one product can have it.
      */
-    private fun generateUniqueRandomCode(dataSnapshot: DataSnapshot): String {
+    private fun generateUniqueRandomProductCode(dataSnapshot: DataSnapshot): String {
         val randomCode = (1000..9999).random().toString()
         for (ds in dataSnapshot.children) {
             val productFirebase: ProductFirebaseEntity? =
                 ds.getValue(ProductFirebaseEntity::class.java)
             if (productFirebase != null && productFirebase.code.equals(randomCode)) {
-                generateUniqueRandomCode(dataSnapshot)
+                generateUniqueRandomProductCode(dataSnapshot)
             }
         }
         return randomCode
