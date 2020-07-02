@@ -12,14 +12,17 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.cmdv.components.colorquantity.ComponentProductColorView
+import com.cmdv.components.colorquantity.Mode
 import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
+import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.Status
-import com.cmdv.feature.adapters.ProductQuantityLowBarrierSpinnerAdapter
+import com.cmdv.feature.adapters.SpinnerQuantityLowBarrierAdapter
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -43,16 +46,21 @@ class CreateProductActivity : AppCompatActivity() {
 
         setupExplanation()
         setupBackButton()
+
         setupProductNameInputField()
+        observeProductTypes()
         setupProductDescriptionInputField()
+        setupProductTagsInputField()
+
         setupProductCostPriceInputField()
-        setupProductOriginalPriceInputField()
         setupProductSellingPriceInputField()
+        setupProductOriginalPriceInputField()
+
         setupProductQuantityInputField()
         setupProductQuantityLowBarrierInputField()
-        setupProductTagsInputField()
+        setupComponentColorQuantity()
+
         setupAcceptButton()
-        observeProductTypes()
     }
 
     private fun setupExplanation() {
@@ -146,7 +154,7 @@ class CreateProductActivity : AppCompatActivity() {
 
     private fun setupProductQuantityLowBarrierInputField() {
         lowBarriers = resources.getStringArray(R.array.product_quantity_low_barriers)
-        val adapter = ProductQuantityLowBarrierSpinnerAdapter(this, lowBarriers.toCollection(java.util.ArrayList()))
+        val adapter = SpinnerQuantityLowBarrierAdapter(this, lowBarriers.toCollection(java.util.ArrayList()))
         spinnerProductQuantityLowBarrier.apply {
             this.adapter = adapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -160,6 +168,13 @@ class CreateProductActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setupComponentColorQuantity() {
+        componentColorQuantityView.setup(Mode.EDIT, null, this)
+        componentColorQuantityView.mutableLiveItemList.observe(this, Observer {
+            // TODO
+        })
     }
 
     private fun setupProductTagsInputField() {

@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.cmdv.feature.R
 
-class ProductQuantityLowBarrierSpinnerAdapter(private val context: Context, private val lowBarriers: ArrayList<String>) : BaseAdapter() {
+class SpinnerQuantityLowBarrierAdapter(private val context: Context, private val lowBarriers: ArrayList<String>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -22,7 +22,24 @@ class ProductQuantityLowBarrierSpinnerAdapter(private val context: Context, priv
         val view: View
         val holder: ViewHolder
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_product_quantity_low_barrier_spinner, parent, false)
+            view = inflater.inflate(R.layout.spinner_quantity_low_barrier_item, parent, false)
+            holder = ViewHolder(view)
+            view?.tag = holder
+        } else {
+            view = convertView
+            holder = view.tag as ViewHolder
+        }
+
+        holder.bindItem(lowBarriers[position], position, context)
+
+        return view
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View
+        val holder: ViewHolder
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.spinner_dropdown_quantity_low_barrier_item, parent, false)
             holder = ViewHolder(view)
             view?.tag = holder
         } else {

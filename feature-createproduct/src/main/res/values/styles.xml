@@ -20,57 +20,5 @@
         <!-- Support library compatibility -->
         <item name="windowActionBarOverlay">true</item>
     </style>
-
-    <style name="EditTextStyle" parent="Widget.Design.TextInputLayout">
-        <item name="android:backgroundTint">@color/colorAccent</item>
-        <item name="hintTextAppearance">@style/HintTextAppearance</item>
-        <item name="android:textAppearance">@style/InputTextAppearance</item>
-    </style>
-
-    <style name="InputTextAppearance" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/colorTextDark1</item>
-        <item name="android:fontFamily">@font/cereal_book</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="HintTextAppearance" parent="Widget.AppCompat.TextView">
-        <item name="android:textColorHint">@color/colorTextHintDark</item>
-        <item name="android:fontFamily">@font/cereal_light</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
-        <item name="hintAnimationEnabled">true</item>
-        <item name="hintEnabled">true</item>
-        <item name="hintTextAppearance">@style/HintTextAppearance</item>
-        <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
-    </style>
-
-    <style name="ErrorTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#FF0000</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner.Underlined">
-        <item name="android:backgroundTint">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/cereal_medium</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="contentPadding">12dp</item>
-        <item name="contentPaddingTop">20dp</item>
-        <item name="contentPaddingBottom">20dp</item>
-        <item name="cardBackgroundColor">#D8FFFFFF</item>
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">0dp</item>
-        <item name="cardUseCompatPadding">true</item>
-    </style>
-    
-    <style name="TitleStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/cereal_bold</item>
-        <item name="android:textColor">@color/colorTextDark2</item>
-        <item name="android:textSize">20sp</item>
-    </style>
     
 </resources>

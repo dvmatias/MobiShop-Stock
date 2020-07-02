@@ -52,4 +52,7 @@ dependencies {
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
 
+    implementation libs.material
+    implementation libs.constraint_layout
+
 }
