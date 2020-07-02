@@ -16,6 +16,7 @@ interface ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        colorQuantities: ArrayList<Pair<String, Int>>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>

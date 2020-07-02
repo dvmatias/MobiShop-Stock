@@ -35,6 +35,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        colorQuantities: ArrayList<Pair<String, Int>>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>> {
@@ -51,7 +52,7 @@ class ProductRepositoryImpl : ProductRepository {
                 val code: String = generateUniqueRandomCode(dataSnapshot)
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, lowBarrier, tags)
+                        getProductModel(code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity, colorQuantities, lowBarrier, tags)
                     )
 
                 dbProductsRef.child(id.toString()).setValue(productFirebase)
@@ -98,6 +99,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
+        colorQuantities: ArrayList<Pair<String, Int>>,
         lowBarrier: Int,
         tags: List<String>
     ): ProductModel {
@@ -113,7 +115,7 @@ class ProductRepositoryImpl : ProductRepository {
             "temp",
             "temp",
             PriceModel(costPrice, if (originalPrice.isEmpty()) sellingPrice else originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0, lowBarrier),
+            QuantityModel(quantity, quantity, 0, lowBarrier, colorQuantities),
             tags,
             DateModel(dateString, dateString)
         )

@@ -34,11 +34,12 @@ data class QuantityEntity(
     val initial: Int?,
     val available: Int?,
     val sold: Int?,
-    val lowBarrier: Int?
+    val lowBarrier: Int?,
+    val colorQuantities: List<Map<String, String>>?
 ) {
 
     @Suppress("unused")
-    constructor() : this(null, null, null, null)
+    constructor() : this(null, null, null, null, null)
 
 }
 

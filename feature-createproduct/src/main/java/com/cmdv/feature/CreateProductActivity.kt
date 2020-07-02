@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.cmdv.components.colorquantity.ComponentProductColorView
 import com.cmdv.components.colorquantity.Mode
 import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
@@ -173,7 +172,7 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupComponentColorQuantity() {
         componentColorQuantityView.setup(Mode.EDIT, null, this)
         componentColorQuantityView.mutableLiveItemList.observe(this, Observer {
-            // TODO
+            viewModel.colorQuantities = it
         })
     }
 

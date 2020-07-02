@@ -24,7 +24,8 @@ data class QuantityModel(
     val initial: Int,
     val available: Int,
     val sold: Int,
-    val lowBarrier: Int
+    val lowBarrier: Int,
+    val colorQuantities: ArrayList<Pair<String, Int>>
 )
 
 data class DateModel(
