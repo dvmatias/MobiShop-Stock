@@ -51,6 +51,7 @@
         <item>50</item>
     </string-array>
 
+    <string name="edit_product_title">Edit The Product</string>
     <string name="hint_edit_product_name">Product Name</string>
     <string name="hint_edit_product_cost_price">Cost $</string>
     <string name="hint_edit_product_original_price">Original $</string>
