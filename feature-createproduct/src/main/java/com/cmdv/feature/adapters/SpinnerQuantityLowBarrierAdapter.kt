@@ -13,11 +13,6 @@ class SpinnerQuantityLowBarrierAdapter(private val context: Context, private val
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
-    init {
-        // Ad hint text.
-        lowBarriers.add(0, context.getString(R.string.product_quantity_low_barrier_hint))
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View
         val holder: ViewHolder

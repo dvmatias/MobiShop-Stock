@@ -144,7 +144,9 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
             val available = product.quantity.available
             val lowBarrier = product.quantity.lowBarrier
             val colorBackground: Int =
-                if (available == 0) {
+                if (lowBarrier == 0) {
+                    ContextCompat.getColor(context, R.color.colorTransparent)
+                } else if (available == 0) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundZero)
                 } else if (available < lowBarrier) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundLow)
