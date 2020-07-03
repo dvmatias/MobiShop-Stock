@@ -57,8 +57,7 @@ class ComponentProductColorView : ConstraintLayout {
      */
     private fun initView(context: Context, @Suppress("UNUSED_PARAMETER") attrs: AttributeSet?) {
         View.inflate(context, R.layout.product_color_view_component, this)
-        setRecycler(context)
-        setup(Mode.NO_EDIT, arrayListOf(), context)
+        clear(Mode.NO_EDIT, context)
     }
 
     /**
@@ -82,6 +81,11 @@ class ComponentProductColorView : ConstraintLayout {
             Mode.EDIT -> setEditMode(context)
             Mode.NO_EDIT -> setNoEditMode()
         }
+    }
+
+    fun clear(mode: Mode, context: Context) {
+        setRecycler(context)
+        setup(mode, arrayListOf(), context)
     }
 
     private fun setColorQuantityList(colorQuantityList: ArrayList<ColorQuantity>?) {

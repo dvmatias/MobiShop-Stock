@@ -377,6 +377,7 @@ class CreateProductActivity : AppCompatActivity() {
 
         spinnerProductTypes.setSelection(0)
         spinnerProductQuantityLowBarrier.setSelection(0)
+        componentColorQuantityView.clear(Mode.EDIT, this)
 
         scrollView.requestFocus()
     }
