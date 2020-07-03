@@ -3,11 +3,11 @@ package com.cmdv.feature
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
 import com.cmdv.core.helpers.SimpleTextWatcher
-import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.google.gson.Gson
@@ -152,17 +152,22 @@ class EditProductActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
             R.id.actionUpdateProduct -> {
                 viewModel.productLiveData.observe(this, Observer { updateProductWrapper ->
                     when (updateProductWrapper.status) {
                         LiveDataStatusWrapper.Status.LOADING -> {
-                            //TODO
+                            frameLoading.visibility = View.VISIBLE
                         }
                         LiveDataStatusWrapper.Status.SUCCESS -> {
-                            //TODO
+                            frameLoading.visibility = View.GONE
+                            onBackPressed()
                         }
                         LiveDataStatusWrapper.Status.ERROR -> {
-                            logErrorMessage("${updateProductWrapper.message}")
+                            // TODO Manage scenario.
+                            frameLoading.visibility = View.GONE
                         }
                     }
                 })
