@@ -17,7 +17,6 @@ import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.Status
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
 import com.cmdv.feature.adapters.SpinnerQuantityLowBarrierAdapter
 import com.google.android.material.textfield.TextInputEditText
@@ -73,11 +72,11 @@ class CreateProductActivity : AppCompatActivity() {
 
                 viewModel.createProduct()?.observe(this, Observer { productCreation ->
                     when (productCreation?.status) {
-                        Status.LOADING -> {
+                        LiveDataStatusWrapper.Status.LOADING -> {
                             frameLoading.visibility = View.VISIBLE
                         }
-                        Status.SUCCESS,
-                        Status.ERROR -> {
+                        LiveDataStatusWrapper.Status.SUCCESS,
+                        LiveDataStatusWrapper.Status.ERROR -> {
                             frameLoading.visibility = View.GONE
                             setFeedbackScreen(productCreation)
                         }
@@ -159,22 +158,15 @@ class CreateProductActivity : AppCompatActivity() {
             }
         })
         viewModel.errorEmptySellingPrice.observe(this, Observer { errorStringId ->
-            manageInputError(
-                errorStringId,
-                editTextProductSellingPrice,
-                textInputProductSellingPrice
-            )
+            manageInputError(errorStringId, editTextProductSellingPrice, textInputProductSellingPrice)
         })
     }
 
     private fun setupProductQuantityInputField() {
         editTextProductQuantity.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.quantity = if (!s.isNullOrEmpty()) {
-                    s.toString().toInt()
-                } else {
-                    0
-                }
+                viewModel.quantity =
+                    if (!s.isNullOrEmpty()) s.toString().toInt() else 0
             }
         })
         viewModel.errorEmptyQuantity.observe(this, Observer { errorStringId ->
@@ -191,10 +183,8 @@ class CreateProductActivity : AppCompatActivity() {
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                    if (position == 0)
-                        viewModel.lowBarrier = 0
-                    else
-                        viewModel.lowBarrier = lowBarriers[position].toInt()
+                    viewModel.lowBarrier =
+                        if (position == 0) 0 else lowBarriers[position].toInt()
                 }
             }
         }
@@ -212,11 +202,9 @@ class CreateProductActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val tags: List<String> = s.toString().replace(" ", "").split("_")
                 viewModel.tags.clear()
-                for (tag in tags) {
-                    with(tag) {
-                        if (isNotEmpty() && !viewModel.tags.contains(this)) {
-                            viewModel.tags.add(this)
-                        }
+                for (tag: String in tags) {
+                    if (tag.isNotEmpty() && !viewModel.tags.contains(tag)) {
+                        viewModel.tags.add(tag)
                     }
                 }
             }
@@ -226,11 +214,11 @@ class CreateProductActivity : AppCompatActivity() {
     private fun observeProductTypes() {
         viewModel.productTypes.observe(this, Observer { productTypes ->
             when (productTypes?.status) {
-                Status.LOADING -> {
+                LiveDataStatusWrapper.Status.LOADING -> {
                     frameLoading.visibility = View.VISIBLE
                 }
-                Status.SUCCESS,
-                Status.ERROR -> {
+                LiveDataStatusWrapper.Status.SUCCESS,
+                LiveDataStatusWrapper.Status.ERROR -> {
                     frameLoading.visibility = View.GONE
                     if (productTypes.data != null) {
                         setSpinnerProductType(productTypes.data as ArrayList<String>)
@@ -275,14 +263,7 @@ class CreateProductActivity : AppCompatActivity() {
             if (price.isNotEmpty()) {
                 formattedPrice = formatPrice(price.toFloat())
                 et.apply {
-                    setText(
-                        StringBuilder(
-                            String.format(
-                                getString(R.string.placeholder_price),
-                                formattedPrice
-                            )
-                        )
-                    )
+                    setText(StringBuilder(String.format(getString(R.string.placeholder_price), formattedPrice)))
                     setSelection(et.text.toString().length)
                 }
                 return formattedPrice
@@ -318,7 +299,7 @@ class CreateProductActivity : AppCompatActivity() {
         val message: String
         var statusOk = false
 
-        if (productCreation?.data == null || productCreation.status == Status.ERROR) {
+        if (productCreation?.data == null || productCreation.status == LiveDataStatusWrapper.Status.ERROR) {
             title = getString(R.string.dialog_title_ko)
             message = getString(R.string.dialog_message_ko)
         } else {

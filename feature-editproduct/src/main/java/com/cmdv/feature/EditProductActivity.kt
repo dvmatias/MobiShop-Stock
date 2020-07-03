@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.utils.logErrorMessage
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.Status
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_edit_product.*
 import kotlinx.android.synthetic.main.content_edit_product.*
@@ -155,13 +155,13 @@ class EditProductActivity : AppCompatActivity() {
             R.id.actionUpdateProduct -> {
                 viewModel.productLiveData.observe(this, Observer { updateProductWrapper ->
                     when (updateProductWrapper.status) {
-                        Status.LOADING -> {
+                        LiveDataStatusWrapper.Status.LOADING -> {
                             //TODO
                         }
-                        Status.SUCCESS -> {
+                        LiveDataStatusWrapper.Status.SUCCESS -> {
                             //TODO
                         }
-                        Status.ERROR -> {
+                        LiveDataStatusWrapper.Status.ERROR -> {
                             logErrorMessage("${updateProductWrapper.message}")
                         }
                     }

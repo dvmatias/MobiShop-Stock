@@ -22,8 +22,8 @@ import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.Status
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
@@ -162,18 +162,9 @@ class MainActivity : AppCompatActivity() {
     private fun getProducts() {
         viewModel.products.observe(this, Observer {
             when (it.status) {
-                Status.LOADING -> {
-                    logErrorMessage("Loading")
-                    setupLoadingScreen()
-                }
-                Status.SUCCESS -> {
-                    logErrorMessage("Success")
-                    setupSuccessScreen(it.data as ArrayList<ProductModel>)
-                }
-                Status.ERROR -> {
-                    logErrorMessage("Error")
-                    setupErrorScreen()
-                }
+                LiveDataStatusWrapper.Status.LOADING -> setupLoadingScreen()
+                LiveDataStatusWrapper.Status.SUCCESS -> setupSuccessScreen(it.data as ArrayList<ProductModel>)
+                LiveDataStatusWrapper.Status.ERROR -> setupErrorScreen()
             }
         })
         viewModel.getProducts()
@@ -184,8 +175,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupLoadingScreen() {
         swipeRefreshMain.apply {
-            isRefreshing = true
             isEnabled = false
+            isRefreshing = true
         }
         contentMain.visibility = View.GONE
     }
