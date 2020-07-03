@@ -62,5 +62,6 @@ dependencies {
     api libs.kotlin
     api libs.ktx
     api libs.appcompat
-
+    // Gson
+    api libs.gson
 }

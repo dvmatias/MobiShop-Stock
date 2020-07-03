@@ -31,16 +31,25 @@
     </androidx.cardview.widget.CardView>
 
     <include
-        android:id="@+id/mainInfo"
-        layout="@layout/main_info" />
+        android:id="@+id/productInfo"
+        layout="@layout/product_info" />
 
-    <View
-        android:id="@+id/viewEmptySpaceBottom"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@color/colorTransparent"
+    <include
+        android:id="@+id/priceInfo"
+        layout="@layout/price_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/productInfo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainInfo"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <include
+        android:id="@+id/quantityInfo"
+        layout="@layout/quantity_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/priceInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

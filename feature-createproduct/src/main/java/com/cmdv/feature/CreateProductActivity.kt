@@ -2,30 +2,30 @@ package com.cmdv.feature
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.cmdv.components.colorquantity.Mode
 import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.Status
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
+import com.cmdv.feature.adapters.SpinnerQuantityLowBarrierAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_create_product.*
 import kotlinx.android.synthetic.main.content_create_product.*
-import kotlinx.android.synthetic.main.main_info.*
+import kotlinx.android.synthetic.main.price_info.*
+import kotlinx.android.synthetic.main.product_info.*
+import kotlinx.android.synthetic.main.quantity_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.ref.WeakReference
 
@@ -39,26 +39,65 @@ class CreateProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_product)
 
+        setupToolbar()
         setupExplanation()
-        setupBackButton()
+
         setupProductNameInputField()
+        observeProductTypes()
         setupProductDescriptionInputField()
+        setupProductTagsInputField()
+
         setupProductCostPriceInputField()
-        setupProductOriginalPriceInputField()
         setupProductSellingPriceInputField()
+        setupProductOriginalPriceInputField()
+
         setupProductQuantityInputField()
         setupProductQuantityLowBarrierInputField()
-        setupProductTagsInputField()
-        setupAcceptButton()
-        observeProductTypes()
+        setupComponentColorQuantity()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.create_product_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+            R.id.actionCreateProduct -> {
+                KeyboardHelper.hideKeyboard(WeakReference(this), item.actionView)
+
+                viewModel.createProduct()?.observe(this, Observer { productCreation ->
+                    when (productCreation?.status) {
+                        LiveDataStatusWrapper.Status.LOADING -> {
+                            frameLoading.visibility = View.VISIBLE
+                        }
+                        LiveDataStatusWrapper.Status.SUCCESS,
+                        LiveDataStatusWrapper.Status.ERROR -> {
+                            frameLoading.visibility = View.GONE
+                            setFeedbackScreen(productCreation)
+                        }
+                        else -> {
+                        }
+                    }
+                })
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private fun setupExplanation() {
         textViewExplanation.text = HtmlHelper.fromHtml(R.string.create_product_explanation, this)
-    }
-
-    private fun setupBackButton() {
-        imageViewBack.setOnClickListener { finish() }
     }
 
     private fun setupProductNameInputField() {
@@ -119,22 +158,15 @@ class CreateProductActivity : AppCompatActivity() {
             }
         })
         viewModel.errorEmptySellingPrice.observe(this, Observer { errorStringId ->
-            manageInputError(
-                errorStringId,
-                editTextProductSellingPrice,
-                textInputProductSellingPrice
-            )
+            manageInputError(errorStringId, editTextProductSellingPrice, textInputProductSellingPrice)
         })
     }
 
     private fun setupProductQuantityInputField() {
         editTextProductQuantity.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.quantity = if (!s.isNullOrEmpty()) {
-                    s.toString().toInt()
-                } else {
-                    0
-                }
+                viewModel.quantity =
+                    if (!s.isNullOrEmpty()) s.toString().toInt() else 0
             }
         })
         viewModel.errorEmptyQuantity.observe(this, Observer { errorStringId ->
@@ -143,22 +175,26 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupProductQuantityLowBarrierInputField() {
-        lowBarriers = resources.getStringArray(R.array.lowBarriers)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lowBarriers)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        lowBarriers = resources.getStringArray(R.array.product_quantity_low_barriers)
+        val adapter = SpinnerQuantityLowBarrierAdapter(this, lowBarriers.toCollection(java.util.ArrayList()))
         spinnerProductQuantityLowBarrier.apply {
             this.adapter = adapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) { }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                    if (position == 0)
-                        viewModel.lowBarrier = lowBarriers[4].toInt()
-                    else
-                        viewModel.lowBarrier = lowBarriers[position].toInt()
+                    viewModel.lowBarrier =
+                        if (position == 0) 0 else lowBarriers[position].toInt()
                 }
             }
         }
+    }
+
+    private fun setupComponentColorQuantity() {
+        componentColorQuantityView.setup(Mode.EDIT, null, this)
+        componentColorQuantityView.mutableLiveItemList.observe(this, Observer {
+            viewModel.colorQuantities = it
+        })
     }
 
     private fun setupProductTagsInputField() {
@@ -166,46 +202,23 @@ class CreateProductActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val tags: List<String> = s.toString().replace(" ", "").split("_")
                 viewModel.tags.clear()
-                for (tag in tags) {
-                    with(tag) {
-                        if (isNotEmpty() && !viewModel.tags.contains(this)) {
-                            viewModel.tags.add(this)
-                        }
+                for (tag: String in tags) {
+                    if (tag.isNotEmpty() && !viewModel.tags.contains(tag)) {
+                        viewModel.tags.add(tag)
                     }
                 }
             }
         })
     }
 
-    private fun setupAcceptButton() {
-        buttonCreateProduct.setOnClickListener {
-            KeyboardHelper.hideKeyboard(WeakReference(this), it)
-
-            viewModel.createProduct()?.observe(this, Observer { productCreation ->
-                when (productCreation?.status) {
-                    Status.LOADING -> {
-                        frameLoading.visibility = View.VISIBLE
-                    }
-                    Status.SUCCESS,
-                    Status.ERROR -> {
-                        frameLoading.visibility = View.GONE
-                        setFeedbackScreen(productCreation)
-                    }
-                    else -> {
-                    }
-                }
-            })
-        }
-    }
-
     private fun observeProductTypes() {
         viewModel.productTypes.observe(this, Observer { productTypes ->
             when (productTypes?.status) {
-                Status.LOADING -> {
+                LiveDataStatusWrapper.Status.LOADING -> {
                     frameLoading.visibility = View.VISIBLE
                 }
-                Status.SUCCESS,
-                Status.ERROR -> {
+                LiveDataStatusWrapper.Status.SUCCESS,
+                LiveDataStatusWrapper.Status.ERROR -> {
                     frameLoading.visibility = View.GONE
                     if (productTypes.data != null) {
                         setSpinnerProductType(productTypes.data as ArrayList<String>)
@@ -250,14 +263,7 @@ class CreateProductActivity : AppCompatActivity() {
             if (price.isNotEmpty()) {
                 formattedPrice = formatPrice(price.toFloat())
                 et.apply {
-                    setText(
-                        StringBuilder(
-                            String.format(
-                                getString(R.string.placeholder_price),
-                                formattedPrice
-                            )
-                        )
-                    )
+                    setText(StringBuilder(String.format(getString(R.string.placeholder_price), formattedPrice)))
                     setSelection(et.text.toString().length)
                 }
                 return formattedPrice
@@ -293,7 +299,7 @@ class CreateProductActivity : AppCompatActivity() {
         val message: String
         var statusOk = false
 
-        if (productCreation?.data == null || productCreation.status == Status.ERROR) {
+        if (productCreation?.data == null || productCreation.status == LiveDataStatusWrapper.Status.ERROR) {
             title = getString(R.string.dialog_title_ko)
             message = getString(R.string.dialog_message_ko)
         } else {
@@ -351,6 +357,8 @@ class CreateProductActivity : AppCompatActivity() {
         editTextProductTags.text?.clear()
 
         spinnerProductTypes.setSelection(0)
+        spinnerProductQuantityLowBarrier.setSelection(0)
+        componentColorQuantityView.clear(Mode.EDIT, this)
 
         scrollView.requestFocus()
     }
