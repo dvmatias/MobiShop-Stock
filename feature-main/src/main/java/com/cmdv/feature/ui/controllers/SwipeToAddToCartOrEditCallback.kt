@@ -31,7 +31,7 @@ enum class ButtonShowedState {
     EDIT_VISIBLE
 }
 
-class SwipeToAddToCartOrEditCallback(context: Context, private val swipeActionListener: SwipeActionListener) : ItemTouchHelper.Callback() {
+class SwipeToAddToCartOrEditCallback(val context: Context, private val swipeActionListener: SwipeActionListener) : ItemTouchHelper.Callback() {
 
     private var buttonShowedState: ButtonShowedState = ButtonShowedState.GONE
     private var swipeBack: Boolean = false
@@ -195,19 +195,19 @@ class SwipeToAddToCartOrEditCallback(context: Context, private val swipeActionLi
         val itemView: View = viewHolder.itemView
         val itemHeight: Int = itemView.height
         val itemWidth: Int = itemView.width
-        minDxToTriggerAction = (itemWidth * 0.4).toInt()
+        minDxToTriggerAction = (itemWidth * 0.3).toInt()
 
         val isCancelled: Boolean = (dX == 0F && !isCurrentlyActive)
-
         if (isCancelled) {
             clearCanvas(c, itemView.right + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             return
         }
 
+        val alpha = getButtonAlpha(dX)
         if (buttonShowedState == ButtonShowedState.ADD_TO_CART_VISIBLE) {
             addToCartBackgroundDrawable?.let {
-                it.alpha = getButtonBackgroundAlpha(dX)
+                it.alpha = alpha
                 it.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
                 it.draw(c)
             }
@@ -223,15 +223,17 @@ class SwipeToAddToCartOrEditCallback(context: Context, private val swipeActionLi
                 it.draw(c)
             }
 
-            paint.color = Color.WHITE
-            paint.isAntiAlias = true
-            paint.textSize = 50F
-            val textWidth: Float = paint.measureText("Add To Cart")
-            c.drawText("Add To Cart", addToCartIconLeft.toFloat() - textWidth - 30F, addToCartIconTop.toFloat() + 50F, paint)
+            val p = TextPaint()
+            p.color = Color.WHITE
+            p.alpha = if (alpha == 255) alpha else 0
+            p.isAntiAlias = true
+            p.textSize = 50F
+            val textWidth: Float = p.measureText(context.getString(R.string.action_swipe_add_to_cart))
+            c.drawText(context.getString(R.string.action_swipe_add_to_cart), addToCartIconLeft.toFloat() - textWidth - 30F, addToCartIconTop.toFloat() + 50F, p)
 
         } else if ((buttonShowedState == ButtonShowedState.EDIT_VISIBLE)) {
             editBackgroundDrawable?.let {
-                it.alpha = getButtonBackgroundAlpha(dX)
+                it.alpha = alpha
                 it.setBounds(
                     itemView.left,
                     itemView.top,
@@ -253,18 +255,19 @@ class SwipeToAddToCartOrEditCallback(context: Context, private val swipeActionLi
 
             val p = TextPaint()
             p.color = Color.WHITE
+            p.alpha = if (alpha == 255) alpha else 0
             p.isAntiAlias = true
-            p.textSize = 60F
-            c.drawText("Edit", editIconRight + 60F, ((itemView.bottom.toFloat() - itemView.top.toFloat()) / 2) + itemView.top + 30F, p)
+            p.textSize = 50F
+            c.drawText(context.getString(R.string.action_swipe_edit), editIconRight + 50F, ((itemView.bottom.toFloat() - itemView.top.toFloat()) / 2) + itemView.top + 25F, p)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
     }
 
-    private fun getButtonBackgroundAlpha(dX: Float): Int {
+    private fun getButtonAlpha(dX: Float): Int {
         val alpha: Int = (FULL_BACKGROUND_ALPHA * (abs(dX) / minDxToTriggerAction)).toInt()
         logErrorMessage("alpha $alpha")
-        return if (alpha >= FULL_BACKGROUND_ALPHA) FULL_BACKGROUND_ALPHA else alpha
+        return if (alpha >= FULL_BACKGROUND_ALPHA) FULL_BACKGROUND_ALPHA else if (alpha <= FULL_BACKGROUND_ALPHA * 0.7) 0 else alpha
     }
 
     private fun clearCanvas(c: Canvas, left: Float, top: Float, right: Float, bottom: Float) {

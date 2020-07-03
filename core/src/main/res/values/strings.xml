@@ -62,6 +62,9 @@
     <string name="error_input_available_quantity_empty">Lorem ipsum</string>
     <string name="error_input_sold_quantity_empty">Lorem ipsum</string>
 
+    <string name="action_swipe_edit">Edit</string>
+    <string name="action_swipe_add_to_cart">Add to Cart</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
