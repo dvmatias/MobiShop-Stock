@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="action_create_product">Crear Producto</string>
     <string name="create_new_product_title">Creá Un Producto</string>
     <string name="hint_create_product_name">(*) Nombre</string>
     <string name="hint_create_product_description">Descripción</string>

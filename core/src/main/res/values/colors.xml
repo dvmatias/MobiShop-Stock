@@ -20,7 +20,7 @@
     <color name="colorOverlayLoading">#5B000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorOk">#1BBF04</color>
-    <color name="colorWindowsLightBackground">#F8F8F8</color>
+    <color name="colorWindowsLightBackground">#EFEFEF</color>
     <color name="colorAvailableQuantityBackgroundGood">#77dd77</color>
     <color name="colorAvailableQuantityBackgroundWarning">#FFEF4A</color>
     <color name="colorAvailableQuantityBackgroundLow">#F11523</color>

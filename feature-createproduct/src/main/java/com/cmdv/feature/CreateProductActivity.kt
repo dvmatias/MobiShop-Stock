@@ -2,9 +2,7 @@ package com.cmdv.feature
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -42,8 +40,8 @@ class CreateProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_product)
 
+        setupToolbar()
         setupExplanation()
-        setupBackButton()
 
         setupProductNameInputField()
         observeProductTypes()
@@ -57,16 +55,50 @@ class CreateProductActivity : AppCompatActivity() {
         setupProductQuantityInputField()
         setupProductQuantityLowBarrierInputField()
         setupComponentColorQuantity()
+    }
 
-        setupAcceptButton()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.create_product_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+            R.id.actionCreateProduct -> {
+                KeyboardHelper.hideKeyboard(WeakReference(this), item.actionView)
+
+                viewModel.createProduct()?.observe(this, Observer { productCreation ->
+                    when (productCreation?.status) {
+                        Status.LOADING -> {
+                            frameLoading.visibility = View.VISIBLE
+                        }
+                        Status.SUCCESS,
+                        Status.ERROR -> {
+                            frameLoading.visibility = View.GONE
+                            setFeedbackScreen(productCreation)
+                        }
+                        else -> {
+                        }
+                    }
+                })
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private fun setupExplanation() {
         textViewExplanation.text = HtmlHelper.fromHtml(R.string.create_product_explanation, this)
-    }
-
-    private fun setupBackButton() {
-        imageViewBack.setOnClickListener { finish() }
     }
 
     private fun setupProductNameInputField() {
@@ -189,27 +221,6 @@ class CreateProductActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun setupAcceptButton() {
-        buttonCreateProduct.setOnClickListener {
-            KeyboardHelper.hideKeyboard(WeakReference(this), it)
-
-            viewModel.createProduct()?.observe(this, Observer { productCreation ->
-                when (productCreation?.status) {
-                    Status.LOADING -> {
-                        frameLoading.visibility = View.VISIBLE
-                    }
-                    Status.SUCCESS,
-                    Status.ERROR -> {
-                        frameLoading.visibility = View.GONE
-                        setFeedbackScreen(productCreation)
-                    }
-                    else -> {
-                    }
-                }
-            })
-        }
     }
 
     private fun observeProductTypes() {
