@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.components.R
 import com.cmdv.core.helpers.SimpleTextWatcher
+import com.cmdv.core.utils.logErrorMessage
 
 internal class RecyclerColorQuantityAdapter(
     private val context: Context
@@ -31,11 +32,13 @@ internal class RecyclerColorQuantityAdapter(
 
     private val listener = object : AbracadabraInterface {
         override fun onItemUpdate(position: Int, colorName: String, colorQuantity: Int) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} onItemUpdate()")
             itemsList[position] = Pair(colorName, colorQuantity)
             mutableLiveItemList.value = itemsList
         }
 
         override fun onItemDeleted(pairPosition: Int) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} onItemDeleted()")
             itemsList.remove(itemsList[pairPosition])
             mutableLiveItemList.value = itemsList
             notifyDataSetChanged()
@@ -43,7 +46,9 @@ internal class RecyclerColorQuantityAdapter(
     }
 
     internal fun setNoEditModeAdapter(data: ArrayList<ComponentProductColorView.ColorQuantity>) {
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} setNoEditModeAdapter()")
         for (i in 0 until data.size) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} $i")
             itemsList[i] = Pair(data[i].name, data[i].quantity)
         }
         this.viewMode = Mode.NO_EDIT
@@ -51,16 +56,19 @@ internal class RecyclerColorQuantityAdapter(
     }
 
     fun setEditModeAdapter() {
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} setEditModeAdapter()")
         this.viewMode = Mode.EDIT
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} onCreateViewHolder()")
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.item_color_quantity_recycler, parent, false)
         return ColorQuantityItemViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} onBindViewHolder()")
         (holder as ColorQuantityItemViewHolder)
             .bindView(itemsList[position], viewMode, context, position, listener)
     }
@@ -93,6 +101,7 @@ internal class RecyclerColorQuantityAdapter(
             pairPosition: Int,
             listener: AbracadabraInterface
         ) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} bindView()")
             // TODO Manage case NO_EDIT mode
             if (Mode.EDIT == viewMode) {
                 this.listener = listener
@@ -123,10 +132,12 @@ internal class RecyclerColorQuantityAdapter(
         }
 
         private fun updatePair(pairPosition: Int) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} updatePair()")
             listener.onItemUpdate(pairPosition, colorName, colorQuantity)
         }
 
         private fun deletePair(pairPosition: Int) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} deletePair()")
             listener.onItemDeleted(pairPosition)
         }
 
@@ -136,7 +147,7 @@ internal class RecyclerColorQuantityAdapter(
      * Add the view to add a color-quantity pair view if possible.
      */
     fun addEditableViewIfPossible() {
-        Toast.makeText(context, "addEditableViewIfPossible()", Toast.LENGTH_SHORT).show()
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} addEditableViewIfPossible()")
         if (canAddNewView()) {
             val positionToAdd: Int = itemCount
             this.itemsList.add(itemCount, Pair("", 0))
@@ -147,6 +158,7 @@ internal class RecyclerColorQuantityAdapter(
     }
 
     private fun canAddNewView(): Boolean {
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} canAddNewView()")
         if (this.itemsList.isEmpty() || areAllFieldsValid()) {
             return true
         }
@@ -154,7 +166,9 @@ internal class RecyclerColorQuantityAdapter(
     }
 
     private fun areAllFieldsValid(): Boolean {
+        logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} areAllFieldsValid()")
         for (i in 0 until itemsList.size) {
+            logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} $i")
             val pair = itemsList[i] ?: return false
             if (pair.first.isEmpty()) return false
             if (pair.second == 0) return false

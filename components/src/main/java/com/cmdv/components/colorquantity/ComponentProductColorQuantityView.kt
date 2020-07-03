@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.components.R
+import com.cmdv.core.utils.logErrorMessage
 import kotlinx.android.synthetic.main.product_color_view_component.view.*
 
 private const val MODE_EDIT = 0
@@ -100,11 +101,14 @@ class ComponentProductColorView : ConstraintLayout {
             mutableLiveItemList.observe(context as LifecycleOwner, Observer {
                 val cleanItemList: ArrayList<Pair<String, Int>> = arrayListOf()
                 for (item: Pair<String, Int> in it) {
+                    logErrorMessage("${ComponentProductColorView::class.java.simpleName} A $item")
                     if (item.first.isNotEmpty() && item.second != 0) {
+                        logErrorMessage("${ComponentProductColorView::class.java.simpleName} B $item")
                         cleanItemList.add(item)
                     }
                 }
-                this.mutableLiveItemList.value = cleanItemList
+                logErrorMessage("${ComponentProductColorView::class.java.simpleName} C $cleanItemList")
+                this@ComponentProductColorView.mutableLiveItemList.value = cleanItemList
             })
         }
     }

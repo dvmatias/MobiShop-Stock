@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="create_new_product_title">Create New Product</string>
-    <string name="hint_create_product_name">(*) Product Name</string>
-    <string name="hint_create_product_description">Product Description</string>
-    <string name="hint_create_product_cost_price">(*) Cost $</string>
-    <string name="hint_create_product_original_price">Original $</string>
-    <string name="hint_create_product_selling_price">(*) Selling $</string>
-    <string name="hint_create_product_quantity">(*) Quantity</string>
-    <string name="hint_create_product_tags">Tags#</string>
-    <string name="accept_btn_label">Create Product</string>
+    <string name="create_new_product_title">Creá Un Producto</string>
+    <string name="hint_create_product_name">(*) Nombre</string>
+    <string name="hint_create_product_description">Descripción</string>
+    <string name="hint_create_product_cost_price">(*) Precio Costo</string>
+    <string name="hint_create_product_original_price">Precio Original</string>
+    <string name="hint_create_product_selling_price">(*) Precio de Venta</string>
+    <string name="hint_create_product_quantity">(*) Total</string>
+    <string name="hint_create_product_tags">Etiquetas#</string>
+    <string name="accept_btn_label">Crear Producto</string>
     <string name="placeholder_price">$%s</string>
-    <string name="error_input_name_empty">The product needs a name!</string>
-    <string name="error_input_product_type_empty">You must choose a type of product!</string>
-    <string name="error_input_cost_price_empty">The cost price can\'t be empty!</string>
-    <string name="error_input_selling_price_empty">You must enter a selling price!</string>
-    <string name="error_input_quantity_empty">The product quantity </string>
-    <string name="finish_btn_label">finish</string>
-    <string name="create_another_btn_label">add other</string>
-    <string name="dialog_title_ko">Fail! Product was not created</string>
-    <string name="dialog_message_ko">Something went wrong. Make sure that the information that you provided is correct and try again please.</string>
-    <string name="dialog_title_ok">Success!</string>
-    <string name="dialog_message_ok">The product was created successfully! The new product was added to the database. You can check it out in the product list.</string>
-    <string name="dialog_product_name_text">Product Name:</string>
-    <string name="dialog_product_code_text">Product Code:</string>
-    <string name="create_product_explanation"><![CDATA[Fill in the fields to create a new product in the Database. The fields marked with <b>(*)</b> are mandatory. After creating a product you can continue adding new products or exit this screen. This screen is <b>only for adding new products that do not already exist in the Database</b>.]]></string>
-    <string name="product_info_section_title">General Information</string>
-    <string name="product_price_section_title">Prices</string>
-    <string name="product_quantity_section_title">Quantities</string>
-    <string name="product_type_hint">(*) Select The Product Type</string>
-    <string name="menu_title_create_product">Create Product</string>
-    <string name="menu_title_search">Search</string>
+    <string name="error_input_name_empty">El producto debe tener un nombre!</string>
+    <string name="error_input_product_type_empty">Tenés que elegir un tipo de producto!</string>
+    <string name="error_input_cost_price_empty">El precio de costo no puede quedar vacío!</string>
+    <string name="error_input_selling_price_empty">Debes ingresar un precio de venta!</string>
+    <string name="error_input_quantity_empty">Lorem ipsum </string>
+    <string name="finish_btn_label">Terminar</string>
+    <string name="create_another_btn_label">agregar más</string>
+    <string name="dialog_title_ko">Error! No se creó el producto</string>
+    <string name="dialog_message_ko">Algo salió mal. Asegurate que la información que cargaste es correcta e intentalo nuevamente por favor.</string>
+    <string name="dialog_title_ok">Bien!</string>
+    <string name="dialog_message_ok">El producto se creó correctamente y se agregó a tu Base de Datos. Podés verlo en la lista de productos.</string>
+    <string name="dialog_product_name_text">Nombre del Producto:</string>
+    <string name="dialog_product_code_text">Código del Producto:</string>
+    <string name="create_product_explanation"><![CDATA[Rellená los campos para crear un producto en tu Base de Datos. Los campos marcados con <b>(*)</b> son obligatorios. Luego de crear un producto podés continuar agregando otros o salir de aquí. Esta sección es <b>solo para que crees productos nuevos</b>.]]></string>
+    <string name="product_info_section_title">Información General</string>
+    <string name="product_price_section_title">Precios</string>
+    <string name="product_quantity_section_title">Cantidades</string>
+    <string name="product_type_hint">(*) Elegí el tipo de producto</string>
+    <string name="menu_title_create_product">Crear Producto</string>
+    <string name="menu_title_search">Buscar</string>
     <string name="item_product_price_placeholder">$ %s</string>
     <string name="item_product_code_placeholder">#%s</string>
-    <string name="add_your_first_product">Add your first product ;)</string>
-    <string name="woops_no_products">Woops! \n It seems that you have not yet loaded any product in your database… Time to start!</string>
+    <string name="add_your_first_product">Agregá tu primer producto ;)</string>
+    <string name="woops_no_products">Epa! \n Tal parece que no has cargado ningún producto en tu Base de Datos… Hora de empezar!</string>
 
-    <string name="product_quantity_low_barrier_hint">Minimum desired</string>
+    <string name="product_quantity_low_barrier_hint">Mínimo deseado</string>
     <string-array name="product_quantity_low_barriers">
         <item>0</item>
         <item>1</item>
@@ -51,13 +51,13 @@
         <item>50</item>
     </string-array>
 
-    <string name="hint_edit_product_name">Product Name</string>
-    <string name="hint_edit_product_cost_price">Cost $</string>
+    <string name="hint_edit_product_name">Nombre del Producto</string>
+    <string name="hint_edit_product_cost_price">Costo $</string>
     <string name="hint_edit_product_original_price">Original $</string>
-    <string name="hint_edit_product_selling_price">Selling $</string>
+    <string name="hint_edit_product_selling_price">Venta $</string>
     <string name="hint_edit_product_initial_quantity">Total</string>
-    <string name="hint_edit_product_available_quantity">Available</string>
-    <string name="hint_edit_product_sold_quantity">Sold</string>
+    <string name="hint_edit_product_available_quantity">Disponible</string>
+    <string name="hint_edit_product_sold_quantity">Vendido</string>
     <string name="error_input_initial_quantity_empty">Lorem ipsum</string>
     <string name="error_input_available_quantity_empty">Lorem ipsum</string>
     <string name="error_input_sold_quantity_empty">Lorem ipsum</string>
