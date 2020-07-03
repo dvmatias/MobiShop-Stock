@@ -31,8 +31,13 @@
             android:name="com.cmdv.feature.CreateProductActivity"
             android:label="@string/title_activity_create_product"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/CreateProductActivityTheme" />
+        
+        <activity android:name="com.cmdv.feature.EditProductActivity"
+            android:label="@string/title_activity_edit_product"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.EditProductActivityTheme"/>
 
     </application>
 

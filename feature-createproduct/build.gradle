@@ -53,6 +53,7 @@ android {
 
 dependencies {
     implementation project(':core')
+    implementation project(':components')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit

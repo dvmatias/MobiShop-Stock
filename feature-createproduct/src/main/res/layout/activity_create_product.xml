@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateProductActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <!-- Title -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvScreenTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:fontFamily="@font/cereal_bold"
+                    android:text="@string/create_new_product_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:gravity="center"/>
+            </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Background Image -->
     <androidx.appcompat.widget.AppCompatImageView
@@ -18,74 +45,17 @@
         android:scaleY="1.4"
         android:rotation="-20"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewBack"
-        android:layout_width="32dp"
-        android:layout_height="?attr/actionBarSize"
-        android:padding="6dp"
-        android:layout_marginStart="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Title -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvScreenTitle"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:fontFamily="@font/cereal_bold"
-        android:text="@string/create_new_product_title"
-        android:textColor="#FFFFFF"
-        android:textSize="22sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageViewBack"
-        app:layout_constraintBottom_toBottomOf="@id/imageViewBack"/>
-
     <!-- Main Content -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvScreenTitle">
+        app:layout_constraintStart_toStartOf="parent">
 
         <include layout="@layout/content_create_product" />
     </ScrollView>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/selector_button_create_product_ghost"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonCreateProduct"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="22dp"
-        android:background="@drawable/selector_button_create_product"
-        android:fontFamily="@font/cereal_medium"
-        android:text="@string/accept_btn_label"
-        android:textColor="@color/colorWhite"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Loading View -->
     <FrameLayout
@@ -102,4 +72,4 @@
             android:layout_gravity="center"/>
     </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
