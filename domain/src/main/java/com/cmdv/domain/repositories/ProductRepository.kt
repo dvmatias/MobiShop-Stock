@@ -6,11 +6,7 @@ import com.cmdv.domain.models.ProductModel
 
 interface ProductRepository {
 
-    fun updateProduct(
-        productMutableLiveData: MutableLiveData<LiveDataStatusWrapper<ProductModel>>,
-        id: Int,
-        product: ProductModel
-    )
+    fun updateProduct(id: Int, product: ProductModel): MutableLiveData<ProductModel>
 
     fun createProduct(
         name: String,
@@ -20,7 +16,6 @@ interface ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
-        colorQuantities: ArrayList<Pair<String, Int>>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>

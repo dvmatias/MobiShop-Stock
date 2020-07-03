@@ -22,7 +22,7 @@ class ProductTypeSpinnerAdapter(private val context: Context, private val produc
         val view: View
         val holder: ViewHolder
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_product_type_spinner, parent, false)
+            view = inflater.inflate(R.layout.item_product_type, parent, false)
             holder = ViewHolder(view)
             view?.tag = holder
         } else {

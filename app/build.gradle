@@ -58,7 +58,6 @@ dependencies {
     implementation project(path: ':feature-splash')
     implementation project(path: ':feature-main')
     implementation project(path: ':feature-createproduct')
-    implementation project(path: ':feature-editproduct')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation libs.junit

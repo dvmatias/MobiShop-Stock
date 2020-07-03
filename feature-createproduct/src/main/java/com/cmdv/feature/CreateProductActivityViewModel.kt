@@ -22,37 +22,30 @@ class CreateProductActivityViewModel(
             field = value
             errorEmptyName.postValue(null)
         }
+    var description: String = ""
     var productType: String = ""
         set(value) {
             field = value
             errorEmptyProductType.postValue(null)
         }
-    var description: String = ""
-
-    var tags: ArrayList<String> = arrayListOf()
-
     var costPrice: String = ""
         set(value) {
             field = value
             errorEmptyCostPrice.postValue(null)
         }
-
+    var originalPrice: String = ""
     var sellingPrice: String = ""
         set(value) {
             field = value
             errorEmptySellingPrice.postValue(null)
         }
-
-    var originalPrice: String = ""
-
     var quantity: Int = -1
         set(value) {
             field = value
             errorEmptyQuantity.postValue(null)
         }
     var lowBarrier: Int = -1
-
-    var colorQuantities: ArrayList<Pair<String, Int>> = arrayListOf()
+    var tags: ArrayList<String> = arrayListOf()
 
     // Error
     val errorEmptyName = MutableLiveData<Int>()
@@ -71,7 +64,6 @@ class CreateProductActivityViewModel(
                 this.originalPrice,
                 this.sellingPrice,
                 this.quantity,
-                this.colorQuantities,
                 this.lowBarrier,
                 this.tags
             )

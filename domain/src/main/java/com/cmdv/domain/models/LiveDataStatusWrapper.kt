@@ -1,13 +1,6 @@
 package com.cmdv.domain.models
 
 class LiveDataStatusWrapper<out T>(val status: Status, val data: T?, val message: String?) {
-
-    enum class Status {
-        LOADING,
-        ERROR,
-        SUCCESS
-    }
-
     companion object {
         fun <T> success(data: T?): LiveDataStatusWrapper<T> {
             return LiveDataStatusWrapper(Status.SUCCESS, data, null)
@@ -21,4 +14,10 @@ class LiveDataStatusWrapper<out T>(val status: Status, val data: T?, val message
             return LiveDataStatusWrapper(Status.LOADING, data, null)
         }
     }
+}
+
+enum class Status {
+    LOADING,
+    ERROR,
+    SUCCESS
 }
