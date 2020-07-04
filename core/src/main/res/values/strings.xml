@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="don_t_have_an_account_register_here"><![CDATA[Don\'t have an account.<br><b>Register here.</b>]]></string>
+    <string name="already_have_an_account_login_here"><![CDATA[Already have an account.<br><b>Login here.</b>]]></string>
+    <string name="label_button_login">log in</string>
+    <string name="label_button_register">sign up</string>
+
     <string name="action_create_product">Create Product</string>
     <string name="create_new_product_title">Create New Product</string>
     <string name="hint_create_product_name">(*) Product Name</string>

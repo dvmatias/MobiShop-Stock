@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.navigator.Navigator
-import com.cmdv.core.utils.logErrorMessage
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.koin.android.ext.android.inject
@@ -27,20 +27,20 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setLoginUi() {
-        buttonLoginRegister.text = "Login"
+        buttonLoginRegister.text = getString(R.string.label_button_login)
         buttonLoginRegister.tag = "login"
         textViewForgot.visibility = View.VISIBLE
         textViewForgot.setOnClickListener {  }
-        textViewFooter.text = "Don't have an account.\nRegister here."
+        textViewFooter.text = HtmlHelper.fromHtml(R.string.don_t_have_an_account_register_here, this)
         textViewFooter.setOnClickListener { setRegisterUi() }
     }
 
     private fun setRegisterUi() {
-        buttonLoginRegister.text = "Sign Up"
+        buttonLoginRegister.text = getString(R.string.label_button_register)
         buttonLoginRegister.tag = "register"
         textViewForgot.visibility = View.INVISIBLE
         textViewForgot.setOnClickListener(null)
-        textViewFooter.text = "Already have an account.\nLogin here."
+        textViewFooter.text = HtmlHelper.fromHtml(R.string.already_have_an_account_login_here, this)
         textViewFooter.setOnClickListener { setLoginUi() }
     }
 
@@ -48,12 +48,22 @@ class SplashActivity : AppCompatActivity() {
         buttonLoginRegister.setOnClickListener {
             when (it.tag) {
                 "login" -> {
+                    showLoading(true)
                     viewModel.login(editTextEmail.text.toString(), editTextPassword.text.toString())
                     observeLoginFlow()
                 }
                 "register" -> {
-                    viewModel.register(editTextEmail.text.toString(), editTextPassword.text.toString())
-                    observeRegisterFlow()
+                    showLoading(true)
+                    val email: String = editTextEmail.text.toString()
+                    viewModel.checkIfEmailIsWhitelisted(email)
+                    viewModel.isWhiteListed.observe(this, Observer { isWhiteListed ->
+                        if (isWhiteListed) {
+                            viewModel.register(editTextEmail.text.toString(), editTextPassword.text.toString())
+                            observeRegisterFlow()
+                        } else {
+                            Snackbar.make(window.decorView.rootView, "Sorry your email is not white listed. Please contact the support team for further information and assistance.", Snackbar.LENGTH_SHORT).show()
+                        }
+                    })
                 }
             }
         }
@@ -61,6 +71,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeLoginFlow() {
         viewModel.userLoginLiveData.observe(this, Observer {
+            showLoading(false)
             if (it.data != null)
                 goToMainScreen()
             else
@@ -70,11 +81,16 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeRegisterFlow() {
         viewModel.userRegisterMutableLiveData.observe(this, Observer {
+            showLoading(false)
             if (it.data != null)
                 goToMainScreen()
             else
                 Snackbar.make(window.decorView.rootView, "${it?.message}", Snackbar.LENGTH_SHORT).show()
         })
+    }
+
+    private fun showLoading(show: Boolean) {
+        frameLoading.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun goToMainScreen() {

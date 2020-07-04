@@ -5,11 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.repositories.AuthRepository
+import com.cmdv.domain.repositories.UserRepository
 import com.google.firebase.auth.FirebaseUser
 
 class SplashActivityViewModel(
+    private val userRepository: UserRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    private var email: String = ""
+    private var password: String = ""
 
     /**
      * User login.
@@ -18,6 +23,8 @@ class SplashActivityViewModel(
     val userLoginLiveData: LiveData<LiveDataStatusWrapper<FirebaseUser>>
         get() = _userLoginMutableLiveData
     fun login(email: String, password: String) {
+        this.email = email
+        this.password = password
         _userLoginMutableLiveData.value = LiveDataStatusWrapper.loading(null)
         _userLoginMutableLiveData = authRepository.login(email, password)
     }
@@ -29,7 +36,17 @@ class SplashActivityViewModel(
     val userRegisterMutableLiveData: LiveData<LiveDataStatusWrapper<FirebaseUser>>
         get() = _userRegisterMutableLiveData
     fun register(email: String, password: String) {
-        _userRegisterMutableLiveData.value = LiveDataStatusWrapper.loading(null)
         _userRegisterMutableLiveData = authRepository.register(email, password)
     }
+
+    /**
+     * Check if email to register is whitelisted
+     */
+    private var _isWhiteListed = MutableLiveData<Boolean>()
+    val isWhiteListed: LiveData<Boolean>
+        get() = _isWhiteListed
+    fun checkIfEmailIsWhitelisted(email: String) {
+        _isWhiteListed = userRepository.isWhiteListed(email)
+    }
+
 }

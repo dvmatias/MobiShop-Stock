@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     tools:context="com.cmdv.feature.SplashActivity">
 
     <androidx.cardview.widget.CardView
@@ -13,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="#FFF"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/colorTransparent"
         app:cardCornerRadius="8dp"
         app:contentPaddingBottom="36dp"
         app:contentPaddingLeft="20dp"
@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71000004">
+        app:layout_constraintVertical_bias="0.87">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -33,17 +33,22 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FirebaseUI.TextInputLayout.EmailField"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorTextHintLight"
+                app:hintTextColor="@color/colorTextHintLight">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/editTextEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorWhite"
                     android:drawableEnd="@drawable/fui_ic_mail_white_24dp"
                     android:drawablePadding="10dp"
-                    android:maxLines="1"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorTextHintLight"
                     app:drawableTint="@color/colorAccent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,15 +56,20 @@
                 style="@style/FirebaseUI.TextInputLayout.PasswordField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:textColorHint="@color/colorTextHintLight"
+                app:hintTextColor="@color/colorTextHintLight">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
+                    android:backgroundTint="@color/colorWhite"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorTextHintLight"
                     app:drawableTint="@color/colorAccent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,26 +78,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:fontFamily="@font/cereal_medium"
+                android:textColor="@color/colorWhite"
                 android:gravity="end"
-                android:text="Forgot password?" />
+                android:text="@string/forgot_password" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonLoginRegister"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="32dp"
-                android:backgroundTint="@color/colorAccent"
-                android:text="Login"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#803998"
+                android:textSize="20sp"
+                tools:text="Login"
                 android:textColor="@color/colorWhite" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textViewFooter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center_horizontal"
-                android:text="Don't have an account. \nRegister here." />
+                android:fontFamily="@font/cereal_book"
+                android:textColor="@color/colorWhite"
+                android:padding="8dp"
+                android:text="@string/don_t_have_an_account_register_here" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -97,10 +113,26 @@
         android:id="@+id/appCompatImageView"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:background="#ff9800"
+        android:src="@drawable/img_splash_logo"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Loading View -->
+    <FrameLayout
+        android:id="@+id/frameLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorOverlayLoading"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
