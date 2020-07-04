@@ -7,12 +7,17 @@ import com.google.firebase.auth.FirebaseUser
 
 interface FirebaseAuthSource {
 
+    fun register(email: String, password: String, authRegisterListener: AuthRegisterListener)
+
     fun login(email: String, password: String): MutableLiveData<LiveDataStatusWrapper<FirebaseUser>>
-
-    fun register(email: String, password: String): MutableLiveData<LiveDataStatusWrapper<FirebaseUser>>
-
-    fun logout()
 
     fun currentUser():  MutableLiveData<LiveDataStatusWrapper<UserModel?>>
 
+    fun logout()
+
+}
+
+interface AuthRegisterListener{
+    fun onSuccess(firebaseUser: FirebaseUser?)
+    fun onError(message: String)
 }

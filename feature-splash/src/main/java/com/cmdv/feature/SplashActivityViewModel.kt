@@ -3,11 +3,12 @@ package com.cmdv.feature
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cmdv.domain.datasources.AuthRegisterListener
+import com.cmdv.domain.datasources.UserStoreListener
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
 import com.cmdv.domain.repositories.UserRepository
-import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseUser
 
 class SplashActivityViewModel(
@@ -24,6 +25,7 @@ class SplashActivityViewModel(
     private var _user = MutableLiveData<LiveDataStatusWrapper<UserModel?>>()
     val user: LiveData<LiveDataStatusWrapper<UserModel?>>
         get() = _user
+
     fun checkIfUserIsLoggedIn() {
         _user = authRepository.currentUser()
     }
@@ -34,6 +36,7 @@ class SplashActivityViewModel(
     private var _userLoginMutableLiveData = MutableLiveData<LiveDataStatusWrapper<FirebaseUser>>()
     val userLoginLiveData: LiveData<LiveDataStatusWrapper<FirebaseUser>>
         get() = _userLoginMutableLiveData
+
     fun login(email: String, password: String) {
         this.email = email
         this.password = password
@@ -44,11 +47,12 @@ class SplashActivityViewModel(
     /**
      * User register.
      */
-    private var _userRegisterMutableLiveData = MutableLiveData<LiveDataStatusWrapper<FirebaseUser>>()
-    val userRegisterMutableLiveData: LiveData<LiveDataStatusWrapper<FirebaseUser>>
+    private var _userRegisterMutableLiveData = MutableLiveData<LiveDataStatusWrapper<UserModel>>()
+    val userRegisterMutableLiveData: LiveData<LiveDataStatusWrapper<UserModel>>
         get() = _userRegisterMutableLiveData
+
     fun register(email: String, password: String) {
-        _userRegisterMutableLiveData = authRepository.register(email, password)
+        authRepository.register(email, password, authRegistrationListener)
     }
 
     /**
@@ -57,8 +61,29 @@ class SplashActivityViewModel(
     private var _isWhiteListed = MutableLiveData<Boolean>()
     val isWhiteListed: LiveData<Boolean>
         get() = _isWhiteListed
+
     fun checkIfEmailIsWhitelisted(email: String) {
         _isWhiteListed = userRepository.isWhiteListed(email)
+    }
+
+    private val authRegistrationListener = object : AuthRegisterListener {
+        override fun onSuccess(firebaseUser: FirebaseUser?) {
+            userRepository.storeUser(firebaseUser, userStoreListener)
+        }
+
+        override fun onError(message: String) {
+            _userRegisterMutableLiveData.value = LiveDataStatusWrapper.error(message, null)
+        }
+    }
+
+    private var userStoreListener = object : UserStoreListener {
+        override fun onSuccess(user: UserModel) {
+            _userRegisterMutableLiveData.value = LiveDataStatusWrapper.success(user)
+        }
+
+        override fun onError(message: String) {
+            _userRegisterMutableLiveData.value = LiveDataStatusWrapper.error(message, null)
+        }
     }
 
 }

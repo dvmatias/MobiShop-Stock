@@ -1,6 +1,8 @@
 package com.cmdv.domain.repositories
 
 import androidx.lifecycle.MutableLiveData
+import com.cmdv.domain.datasources.UserStoreListener
+import com.google.firebase.auth.FirebaseUser
 
 interface UserRepository {
 
@@ -8,6 +10,6 @@ interface UserRepository {
 
     fun isWhiteListed(email: String): MutableLiveData<Boolean>
 
-    fun addToDb(user: Any)
+    fun storeUser(firebaseUser: FirebaseUser?, userStoreListener: UserStoreListener)
 
 }
