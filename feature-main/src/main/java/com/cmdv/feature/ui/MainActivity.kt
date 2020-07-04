@@ -30,6 +30,7 @@ import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
 import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback.SwipeActionListener
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -61,6 +62,12 @@ class MainActivity : AppCompatActivity() {
         setupSwipeRefresh()
         setupRecyclerProduct()
         getProducts()
+
+        // TODO temp
+        imageViewLogo.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            finish()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -135,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.let {
             it.title = null
-            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayHomeAsUpEnabled(false)
         }
     }
 

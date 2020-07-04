@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="forgot_password">Olvidaste tu contraseña?</string>
+    <string name="don_t_have_an_account_register_here"><![CDATA[¿No tienes una cuenta?.<br><b>Registrate aquí.</b>]]></string>
+    <string name="already_have_an_account_login_here"><![CDATA[¿Ya tienes una cuenta?.<br><b>Inicia sesión aquí.</b>]]></string>
+    <string name="label_button_login">iniciar sesión</string>
+    <string name="label_button_register">registrarse</string>
+
     <string name="action_create_product">Crear Producto</string>
     <string name="create_new_product_title">Creá Un Producto</string>
     <string name="hint_create_product_name">(*) Nombre</string>
@@ -51,6 +57,7 @@
         <item>50</item>
     </string-array>
 
+    <string name="edit_product_title">Edita El producto</string>
     <string name="hint_edit_product_name">Nombre del Producto</string>
     <string name="hint_edit_product_cost_price">Costo $</string>
     <string name="hint_edit_product_original_price">Original $</string>

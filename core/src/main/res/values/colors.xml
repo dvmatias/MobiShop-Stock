@@ -8,9 +8,9 @@
     <color name="colorTextHintLight">#BCFFFFFF</color>
     <color name="colorTextHintDark">#75000000</color>
 
-    <color name="colorTextDark1">#292929</color>
-    <color name="colorTextDark2">#494949</color>
-    <color name="colorTextDark3">#6E6E6E</color>
+    <color name="colorTextDark1">#3A3A3A</color>
+    <color name="colorTextDark2">#616161</color>
+    <color name="colorTextDark3">#858585</color>
 
     <color name="colorSplashActivityWindowsBackground">#171717</color>
 
@@ -20,7 +20,7 @@
     <color name="colorOverlayLoading">#5B000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorOk">#1BBF04</color>
-    <color name="colorWindowsLightBackground">#EFEFEF</color>
+    <color name="colorWindowsLightBackground">#F4F4F4</color>
     <color name="colorAvailableQuantityBackgroundGood">#77dd77</color>
     <color name="colorAvailableQuantityBackgroundWarning">#FFEF4A</color>
     <color name="colorAvailableQuantityBackgroundLow">#F11523</color>
