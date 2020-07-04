@@ -27,8 +27,3 @@ data class QuantityModel(
     val lowBarrier: Int,
     val colorQuantities: ArrayList<Pair<String, Int>>
 )
-
-data class DateModel(
-    val createdDate: String,
-    val updatedDate: String
-)

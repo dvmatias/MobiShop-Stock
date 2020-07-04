@@ -1,14 +1,25 @@
 package com.cmdv.data.datasources
 
 import androidx.lifecycle.MutableLiveData
+import com.cmdv.data.entities.DateEntity
+import com.cmdv.data.entities.UserFirebaseEntity
+import com.cmdv.data.mappers.UserMapper
 import com.cmdv.domain.datasources.FirebaseUserSource
+import com.cmdv.domain.datasources.UserStoreListener
+import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.UserModel
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.util.*
+
+private const val DATE_FORMAT_DD_MM_YY = "dd-MM-yyyy'T'HH:mm:ss.SSS"
 
 class FirebaseUserSourceImpl : FirebaseUserSource {
 
     private val dbRootRef: FirebaseDatabase = FirebaseDatabase.getInstance()
-
     private val dbWhiteListRef: DatabaseReference = dbRootRef.getReference("whitelist")
+    private val dbUsersRef: DatabaseReference = dbRootRef.getReference("users")
 
     /**
      *
@@ -46,8 +57,42 @@ class FirebaseUserSourceImpl : FirebaseUserSource {
     /**
      *
      */
-    override fun addToDb(user: Any) {
-        TODO("Not yet implemented")
+    override fun storeUser(firebaseUser: FirebaseUser?, userStoreListener: UserStoreListener) {
+        if (firebaseUser != null) {
+            val user: UserFirebaseEntity = getRegisteredUser(firebaseUser)
+            if (user.uid != null) {
+                dbUsersRef.child(user.uid).setValue(user).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        userStoreListener.onSuccess(
+                            UserMapper().transformEntityToModel(user)
+                        )
+                    } else {
+                        userStoreListener.onError("Firebase user registration error. Fail adding user to DB.")
+                    }
+                }
+            } else {
+                userStoreListener.onError("Firebase user registration error. Fail adding user to DB.")
+            }
+        } else {
+            userStoreListener.onError("Firebase user uid null error")
+        }
+    }
+
+    /**
+     *
+     */
+    private fun getRegisteredUser(firebaseUser: FirebaseUser): UserFirebaseEntity {
+        val dateString = SimpleDateFormat(DATE_FORMAT_DD_MM_YY, Locale.getDefault()).format(Date().time)
+
+        return UserFirebaseEntity(
+            uid = firebaseUser.uid,
+            name = firebaseUser.displayName,
+            email = firebaseUser.email,
+            isAdmin = false,
+            canRead = true,
+            canWrite = false,
+            date = DateEntity(dateString, dateString)
+        )
     }
 
 }

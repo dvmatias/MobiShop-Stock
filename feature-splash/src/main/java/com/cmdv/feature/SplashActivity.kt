@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.navigator.Navigator
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.koin.android.ext.android.inject
@@ -91,12 +92,22 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun observeRegisterFlow() {
-        viewModel.userRegisterMutableLiveData.observe(this, Observer {
-            showLoading(false)
-            if (it.data != null)
-                goToMainScreen()
-            else
-                Snackbar.make(window.decorView.rootView, "${it?.message}", Snackbar.LENGTH_SHORT).show()
+        viewModel._userRegisterMutableLiveData.observe(this, Observer {
+            when (it?.status) {
+                LiveDataStatusWrapper.Status.ERROR -> {
+                    showLoading(false)
+                    Snackbar.make(window.decorView.rootView, "${it.message}", Snackbar.LENGTH_SHORT).show()
+                }
+                LiveDataStatusWrapper.Status.SUCCESS -> {
+                    showLoading(false)
+                    if (it.data != null) {
+                        goToMainScreen()
+                    } else {
+                        Snackbar.make(window.decorView.rootView, "${it.message}", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+                else -> {}
+            }
         })
     }
 

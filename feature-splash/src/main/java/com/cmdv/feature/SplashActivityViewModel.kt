@@ -3,6 +3,8 @@ package com.cmdv.feature
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cmdv.domain.datasources.AuthRegisterListener
+import com.cmdv.domain.datasources.UserStoreListener
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
@@ -44,11 +46,11 @@ class SplashActivityViewModel(
     /**
      * User register.
      */
-    private var _userRegisterMutableLiveData = MutableLiveData<LiveDataStatusWrapper<FirebaseUser>>()
-    val userRegisterMutableLiveData: LiveData<LiveDataStatusWrapper<FirebaseUser>>
+    private var _userRegisterMutableLiveData = MutableLiveData<LiveDataStatusWrapper<UserModel>>()
+    val userRegisterMutableLiveData: LiveData<LiveDataStatusWrapper<UserModel>>
         get() = _userRegisterMutableLiveData
     fun register(email: String, password: String) {
-        _userRegisterMutableLiveData = authRepository.register(email, password)
+        authRepository.register(email, password, authRegistrationListener)
     }
 
     /**
@@ -59,6 +61,26 @@ class SplashActivityViewModel(
         get() = _isWhiteListed
     fun checkIfEmailIsWhitelisted(email: String) {
         _isWhiteListed = userRepository.isWhiteListed(email)
+    }
+
+    private val authRegistrationListener = object : AuthRegisterListener {
+        override fun onSuccess(firebaseUser: FirebaseUser?) {
+            userRepository.storeUser(firebaseUser, userStoreListener)
+        }
+
+        override fun onError(message: String) {
+            _userRegisterMutableLiveData.value = LiveDataStatusWrapper.error(message, null)
+        }
+    }
+
+    private var userStoreListener = object: UserStoreListener {
+        override fun onSuccess(user: UserModel) {
+            _userRegisterMutableLiveData.value = LiveDataStatusWrapper.success(user)
+        }
+
+        override fun onError(message: String) {
+            _userRegisterMutableLiveData.value = LiveDataStatusWrapper.error(message, null)
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.cmdv.data
+package com.cmdv.data.entities
 
 data class ProductFirebaseEntity(
     val code: String?,
