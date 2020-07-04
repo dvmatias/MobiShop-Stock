@@ -54,5 +54,7 @@ dependencies {
     implementation libs.kotlin
     implementation libs.ktx
     implementation libs.appcompat
+    // FirebaseUI for Firebase Auth
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
 }

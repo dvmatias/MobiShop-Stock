@@ -8,9 +8,9 @@
     <color name="colorTextHintLight">#BCFFFFFF</color>
     <color name="colorTextHintDark">#75000000</color>
 
-    <color name="colorTextDark1">#292929</color>
-    <color name="colorTextDark2">#494949</color>
-    <color name="colorTextDark3">#6E6E6E</color>
+    <color name="colorTextDark1">#3A3A3A</color>
+    <color name="colorTextDark2">#616161</color>
+    <color name="colorTextDark3">#858585</color>
 
     <color name="colorSplashActivityWindowsBackground">#171717</color>
 
