@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
 
         setLoginUi()
         setButtonLoginRegisterListener()
+        checkIfUserIsLoggedIn()
     }
 
     private fun setLoginUi() {
@@ -42,6 +43,16 @@ class SplashActivity : AppCompatActivity() {
         textViewForgot.setOnClickListener(null)
         textViewFooter.text = HtmlHelper.fromHtml(R.string.already_have_an_account_login_here, this)
         textViewFooter.setOnClickListener { setLoginUi() }
+    }
+
+    private fun checkIfUserIsLoggedIn() {
+        showLoading(true)
+        viewModel.checkIfUserIsLoggedIn()
+        viewModel.user.observe(this, Observer {
+            showLoading(false)
+            if (it?.data != null)
+                goToMainScreen()
+        })
     }
 
     private fun setButtonLoginRegisterListener() {

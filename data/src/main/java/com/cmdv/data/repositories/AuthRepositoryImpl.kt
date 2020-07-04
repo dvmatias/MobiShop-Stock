@@ -3,6 +3,7 @@ package com.cmdv.data.repositories
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.domain.datasources.FirebaseAuthSource
 import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 
@@ -21,6 +22,6 @@ class AuthRepositoryImpl(
     override fun logout() =
         firebaseAuthSource.logout()
 
-    override fun currentUser(): FirebaseUser? =
+    override fun currentUser():  MutableLiveData<LiveDataStatusWrapper<UserModel?>> =
         firebaseAuthSource.currentUser()
 }

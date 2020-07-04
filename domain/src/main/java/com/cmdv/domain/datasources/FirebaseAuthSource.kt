@@ -2,6 +2,7 @@ package com.cmdv.domain.datasources
 
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.UserModel
 import com.google.firebase.auth.FirebaseUser
 
 interface FirebaseAuthSource {
@@ -12,6 +13,6 @@ interface FirebaseAuthSource {
 
     fun logout()
 
-    fun currentUser(): FirebaseUser?
+    fun currentUser():  MutableLiveData<LiveDataStatusWrapper<UserModel?>>
 
 }

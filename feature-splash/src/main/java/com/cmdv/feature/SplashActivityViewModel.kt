@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
 import com.cmdv.domain.repositories.UserRepository
+import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseUser
 
 class SplashActivityViewModel(
@@ -15,6 +17,16 @@ class SplashActivityViewModel(
 
     private var email: String = ""
     private var password: String = ""
+
+    /**
+     * Is user logged in?
+     */
+    private var _user = MutableLiveData<LiveDataStatusWrapper<UserModel?>>()
+    val user: LiveData<LiveDataStatusWrapper<UserModel?>>
+        get() = _user
+    fun checkIfUserIsLoggedIn() {
+        _user = authRepository.currentUser()
+    }
 
     /**
      * User login.
