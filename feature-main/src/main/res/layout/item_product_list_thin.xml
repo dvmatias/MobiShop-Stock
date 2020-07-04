@@ -110,7 +110,7 @@
     <TextView
         android:id="@+id/textViewAvailableQuantity"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@drawable/shape_item_product_available_quantity_background"
         android:fontFamily="@font/cereal_bold"
@@ -123,7 +123,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="10" />
+        tools:text="0" />
 
     <View
         android:id="@+id/availableQuantityIndicator"

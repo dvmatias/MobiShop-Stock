@@ -67,5 +67,7 @@ dependencies {
     implementation libs.constraint_layout
     implementation libs.navigation_fragment
     implementation libs.navigation_ui
+    // FirebaseUI for Firebase Auth
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
 }
