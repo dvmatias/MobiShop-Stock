@@ -6,8 +6,6 @@ import com.cmdv.data.entities.UserFirebaseEntity
 import com.cmdv.data.mappers.UserMapper
 import com.cmdv.domain.datasources.FirebaseUserSource
 import com.cmdv.domain.datasources.UserStoreListener
-import com.cmdv.domain.models.LiveDataStatusWrapper
-import com.cmdv.domain.models.UserModel
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat

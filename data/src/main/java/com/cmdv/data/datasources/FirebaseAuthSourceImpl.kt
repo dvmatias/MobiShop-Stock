@@ -19,10 +19,8 @@ class FirebaseAuthSourceImpl : FirebaseAuthSource {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 authRegisterListener.onSuccess(firebaseAuth.currentUser)
-//                mutableLiveData.value = LiveDataStatusWrapper.success(firebaseAuth.currentUser)
             } else {
                 authRegisterListener.onError(it.exception?.message ?: "")
-//                mutableLiveData.value = LiveDataStatusWrapper.error(it.exception?.message ?: "", null)
             }
         }
     }

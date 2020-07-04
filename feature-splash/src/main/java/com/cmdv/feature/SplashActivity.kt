@@ -92,13 +92,15 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun observeRegisterFlow() {
-        viewModel._userRegisterMutableLiveData.observe(this, Observer {
+        viewModel.userRegisterMutableLiveData.observe(this, Observer {
             when (it?.status) {
                 LiveDataStatusWrapper.Status.ERROR -> {
+                    viewModel.userRegisterMutableLiveData.removeObservers(this)
                     showLoading(false)
                     Snackbar.make(window.decorView.rootView, "${it.message}", Snackbar.LENGTH_SHORT).show()
                 }
                 LiveDataStatusWrapper.Status.SUCCESS -> {
+                    viewModel.userRegisterMutableLiveData.removeObservers(this)
                     showLoading(false)
                     if (it.data != null) {
                         goToMainScreen()

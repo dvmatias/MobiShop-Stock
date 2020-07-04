@@ -9,7 +9,6 @@ import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
 import com.cmdv.domain.repositories.UserRepository
-import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseUser
 
 class SplashActivityViewModel(
@@ -26,6 +25,7 @@ class SplashActivityViewModel(
     private var _user = MutableLiveData<LiveDataStatusWrapper<UserModel?>>()
     val user: LiveData<LiveDataStatusWrapper<UserModel?>>
         get() = _user
+
     fun checkIfUserIsLoggedIn() {
         _user = authRepository.currentUser()
     }
@@ -36,6 +36,7 @@ class SplashActivityViewModel(
     private var _userLoginMutableLiveData = MutableLiveData<LiveDataStatusWrapper<FirebaseUser>>()
     val userLoginLiveData: LiveData<LiveDataStatusWrapper<FirebaseUser>>
         get() = _userLoginMutableLiveData
+
     fun login(email: String, password: String) {
         this.email = email
         this.password = password
@@ -49,6 +50,7 @@ class SplashActivityViewModel(
     private var _userRegisterMutableLiveData = MutableLiveData<LiveDataStatusWrapper<UserModel>>()
     val userRegisterMutableLiveData: LiveData<LiveDataStatusWrapper<UserModel>>
         get() = _userRegisterMutableLiveData
+
     fun register(email: String, password: String) {
         authRepository.register(email, password, authRegistrationListener)
     }
@@ -59,6 +61,7 @@ class SplashActivityViewModel(
     private var _isWhiteListed = MutableLiveData<Boolean>()
     val isWhiteListed: LiveData<Boolean>
         get() = _isWhiteListed
+
     fun checkIfEmailIsWhitelisted(email: String) {
         _isWhiteListed = userRepository.isWhiteListed(email)
     }
@@ -73,7 +76,7 @@ class SplashActivityViewModel(
         }
     }
 
-    private var userStoreListener = object: UserStoreListener {
+    private var userStoreListener = object : UserStoreListener {
         override fun onSuccess(user: UserModel) {
             _userRegisterMutableLiveData.value = LiveDataStatusWrapper.success(user)
         }

@@ -3,8 +3,6 @@ package com.cmdv.data.repositories
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.domain.datasources.FirebaseUserSource
 import com.cmdv.domain.datasources.UserStoreListener
-import com.cmdv.domain.models.LiveDataStatusWrapper
-import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.UserRepository
 import com.google.firebase.auth.FirebaseUser
 
