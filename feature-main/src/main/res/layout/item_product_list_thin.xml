@@ -109,11 +109,12 @@
     <!-- Available Quantity -->
     <TextView
         android:id="@+id/textViewAvailableQuantity"
-        android:layout_width="27dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_margin="8dp"
         android:background="@drawable/shape_item_product_available_quantity_background"
         android:fontFamily="@font/cereal_bold"
+        android:gravity="center"
         android:paddingStart="8dp"
         android:paddingTop="4dp"
         android:paddingEnd="8dp"

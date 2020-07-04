@@ -92,7 +92,10 @@ class CreateProductActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.let {
+            it.title = null
+            it.setDisplayHomeAsUpEnabled(true)
+        }
 
     }
 
