@@ -83,11 +83,17 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeLoginFlow() {
         viewModel.userLoginLiveData.observe(this, Observer {
-            showLoading(false)
-            if (it.data != null)
-                goToMainScreen()
-            else
-                Snackbar.make(window.decorView.rootView, "${it?.message}", Snackbar.LENGTH_SHORT).show()
+            when (it?.status) {
+                LiveDataStatusWrapper.Status.ERROR -> {
+                    showLoading(false)
+                    Snackbar.make(window.decorView.rootView, "${it.message}", Snackbar.LENGTH_SHORT).show()
+                }
+                LiveDataStatusWrapper.Status.SUCCESS -> {
+                    showLoading(false)
+                    goToMainScreen()
+                }
+                else -> {}
+            }
         })
     }
 
