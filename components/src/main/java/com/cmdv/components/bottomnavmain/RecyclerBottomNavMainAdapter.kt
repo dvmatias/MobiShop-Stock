@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.components.R
 import com.cmdv.core.helpers.DimensHelper.Companion.dpToPx
 import com.cmdv.domain.models.ItemMainPageModel
-import kotlinx.android.synthetic.main.item_styling_bottom_nav_main.view.*
+import kotlinx.android.synthetic.main.bottom_nav_main_item.view.*
 
 
 class RecyclerBottomNavMainAdapter(
@@ -39,7 +39,7 @@ class RecyclerBottomNavMainAdapter(
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomNavItemViewHolder =
-		BottomNavItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_styling_bottom_nav_main, parent, false))
+		BottomNavItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.bottom_nav_main_item, parent, false))
 
 	override fun onBindViewHolder(holder: BottomNavItemViewHolder, position: Int) {
 		val params = holder.itemView.container.layoutParams
@@ -87,7 +87,15 @@ class RecyclerBottomNavMainAdapter(
 			this.listener = listener
 
 			itemView.apply {
-				ivIcon.setImageDrawable(ContextCompat.getDrawable(context, itemMainPage.icon))
+				ivIcon.setImageDrawable(
+					ContextCompat.getDrawable(
+						context,
+						if (ivIcon.isSelected) itemMainPage.iconSelected else itemMainPage.icon
+					)
+				)
+				ivIcon.imageTintList = ContextCompat.getColorStateList(
+					context,
+					if (ivIcon.isSelected) R.color.colorBottomNavIconSelected else R.color.colorBottomNavIcon)
 				tvLabel.text = itemMainPage.label
 				ivBadge.visibility = View.GONE
 				container.setOnClickListener { handleItemClick(position) }

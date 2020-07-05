@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private var query: String? = null
     private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
-        ItemMainPageModel("Home", "home", R.drawable.ic_bottom_nav_home_32dp, MainProductListFragment.newInstance(), true),
-        ItemMainPageModel("Shop Cart", "shop_cart", R.drawable.ic_bottom_nav_shop_cart_32dp, MainShopCartFragment.newInstance(), true),
-        ItemMainPageModel("Profile", "profile", R.drawable.ic_bottom_nav_profile_32dp, MainProfileFragment.newInstance(), true)
+        ItemMainPageModel("Home", "home", R.drawable.ic_bottom_nav_home_32dp, R.drawable.ic_bottom_nav_home_selected_32dp, MainProductListFragment.newInstance(), true),
+        ItemMainPageModel("Shop Cart", "shop_cart", R.drawable.ic_bottom_nav_shop_cart_32dp, R.drawable.ic_bottom_nav_shop_cart_selected_32dp, MainShopCartFragment.newInstance(), true),
+        ItemMainPageModel("Profile", "profile", R.drawable.ic_bottom_nav_profile_32dp, R.drawable.ic_bottom_nav_profile_selected_32dp, MainProfileFragment.newInstance(), true)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,6 +139,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupPager() {
         val pagerAdapter = PagerMainFragmentAdapter(supportFragmentManager)
         pager.adapter = pagerAdapter
+        pager.offscreenPageLimit = 5
         val fragmentList =
             itemMainPageList.map {
                 it.fragment

@@ -64,6 +64,7 @@ class ComponentBottomNav : ConstraintLayout, RecyclerBottomNavMainAdapter.OnItem
                 listener?.onItemUnselected(unselectedView)
                 listener?.onItemSelected(selectedView, position)
                 adapter.updateSelected(selectedView, unselectedView)
+                recyclerView.post { adapter.notifyDataSetChanged() }
             }
         }
     }
