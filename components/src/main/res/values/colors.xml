@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorBottomNavIcon">#95271B53</color>
+    <color name="colorBottomNavIconSelected">@color/colorMain</color>
+
+</resources>

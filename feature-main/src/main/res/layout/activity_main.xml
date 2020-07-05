@@ -11,89 +11,71 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="#21264B"
-        app:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorMain"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:theme="@style/AppTheme.AppBarOverlay">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    app:cardElevation="0dp"
-                    app:cardUseCompatPadding="false"
-                    android:layout_marginStart="12dp"
-                    app:cardCornerRadius="8dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="false">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageViewLogo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/img_toolbar_logo_1"
-                    android:scaleType="centerInside" />
+                    android:scaleType="centerInside"
+                    android:src="@drawable/img_toolbar_logo_1" />
 
-                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-                <!-- Title -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvScreenTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/cereal_bold"
-                    android:gravity="center"
-                    android:text="Mobi Shop"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
-            </LinearLayout>
+            <!-- Title -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvScreenTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/cereal_bold"
+                android:gravity="center"
+                android:text="Mobi Shop"
+                android:textColor="#ECECEC"
+                android:textSize="18sp" />
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <View
-        android:layout_width="0dp"
+    <!-- Main fragments container -->
+    <com.cmdv.components.viewpager.StylingSwipeLockableViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorWindowsLightBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <include
-        android:id="@+id/noProductsFoundLayout"
-        layout="@layout/no_product_found_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
+    <!-- Bottom Nav View -->
+    <com.cmdv.components.bottomnavmain.ComponentBottomNav
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F6F6F6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:visibility="visible" />
-
-    <!-- Main Content -->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshMain"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <include
-            android:id="@+id/contentMain"
-            layout="@layout/content_main" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
