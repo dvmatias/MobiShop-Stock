@@ -15,53 +15,41 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
+import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
-import com.cmdv.domain.models.LiveDataStatusWrapper
-import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.ItemMainPageModel
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
-import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
-import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback.SwipeActionListener
-import com.cmdv.feature.ui.decorations.ItemProductDecoration
-import com.google.android.material.snackbar.Snackbar
+import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
+import com.cmdv.feature.ui.fragments.MainProductListFragment
+import com.cmdv.feature.ui.fragments.MainProfileFragment
+import com.cmdv.feature.ui.fragments.MainShopCartFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModel()
-
     private val navigator: Navigator by inject()
 
-    private val productAdapter: RecyclerProductAdapter by inject()
-
-    private val itemProductDecoration: ItemProductDecoration by inject()
-
-    private val gson: Gson by inject()
-
     private lateinit var searchView: SearchView
-
     private var query: String? = null
+    private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
+        ItemMainPageModel("Home", "home", R.drawable.ic_bottom_nav_home_32dp, MainProductListFragment.newInstance(), true),
+        ItemMainPageModel("Shop Cart", "shop_cart", R.drawable.ic_bottom_nav_shop_cart_32dp, MainShopCartFragment.newInstance(), true),
+        ItemMainPageModel("Profile", "profile", R.drawable.ic_bottom_nav_profile_32dp, MainProfileFragment.newInstance(), true)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupToolbar()
-        setupSwipeRefresh()
-        setupRecyclerProduct()
-        getProducts()
+        setupPager()
+        setupBottomNav()
 
         // TODO temp
         imageViewLogo.setOnClickListener {
@@ -104,13 +92,15 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 this@MainActivity.query = query
-                productAdapter.filter.filter(query)
+                // TODO
+//                productAdapter.filter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 this@MainActivity.query = newText
-                productAdapter.filter.filter(newText)
+                // TODO
+//                productAdapter.filter.filter(newText)
                 return false
             }
         })
@@ -146,104 +136,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSwipeRefresh() {
-        swipeRefreshMain.setOnRefreshListener { onRefresh() }
-    }
-
-    private fun onRefresh() {
-        logErrorMessage("onRefresh()")
-        viewModel.getProducts()
-    }
-
-    private fun setupRecyclerProduct() {
-        recyclerProducts.apply {
-            addItemDecoration(itemProductDecoration)
-            layoutManager =
-                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = productAdapter
-        }
-        val itemTouchHelper = ItemTouchHelper(SwipeToAddToCartOrEditCallback(this, swipeActionListener))
-        itemTouchHelper.attachToRecyclerView(recyclerProducts)
-    }
-
-    private fun getProducts() {
-        viewModel.products.observe(this, Observer {
-            when (it.status) {
-                LiveDataStatusWrapper.Status.LOADING -> setupLoadingScreen()
-                LiveDataStatusWrapper.Status.SUCCESS -> setupSuccessScreen(it.data as ArrayList<ProductModel>)
-                LiveDataStatusWrapper.Status.ERROR -> setupErrorScreen()
+    private fun setupPager() {
+        val pagerAdapter = PagerMainFragmentAdapter(supportFragmentManager)
+        pager.adapter = pagerAdapter
+        val fragmentList =
+            itemMainPageList.map {
+                it.fragment
             }
-        })
-        viewModel.getProducts()
+        pagerAdapter.setData(fragmentList)
     }
 
-    /**
-     *
-     */
-    private fun setupLoadingScreen() {
-        swipeRefreshMain.apply {
-            isEnabled = false
-            isRefreshing = true
-        }
-        contentMain.visibility = View.GONE
+    private fun setupBottomNav() {
+        bottomNav.setup(itemMainPageList, onBottomNavMainItemSelectedListener)
     }
 
-    /**
-     *
-     */
-    private fun setupErrorScreen() {
-        swipeRefreshMain.apply {
-            isRefreshing = false
-            isEnabled = true
-        }
-        contentMain.visibility = View.GONE
-        noProductsFoundLayout.visibility = View.GONE
-    }
-
-    /**
-     *
-     */
-    private fun setupSuccessScreen(products: ArrayList<ProductModel>) {
-        swipeRefreshMain.apply {
-            isRefreshing = false
-            isEnabled = true
-        }
-        if (products.size > 0) {
-            productAdapter.apply {
-                setProducts(products)
-                if (!this@MainActivity.query.isNullOrEmpty()) {
-                    filter.filter(this@MainActivity.query)
-                }
-            }
-            contentMain.visibility = View.VISIBLE
-            noProductsFoundLayout.visibility = View.GONE
-        } else {
-            noProductsFoundLayout.visibility = View.VISIBLE
-            contentMain.visibility = View.GONE
-        }
-    }
-
-    /**
-     * [SwipeActionListener] implementation.
-     */
-    private val swipeActionListener = object : SwipeActionListener {
-        override fun onActionEdit(position: Int) {
-            val bundle = Bundle()
-            bundle.putString(
-                EXTRA_PRODUCT_KEY,
-                gson.toJson(productAdapter.getProduct(position), ProductModel::class.java)
-            )
-            navigator.toEditProductScreenForResult(
-                activityOrigin = this@MainActivity,
-                bundle = bundle,
-                options = null,
-                requestCode = REQUEST_CODE_EDIT_PRODUCT,
-                finish = false
-            )
+    private val onBottomNavMainItemSelectedListener = object : ComponentBottomNav.OnBottomNavMainItemSelectedListener {
+        override fun onItemSelected(view: View?, position: Int) {
+            logErrorMessage("onItemSelected() $position")
+            pager.setCurrentItem(position, false)
         }
 
-        override fun onActionAddToCart(position: Int) {
-            Snackbar.make(window.decorView.rootView, "Action Ad To Cart detected on product position $position", Snackbar.LENGTH_SHORT).show()
+        override fun onItemReselected(view: View?) {
+            logErrorMessage("onItemReselected() $view")
+        }
+
+        override fun onItemUnselected(view: View?) {
+            logErrorMessage("onItemUnselected() $view")
         }
     }
 
@@ -262,4 +180,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }

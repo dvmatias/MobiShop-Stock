@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#A3162B</color>
     <color name="colorAccent">#2BAECB</color>
 
+    <color name="colorMain">#21264B</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTextHintLight">#BCFFFFFF</color>
     <color name="colorTextHintDark">#75000000</color>
