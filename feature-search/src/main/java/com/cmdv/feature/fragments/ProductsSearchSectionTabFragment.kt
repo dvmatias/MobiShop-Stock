@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cmdv.feature.R
-import com.cmdv.feature.adapters.FragmentPlaceHolder
+import com.cmdv.components.TabFragmentPlaceHolder
 
-class TabProductsSearchFragment : FragmentPlaceHolder() {
+class ProductsSearchSectionTabFragment : TabFragmentPlaceHolder() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { }
@@ -19,11 +19,11 @@ class TabProductsSearchFragment : FragmentPlaceHolder() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_products_search, container, false)
+        return inflater.inflate(R.layout.fragment_products_search_section, container, false)
     }
 
     override fun newInstance(): Fragment =
-        TabProductsSearchFragment().apply {
+        ProductsSearchSectionTabFragment().apply {
             arguments = Bundle().apply {}
         }
 

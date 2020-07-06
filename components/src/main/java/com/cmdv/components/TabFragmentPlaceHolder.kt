@@ -1,8 +1,8 @@
-package com.cmdv.feature.adapters
+package com.cmdv.components
 
 import androidx.fragment.app.Fragment
 
-abstract class FragmentPlaceHolder: Fragment() {
+abstract class TabFragmentPlaceHolder: Fragment() {
 
     abstract fun newInstance(): Fragment
 
