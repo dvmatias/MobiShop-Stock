@@ -1,21 +1,18 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'koin'
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.cmdv.mobishopstock"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -24,7 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix ".debug"
             debuggable true
         }
     }
@@ -33,7 +29,6 @@ android {
     productFlavors {
         QA {
             dimension "environment"
-            applicationIdSuffix '.qa'
             versionNameSuffix '-qa'
 
             buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products_qa\"'
@@ -41,33 +36,28 @@ android {
         }
         PRODUCTION {
             dimension "environment"
-            applicationIdSuffix '.production'
             versionNameSuffix '-production'
 
             buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products\"'
             buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType\"'
         }
     }
-
 }
 
 dependencies {
-    implementation project(path: ':core')
-    implementation project(path: ':data')
-    implementation project(path: ':domain')
-    implementation project(path: ':feature-splash')
-    implementation project(path: ':feature-main')
-    implementation project(path: ':feature-createproduct')
-    implementation project(path: ':feature-editproduct')
-    implementation project(path: ':feature-search')
+    implementation project(':core')
+    implementation project(':components')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation libs.junit
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
 
-    implementation libs.kotlin
-    implementation libs.ktx
+    implementation libs.legacy_support_v4
     implementation libs.appcompat
-
+    implementation libs.material
+    implementation libs.constraint_layout
 }

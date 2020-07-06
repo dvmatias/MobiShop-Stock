@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/feature-createproduct" />
             <option value="$PROJECT_DIR$/feature-editproduct" />
             <option value="$PROJECT_DIR$/feature-main" />
+            <option value="$PROJECT_DIR$/feature-search" />
             <option value="$PROJECT_DIR$/feature-splash" />
           </set>
         </option>

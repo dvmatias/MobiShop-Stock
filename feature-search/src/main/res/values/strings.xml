@@ -1,0 +1,5 @@
+<resources>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="labelTabProducts">products</string>
+    <string name="labelTabSales">sales</string>
+</resources>
