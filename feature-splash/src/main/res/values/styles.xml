@@ -14,7 +14,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowBackground">#21264B</item>
+        <item name="android:windowBackground">@color/colorMain</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 

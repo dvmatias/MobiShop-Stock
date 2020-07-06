@@ -17,6 +17,7 @@ import com.cmdv.feature.SplashActivityViewModel
 import com.cmdv.feature.ui.MainActivityViewModel
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import com.cmdv.feature.ui.fragments.MainProductListFragmentViewModel
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -39,6 +40,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { SplashActivityViewModel(get(), get()) }
+    viewModel { MainProductListFragmentViewModel(get()) }
     viewModel { MainActivityViewModel(get()) }
     viewModel { CreateProductActivityViewModel(get()) }
     viewModel { EditProductActivityViewModel(get()) }

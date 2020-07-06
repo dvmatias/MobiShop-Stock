@@ -1,0 +1,22 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="vector"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <path
+        android:name="path_house"
+        android:pathData="M 18.653 7.602 L 17.038 6.15 C 16.466 5.617 15.533 5.617 14.961 6.15 L 5.399 15.064 C 4.885 15.541 4.988 15.994 5.056 16.166 C 5.123 16.338 5.357 16.738 6.058 16.738 L 7.577 16.738 L 7.577 24.783 C 7.577 25.592 8.233 26.248 9.041 26.248 L 22.839 26.248 C 23.647 26.248 24.304 25.592 24.304 24.783 L 24.304 16.738 L 25.941 16.738 C 26.642 16.738 26.877 16.338 26.943 16.166 C 27.011 15.994 27.114 15.541 26.6 15.064 L 23.279 11.966 L 18.653 7.602 Z"
+        android:strokeColor="#FFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:name="path_door"
+        android:pathData="M 18.369 26.248 L 13.631 26.248 L 13.631 19.484 C 13.631 19.336 13.729 19.224 13.817 19.224 L 18.184 19.224 C 18.272 19.224 18.37 19.335 18.37 19.484 L 18.37 26.248 Z"
+        android:strokeColor="#FFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+</vector>

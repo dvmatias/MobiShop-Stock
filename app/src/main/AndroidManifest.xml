@@ -39,6 +39,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.EditProductActivityTheme"/>
 
+
+        <activity android:name="com.cmdv.feature.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SearchActivityTheme" />
+
     </application>
 
 </manifest>

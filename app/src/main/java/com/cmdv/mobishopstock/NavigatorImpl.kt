@@ -8,6 +8,7 @@ import com.cmdv.core.extensions.navigateTo
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.feature.CreateProductActivity
 import com.cmdv.feature.EditProductActivity
+import com.cmdv.feature.SearchActivity
 import com.cmdv.feature.ui.MainActivity
 
 class NavigatorImpl : Navigator {
@@ -28,6 +29,10 @@ class NavigatorImpl : Navigator {
         finish: Boolean
     ) {
         activityOrigin.navigateForResultTo<EditProductActivity>(bundle, options, requestCode, finish)
+    }
+
+    override fun toSearchScreen(activityOrigin: Activity, bundle: Bundle?, options: ActivityOptionsCompat?, finish: Boolean) {
+        activityOrigin.navigateTo<SearchActivity>(bundle, options, finish)
     }
 
 }
