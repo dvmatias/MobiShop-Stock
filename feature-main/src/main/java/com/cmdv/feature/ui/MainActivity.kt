@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var query: String? = null
     private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
         ItemMainPageModel(
-            "Home",
+            R.string.labelBottomNavTabHome,
             "home",
             R.drawable.ic_bottom_nav_home_32dp,
             R.drawable.ic_bottom_nav_home_selected_32dp,
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             true
         ),
         ItemMainPageModel(
-            "Shop Cart",
+            R.string.labelBottomNavTabSales,
             "shop_cart",
             R.drawable.ic_bottom_nav_shop_cart_32dp,
             R.drawable.ic_bottom_nav_shop_cart_selected_32dp,
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             true
         ),
         ItemMainPageModel(
-            "Profile",
+            R.string.labelBottomNavTabProfile,
             "profile",
             R.drawable.ic_bottom_nav_profile_32dp,
             R.drawable.ic_bottom_nav_profile_selected_32dp,

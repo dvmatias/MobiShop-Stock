@@ -48,12 +48,12 @@ class SearchActivity : AppCompatActivity() {
         val closeButton: ImageView = searchView.findViewById(R.id.search_close_btn) as ImageView
         val searchPlateView: View = searchView.findViewById(androidx.appcompat.R.id.search_plate)
 
-        editTextSearch.hint = "Search"
+        editTextSearch.hint = resources.getString(R.string.hintSearch)
 
         closeButton.setOnClickListener {
             editTextSearch.setText("")
             searchView.isIconified = false
-            editTextSearch.hint = "Search"
+            editTextSearch.hint = resources.getString(R.string.hintSearch)
         }
 
         searchPlateView.setBackgroundColor(

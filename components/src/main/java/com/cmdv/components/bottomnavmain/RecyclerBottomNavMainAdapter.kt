@@ -47,7 +47,7 @@ class RecyclerBottomNavMainAdapter(
 		val dpWidth = displayMetrics.widthPixels / displayMetrics.density
 		params.width = dpToPx(context, (dpWidth / itemCount)).toInt()
 
-		holder.bindItem(itemMainPageList[position], listener, position)
+		holder.bindItem(itemMainPageList[position], listener, position, context)
 
 		if (position == 0 && !isViewInitialized) {
 			isViewInitialized = true
@@ -83,7 +83,7 @@ class RecyclerBottomNavMainAdapter(
 	class BottomNavItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		private lateinit var listener: OnItemClickListener
 
-		fun bindItem(itemMainPage: ItemMainPageModel, listener: OnItemClickListener, position: Int) {
+		fun bindItem(itemMainPage: ItemMainPageModel, listener: OnItemClickListener, position: Int, context: Context) {
 			this.listener = listener
 
 			itemView.apply {
@@ -96,7 +96,7 @@ class RecyclerBottomNavMainAdapter(
 				ivIcon.imageTintList = ContextCompat.getColorStateList(
 					context,
 					if (ivIcon.isSelected) R.color.colorBottomNavIconSelected else R.color.colorBottomNavIcon)
-				tvLabel.text = itemMainPage.label
+				tvLabel.text = context.resources.getString(itemMainPage.label)
 				ivBadge.visibility = View.GONE
 				container.setOnClickListener { handleItemClick(position) }
 				tag = itemMainPage.tag

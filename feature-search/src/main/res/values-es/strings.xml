@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="labelTabProducts">products</string>
-    <string name="labelTabSales">sales</string>
+    <string name="labelTabProducts">productos</string>
+    <string name="labelTabSales">ventas</string>
+
+    <string name="hintSearch">Buscar</string>
 </resources>
