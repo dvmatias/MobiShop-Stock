@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_activity_main">MainActivity</string>
+    <string name="labelBottomNavTabHome">Home</string>
+    <string name="labelBottomNavTabSales">Sales</string>
+    <string name="labelBottomNavTabProfile">Profile</string>
 </resources>

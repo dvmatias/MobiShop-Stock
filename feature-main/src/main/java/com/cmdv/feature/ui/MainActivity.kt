@@ -1,20 +1,14 @@
 package com.cmdv.feature.ui
 
 import android.app.Activity
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
-import androidx.core.view.MenuItemCompat
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
@@ -38,9 +32,30 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private var query: String? = null
     private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
-        ItemMainPageModel("Home", "home", R.drawable.ic_bottom_nav_home_32dp, R.drawable.ic_bottom_nav_home_selected_32dp, MainProductListFragment.newInstance(), true),
-        ItemMainPageModel("Shop Cart", "shop_cart", R.drawable.ic_bottom_nav_shop_cart_32dp, R.drawable.ic_bottom_nav_shop_cart_selected_32dp, MainShopCartFragment.newInstance(), true),
-        ItemMainPageModel("Profile", "profile", R.drawable.ic_bottom_nav_profile_32dp, R.drawable.ic_bottom_nav_profile_selected_32dp, MainProfileFragment.newInstance(), true)
+        ItemMainPageModel(
+            R.string.labelBottomNavTabHome,
+            "home",
+            R.drawable.ic_bottom_nav_home_32dp,
+            R.drawable.ic_bottom_nav_home_selected_32dp,
+            MainProductListFragment.newInstance(),
+            true
+        ),
+        ItemMainPageModel(
+            R.string.labelBottomNavTabSales,
+            "shop_cart",
+            R.drawable.ic_bottom_nav_shop_cart_32dp,
+            R.drawable.ic_bottom_nav_shop_cart_selected_32dp,
+            MainShopCartFragment.newInstance(),
+            true
+        ),
+        ItemMainPageModel(
+            R.string.labelBottomNavTabProfile,
+            "profile",
+            R.drawable.ic_bottom_nav_profile_32dp,
+            R.drawable.ic_bottom_nav_profile_selected_32dp,
+            MainProfileFragment.newInstance(),
+            true
+        )
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,62 +75,61 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-        val searchItem: MenuItem = menu!!.findItem(R.id.actionSearch)
-        @Suppress("DEPRECATION")
-        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
-        searchView.setOnCloseListener { true }
-        searchView.maxWidth = Integer.MAX_VALUE
-
-        val searchPlate: EditText =
-            searchView.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
-        searchPlate.hint = "Search"
-        val searchPlateView: View =
-            searchView.findViewById(androidx.appcompat.R.id.search_plate)
-        searchPlateView.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                android.R.color.transparent
-            )
-        )
-
-        val closeButton: ImageView = searchView.findViewById(R.id.search_close_btn) as ImageView
-        closeButton.setOnClickListener {
-            if (searchPlate.text.isNotEmpty()) {
-                searchPlate.setText("")
-                searchView.setQuery("", false)
-                searchItem.collapseActionView()
-            } else {
-                onBackPressed()
-            }
-        }
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                this@MainActivity.query = query
-                // TODO
-//                productAdapter.filter.filter(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                this@MainActivity.query = newText
-                // TODO
-//                productAdapter.filter.filter(newText)
-                return false
-            }
-        })
-
-        val searchManager: SearchManager =
-            getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+//        val searchItem: MenuItem = menu!!.findItem(R.id.actionSearch)
+//        @Suppress("DEPRECATION")
+//        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+//        searchView.setOnCloseListener { true }
+//        searchView.maxWidth = Integer.MAX_VALUE
+//
+//        val searchPlate: EditText =
+//            searchView.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
+//        searchPlate.hint = "Search"
+//        val searchPlateView: View =
+//            searchView.findViewById(androidx.appcompat.R.id.search_plate)
+//        searchPlateView.setBackgroundColor(
+//            ContextCompat.getColor(
+//                this,
+//                android.R.color.transparent
+//            )
+//        )
+//
+//        val closeButton: ImageView = searchView.findViewById(R.id.search_close_btn) as ImageView
+//        closeButton.setOnClickListener {
+//            if (searchPlate.text.isNotEmpty()) {
+//                searchPlate.setText("")
+//                searchView.setQuery("", false)
+//                searchItem.collapseActionView()
+//            } else {
+//                onBackPressed()
+//            }
+//        }
+//
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                this@MainActivity.query = query
+//                // TODO
+////                productAdapter.filter.filter(query)
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                this@MainActivity.query = newText
+//                // TODO
+////                productAdapter.filter.filter(newText)
+//                return false
+//            }
+//        })
+//
+//        val searchManager: SearchManager =
+//            getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.actionCreateProduct -> {
-                navigator.toAddProductScreen(this, null, null, false)
-            }
+            R.id.actionCreateProduct -> navigator.toAddProductScreen(activityOrigin = this)
+            R.id.actionSearch -> navigator.toSearchScreen(activityOrigin = this)
         }
         return true
     }
