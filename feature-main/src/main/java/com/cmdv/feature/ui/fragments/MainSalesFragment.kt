@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.cmdv.feature.R
 
-class MainShopCartFragment : Fragment() {
+class MainSalesFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -21,13 +21,13 @@ class MainShopCartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop_cart, container, false)
+        return inflater.inflate(R.layout.fragment_sales_main, container, false)
     }
 
     companion object {
         @JvmStatic
         fun newInstance() =
-            MainShopCartFragment().apply {
+            MainSalesFragment().apply {
                 arguments = Bundle().apply {}
             }
     }

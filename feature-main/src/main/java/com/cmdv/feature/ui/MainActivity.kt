@@ -18,7 +18,7 @@ import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
 import com.cmdv.feature.ui.fragments.MainProductListFragment
 import com.cmdv.feature.ui.fragments.MainProfileFragment
-import com.cmdv.feature.ui.fragments.MainShopCartFragment
+import com.cmdv.feature.ui.fragments.MainSalesFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             "shop_cart",
             R.drawable.ic_bottom_nav_shop_cart_32dp,
             R.drawable.ic_bottom_nav_shop_cart_selected_32dp,
-            MainShopCartFragment.newInstance(),
+            MainSalesFragment.newInstance(),
             true
         ),
         ItemMainPageModel(
