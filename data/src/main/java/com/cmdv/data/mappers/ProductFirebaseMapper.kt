@@ -1,14 +1,8 @@
 package com.cmdv.data.mappers
 
-import com.cmdv.data.entities.DateEntity
-import com.cmdv.data.entities.PriceEntity
-import com.cmdv.data.entities.ProductFirebaseEntity
-import com.cmdv.data.entities.QuantityEntity
+import com.cmdv.data.entities.*
 import com.cmdv.domain.mapper.BaseMapper
-import com.cmdv.domain.models.DateModel
-import com.cmdv.domain.models.PriceModel
-import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.QuantityModel
+import com.cmdv.domain.models.*
 
 class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() {
 
@@ -61,9 +55,13 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             DateEntity(m.date.createdDate, m.date.updatedDate)
         )
 
-    private fun transformColorQuantitiesModelToEntity(colorQuantities: ArrayList<Pair<String, Int>>): List<Map<String, String>> =
+    private fun transformColorQuantitiesModelToEntity(colorQuantities: ArrayList<ColorQuantityModel>): List<ColorQuantityEntity> =
         colorQuantities.map {
-            mapOf(it.first to it.second.toString())
+            ColorQuantityEntity(
+                it.name,
+                it.value,
+                it.quantity
+            )
         }
 
     private fun transformTagsModelToEntity(tags: List<String>): List<Map<String, String>> =

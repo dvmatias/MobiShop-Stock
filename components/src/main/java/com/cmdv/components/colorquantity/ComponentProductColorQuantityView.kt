@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.components.R
 import com.cmdv.core.utils.logErrorMessage
+import com.cmdv.domain.models.ColorQuantityModel
 import kotlinx.android.synthetic.main.product_color_view_component.view.*
 
 private const val MODE_EDIT = 0
@@ -22,7 +23,7 @@ enum class Mode(val value: Int) {
 
 class ComponentProductColorView : ConstraintLayout {
 
-    val mutableLiveItemList = MutableLiveData<ArrayList<Pair<String, Int>>>()
+    val mutableLiveItemList = MutableLiveData<List<ColorQuantityModel>>()
 
     private var colorQuantityList: ArrayList<ColorQuantity> = arrayListOf()
 
@@ -112,7 +113,9 @@ class ComponentProductColorView : ConstraintLayout {
                     }
                 }
                 logErrorMessage("${ComponentProductColorView::class.java.simpleName} C $cleanItemList")
-                this@ComponentProductColorView.mutableLiveItemList.value = cleanItemList
+                this@ComponentProductColorView.mutableLiveItemList.value = cleanItemList.map { pair ->
+                    ColorQuantityModel(pair.first, "", pair.second)
+                }
             })
         }
     }
@@ -120,7 +123,6 @@ class ComponentProductColorView : ConstraintLayout {
     private fun setNoEditMode() {
         this.viewMode = Mode.NO_EDIT
         setButton()
-
         this.colorQuantityAdapter.setNoEditModeAdapter(this.colorQuantityList)
     }
 

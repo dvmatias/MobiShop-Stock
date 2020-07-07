@@ -41,8 +41,8 @@
         <item name="contentPadding">12dp</item>
         <item name="contentPaddingTop">20dp</item>
         <item name="contentPaddingBottom">20dp</item>
-        <item name="cardBackgroundColor">#D8FFFFFF</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardBackgroundColor">@color/colorWhite</item>
+        <item name="cardCornerRadius">0dp</item>
         <item name="cardElevation">0dp</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
@@ -50,7 +50,8 @@
     <style name="TitleStyle" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/cereal_medium</item>
         <item name="android:textColor">@color/colorTextDark2</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>

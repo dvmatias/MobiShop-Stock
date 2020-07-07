@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.fragments.SalesSectionTabFragment
-import com.cmdv.feature.ui.fragments.ShopCartSectionTabFragment
+import com.cmdv.feature.ui.fragments.salestabs.SalesSectionTabFragment
+import com.cmdv.feature.ui.fragments.salestabs.ShopCartSectionTabFragment
 
 private val TABS = arrayOf(
     SalesSectionTabFragment() to R.string.labelTabSales,

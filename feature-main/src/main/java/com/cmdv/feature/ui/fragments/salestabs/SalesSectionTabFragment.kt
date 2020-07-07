@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.fragments
+package com.cmdv.feature.ui.fragments.salestabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

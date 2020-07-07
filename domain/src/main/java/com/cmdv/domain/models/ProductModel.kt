@@ -25,5 +25,11 @@ data class QuantityModel(
     val available: Int,
     val sold: Int,
     val lowBarrier: Int,
-    val colorQuantities: ArrayList<Pair<String, Int>>
+    val colorQuantities: ArrayList<ColorQuantityModel>
+)
+
+data class ColorQuantityModel(
+    val name: String,
+    val value: String,
+    val quantity: Int
 )

@@ -166,15 +166,16 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupProductQuantityInputField() {
-        editTextProductQuantity.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.quantity =
-                    if (!s.isNullOrEmpty()) s.toString().toInt() else 0
-            }
-        })
-        viewModel.errorEmptyQuantity.observe(this, Observer { errorStringId ->
-            manageInputError(errorStringId, editTextProductQuantity, textInputProductQuantity)
-        })
+        // TODO
+//        editTextProductQuantity.addTextChangedListener(object : SimpleTextWatcher() {
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                viewModel.quantity =
+//                    if (!s.isNullOrEmpty()) s.toString().toInt() else 0
+//            }
+//        })
+//        viewModel.errorEmptyQuantity.observe(this, Observer { errorStringId ->
+//            manageInputError(errorStringId, editTextProductQuantity, textInputProductQuantity)
+//        })
     }
 
     private fun setupProductQuantityLowBarrierInputField() {
@@ -196,7 +197,18 @@ class CreateProductActivity : AppCompatActivity() {
     private fun setupComponentColorQuantity() {
         componentColorQuantityView.setup(Mode.EDIT, null, this)
         componentColorQuantityView.mutableLiveItemList.observe(this, Observer {
-            viewModel.colorQuantities = it
+            viewModel.colorQuantities = ArrayList(it)
+            viewModel.quantity =
+                    if (it.isNotEmpty()){
+                        var sum = 0
+                        for (item in it) {
+                            sum += item.quantity
+                        }
+                        sum
+                    } else {
+                        0
+                    }
+
         })
     }
 
@@ -356,7 +368,6 @@ class CreateProductActivity : AppCompatActivity() {
         editTextProductCostPrice.text?.clear()
         editTextProductOriginalPrice.text?.clear()
         editTextProductSellingPrice.text?.clear()
-        editTextProductQuantity.text?.clear()
         editTextProductTags.text?.clear()
 
         spinnerProductTypes.setSelection(0)
