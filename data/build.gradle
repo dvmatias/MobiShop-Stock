@@ -33,7 +33,7 @@ android {
             versionNameSuffix '-qa'
 
             buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products_qa\"'
-            buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType\"'
+            buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType_qa\"'
         }
         PRODUCTION {
             dimension "environment"
