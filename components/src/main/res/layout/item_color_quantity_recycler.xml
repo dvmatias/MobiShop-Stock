@@ -4,16 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextColorName"
-        style="@style/EditTextStyle"
-        android:layout_width="0dp"
+    <com.cmdv.components.colorpicker.ComponentColorPickerButton
+        android:id="@+id/btnColorPicker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/spinnerColorQuantity"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:hint="Color" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinnerColorQuantity"
@@ -22,9 +18,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.4"
         android:layout_marginEnd="12dp"
-        app:layout_constraintStart_toEndOf="@id/editTextColorName"
-        app:layout_constraintEnd_toStartOf="@id/imageViewDeleteViewButton"
-        app:layout_constraintBottom_toBottomOf="@id/editTextColorName"/>
+        app:layout_constraintStart_toEndOf="@id/btnColorPicker"
+        app:layout_constraintBottom_toBottomOf="@id/btnColorPicker"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewDeleteViewButton"
@@ -32,8 +27,6 @@
         android:layout_height="32dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_delete_color_quantity_36dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintBottom_toBottomOf="@id/btnColorPicker"
+        app:layout_constraintStart_toEndOf="@id/spinnerColorQuantity" />
 </androidx.constraintlayout.widget.ConstraintLayout>

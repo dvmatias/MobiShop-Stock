@@ -1,18 +1,18 @@
 package com.cmdv.components.colorquantity
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.components.R
-import com.cmdv.core.helpers.SimpleTextWatcher
+import com.cmdv.components.colorpicker.ColorSelectedListener
+import com.cmdv.components.colorpicker.ComponentColorPickerButton
 import com.cmdv.core.utils.logErrorMessage
 
 internal class RecyclerColorQuantityAdapter(
@@ -26,14 +26,14 @@ internal class RecyclerColorQuantityAdapter(
     private lateinit var viewMode: Mode
 
     interface AbracadabraInterface {
-        fun onItemUpdate(position: Int, colorName: String, colorQuantity: Int)
+        fun onItemUpdate(position: Int, colorHexadecimal: String, colorQuantity: Int)
         fun onItemDeleted(pairPosition: Int)
     }
 
     private val listener = object : AbracadabraInterface {
-        override fun onItemUpdate(position: Int, colorName: String, colorQuantity: Int) {
+        override fun onItemUpdate(position: Int, colorHexadecimal: String, colorQuantity: Int) {
             logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} onItemUpdate()")
-            itemsList[position] = Pair(colorName, colorQuantity)
+            itemsList[position] = Pair(colorHexadecimal, colorQuantity)
             mutableLiveItemList.value = itemsList
         }
 
@@ -83,13 +83,13 @@ internal class RecyclerColorQuantityAdapter(
      * View holder.
      */
     class ColorQuantityItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val editTextColorName =
-            itemView.findViewById<AppCompatEditText>(R.id.editTextColorName)
         private val spinnerColorQuantity =
             itemView.findViewById<AppCompatSpinner>(R.id.spinnerColorQuantity)
         private val imageViewDeleteViewButton =
             itemView.findViewById<AppCompatImageView>(R.id.imageViewDeleteViewButton)
-        private var colorName: String = ""
+        private val btnColorPicker =
+            itemView.findViewById<ComponentColorPickerButton>(R.id.btnColorPicker)
+        private var colorHexadecimal: String = "#00000000"
         private var colorQuantity: Int = 0
         private lateinit var listener: AbracadabraInterface
         private lateinit var spinnerAdapter: SpinnerColorQuantityAdapter
@@ -105,19 +105,20 @@ internal class RecyclerColorQuantityAdapter(
             // TODO Manage case NO_EDIT mode
             if (Mode.EDIT == viewMode) {
                 this.listener = listener
-                editTextColorName.setText(pair.first)
-                editTextColorName.addTextChangedListener(object : SimpleTextWatcher() {
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                        colorName = s?.toString() ?: ""
+                btnColorPicker.setColorSelectedListener(object : ColorSelectedListener {
+                    override fun onColorSelected(color: Int) {
+                        colorHexadecimal = getColorHexadecimalFormat(color)
                         updatePair(pairPosition)
                     }
+
+                    override fun onNothingSelected() {}
                 })
 
                 spinnerAdapter = SpinnerColorQuantityAdapter(context)
                 spinnerColorQuantity.adapter = spinnerAdapter
                 spinnerColorQuantity.setSelection(spinnerAdapter.getItemPosition(pair.second.toString()))
                 spinnerColorQuantity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(p0: AdapterView<*>?) { }
+                    override fun onNothingSelected(p0: AdapterView<*>?) {}
 
                     override fun onItemSelected(adapter: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                         colorQuantity = if (position == 0) 0 else (spinnerColorQuantity.selectedItem as String).toInt()
@@ -133,7 +134,7 @@ internal class RecyclerColorQuantityAdapter(
 
         private fun updatePair(pairPosition: Int) {
             logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} updatePair()")
-            listener.onItemUpdate(pairPosition, colorName, colorQuantity)
+            listener.onItemUpdate(pairPosition, colorHexadecimal, colorQuantity)
         }
 
         private fun deletePair(pairPosition: Int) {
@@ -149,8 +150,7 @@ internal class RecyclerColorQuantityAdapter(
     fun addEditableViewIfPossible() {
         logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} addEditableViewIfPossible()")
         if (canAddNewView()) {
-            val positionToAdd: Int = itemCount
-            this.itemsList.add(itemCount, Pair("", 0))
+            this.itemsList.add(itemCount, Pair(getColorHexadecimalFormat(Color.TRANSPARENT), 0))
             notifyDataSetChanged()
         } else {
             // TODO Manage case when is not possible to add a new view.
@@ -169,7 +169,7 @@ internal class RecyclerColorQuantityAdapter(
         logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} areAllFieldsValid()")
         for (i in 0 until itemsList.size) {
             logErrorMessage("${RecyclerColorQuantityAdapter::class.java.simpleName} $i")
-            val pair = itemsList[i] ?: return false
+            val pair = itemsList[i]
             if (pair.first.isEmpty()) return false
             if (pair.second == 0) return false
         }
@@ -177,3 +177,6 @@ internal class RecyclerColorQuantityAdapter(
     }
 
 }
+
+private fun getColorHexadecimalFormat(color: Int) =
+    String.format("#%06X", 0xFFFFFF and color)

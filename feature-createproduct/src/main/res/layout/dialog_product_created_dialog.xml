@@ -23,15 +23,13 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewTitle"
+        style="@style/DialogTitleStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imageViewStatus"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="8dp"
-        android:textSize="32sp"
-        android:textColor="#171717"
         tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
