@@ -1,67 +1,88 @@
 package com.cmdv.components.colorpicker
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.components.R
 
-class RecyclerColorsAdapter(
-    private val context: Context,
-    private val clickListener: OnColorClick,
-    private val selectedColor: Int?
-) : RecyclerView.Adapter<RecyclerColorsAdapter.ColorViewHolder>() {
+class RecyclerColorsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerColorsAdapter.ColorViewHolder>() {
 
-    private var currentSelectedPosition: Int = -1
+    private var currentSelectedPosition = 0
+    private var oldSelectedPosition = 0
+    private var items: ArrayList<Int> = arrayListOf(
+        ContextCompat.getColor(context, R.color.productColorTransparent),
+        ContextCompat.getColor(context, R.color.productColorWhite),
+        ContextCompat.getColor(context, R.color.productColorBlack),
+        ContextCompat.getColor(context, R.color.productColorGrey),
+        ContextCompat.getColor(context, R.color.productColorBrown),
+        ContextCompat.getColor(context, R.color.productColorRed),
+        ContextCompat.getColor(context, R.color.productColorOrange),
+        ContextCompat.getColor(context, R.color.productColorYellow),
+        ContextCompat.getColor(context, R.color.productColorGreen),
+        ContextCompat.getColor(context, R.color.productColorBlue),
+        ContextCompat.getColor(context, R.color.productColorLightBlue),
+        ContextCompat.getColor(context, R.color.productColorViolet),
+        ContextCompat.getColor(context, R.color.productColorPink),
+        ContextCompat.getColor(context, R.color.productColorSalmon),
+        ContextCompat.getColor(context, R.color.productColorSkin),
+        ContextCompat.getColor(context, R.color.productColorBeige)
+    )
+    private var colorNames: Array<String> = context.resources.getStringArray(R.array.colorName)
 
-    private var oldSelectedPosition: Int = -1
+    /**
+     * [OnColorSelectedListener] implementation.
+     */
+    private val onColorSelectedListener = object : OnColorSelectedListener {
+        override fun onColorSelected(position: Int) {
+            oldSelectedPosition = currentSelectedPosition
+            currentSelectedPosition = position
+            notifyItemChanged(oldSelectedPosition)
+            notifyItemChanged(currentSelectedPosition)
+        }
+    }
 
-    private var isViewInitialized: Boolean = false
-
-    var colorSelected = Color.TRANSPARENT
-
-    private val data: ArrayList<Pair<String, String>> =
-        arrayListOf(
-            "#00000000" to "Transparent",
-            "#FFFFFF" to "Blanco",
-            "#000000" to "Negro",
-            "#CFCFC4" to "Gris",
-            "#836953" to "Marrón",
-            "#FF6961" to "Rojo",
-            "#FFb347" to "Naranja",
-            "#FDFD96" to "Amarillo",
-            "#77DD77" to "Verde",
-            "#779ECB" to "Azul",
-            "#ACE7FF" to "Celeste",
-            "#CCA9DD" to "Violeta",
-            "#FFAABE" to "Rosa",
-            "#FBC2AD" to "Salmón",
-            "#FFDBAC" to "Piel",
-            "#E1C699" to "Biege"
-        )
+    fun setSelected(color: Int) {
+        for (i in 0 until items.size) {
+            if (items[i] == color) {
+                currentSelectedPosition = i
+                break
+            }
+        }
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder =
         ColorViewHolder(LayoutInflater.from(context).inflate(R.layout.color_picker_item, parent, false))
 
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
-        holder.bindView(clickListener, data[position], position, currentSelectedPosition)
-        if (selectedColor == null && position == 0 && !isViewInitialized) {
-            isViewInitialized = true
-            holder.initialize()
-        }
+        val isSelected = currentSelectedPosition == position
+        holder.bindView(items[position], position, isSelected, onColorSelectedListener)
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = items.size
 
-    fun updateSelected(currentSelectedPosition: Int, oldSelectedPosition: Int) {
-        this.currentSelectedPosition = currentSelectedPosition
-        this.oldSelectedPosition = oldSelectedPosition
-        this.colorSelected = Color.parseColor(data[currentSelectedPosition].first)
+    /**
+     * Return the value of the selected color.
+     */
+    fun getSelectedColorValue(): Int {
+        for (position in 0 until items.size) {
+            if (currentSelectedPosition == position)
+                return items[position]
+        }
+        return 0
+    }
+
+    fun getSelectedColorName(): String {
+        for (position in colorNames.indices) {
+            if (currentSelectedPosition == position)
+                return colorNames[position]
+        }
+        return ""
     }
 
     /**
@@ -72,30 +93,20 @@ class RecyclerColorsAdapter(
         private val cardViewColor: CardView = itemView.findViewById(R.id.cardViewColor)
         private val imageViewTransparentEffect: AppCompatImageView = itemView.findViewById(R.id.imageViewTransparentEffect)
 
-        fun bindView(listener: OnColorClick, pairColor: Pair<String, String>, position: Int, currentPosition: Int) {
-            val color: Int =
-                if (pairColor.first.isNotEmpty())
-                    Color.parseColor(pairColor.first)
-                else
-                    Color.TRANSPARENT
-            if (position == 0) {
+
+        fun bindView(color: Int, position: Int, isSelected: Boolean, onColorSelectedListener: OnColorSelectedListener) {
+            // Transparent
+            if (color == 0) {
                 imageViewTransparentEffect.visibility = View.VISIBLE
+            } else {
+                imageViewTransparentEffect.visibility = View.GONE
+                cardViewColor.setCardBackgroundColor(color)
             }
-            cardViewSelection.visibility = if (position == currentPosition) View.VISIBLE else View.GONE
-            cardViewColor.setCardBackgroundColor(ColorStateList.valueOf(color))
+            cardViewSelection.visibility = if (isSelected) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
-                listener.onClick(position, color)
+                onColorSelectedListener.onColorSelected(position)
             }
         }
-
-        fun initialize() {
-            itemView.performClick()
-        }
-
-    }
-
-    interface OnColorClick {
-        fun onClick(position: Int, color: Int)
     }
 
 }

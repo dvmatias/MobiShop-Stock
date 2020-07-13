@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="titleColorPickerDialog">Elegí el Color</string>
+
+    <string-array name="colorName">
+        <item>Transparente</item>
+        <item>Blanco</item>
+        <item>Negro</item>
+        <item>Gris</item>
+        <item>Marrón</item>
+        <item>Rojo</item>
+        <item>Naranja</item>
+        <item>Amarillo</item>
+        <item>Verde</item>
+        <item>Azul</item>
+        <item>Celeste</item>
+        <item>Violeta</item>
+        <item>Rosado</item>
+        <item>Salmón</item>
+        <item>Piel</item>
+        <item>Beige</item>
+    </string-array>
 </resources>

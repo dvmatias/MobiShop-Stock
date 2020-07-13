@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.cmdv.components.colorpicker.Mode
 import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.domain.models.LiveDataStatusWrapper
@@ -36,6 +37,7 @@ class EditProductActivity : AppCompatActivity() {
         setupProductDescriptionInputField()
         setupProductPricesInputField()
         setupProductQuantityInputField()
+        setupComponentColorQuantityView()
     }
 
     private fun getExtras() {
@@ -146,6 +148,24 @@ class EditProductActivity : AppCompatActivity() {
                 setText(quantity.sold.toString())
             }
         }
+    }
+
+    private fun setupComponentColorQuantityView() {
+        componentColorQuantityView.setup(this, Mode.EDIT, product?.quantity?.colorQuantities)
+        componentColorQuantityView.mutableLiveColorQuantityList.observe(this, Observer {
+            viewModel.colorQuantities = ArrayList(it)
+            viewModel.initialQuantity =
+                if (it.isNotEmpty()){
+                    var sum = 0
+                    for (item in it) {
+                        sum += item.quantity
+                    }
+                    sum
+                } else {
+                    0
+                }
+
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

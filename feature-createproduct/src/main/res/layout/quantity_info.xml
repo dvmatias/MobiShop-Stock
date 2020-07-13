@@ -47,7 +47,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Color-Quantity -->
-        <com.cmdv.components.colorquantity.ComponentProductColorView
+        <com.cmdv.components.colorpicker.ComponentColorQuantity
             android:id="@+id/componentColorQuantityView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

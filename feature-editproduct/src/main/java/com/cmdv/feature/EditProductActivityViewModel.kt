@@ -55,6 +55,8 @@ class EditProductActivityViewModel(
             errorEmptySoldQuantity.postValue(null)
         }
 
+    var colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
+
     // Error
     val errorEmptyName = MutableLiveData<Int>()
     val errorEmptyCostPrice = MutableLiveData<Int>()
@@ -107,7 +109,7 @@ class EditProductActivityViewModel(
                 this.availableQuantity,
                 this.soldQuantity,
                 product.quantity.lowBarrier,
-                product.quantity.colorQuantities
+                this.colorQuantities
             ),
             product.tags,
             DateModel(
