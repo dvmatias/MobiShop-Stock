@@ -3,6 +3,7 @@ package com.cmdv.components.colorpicker
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -78,9 +79,17 @@ class RecyclerColoQuantityAdapter(private val clickListener: OnColorQuantityClic
         private val cardViewColor: CardView = itemView.findViewById(R.id.cardViewColor)
         private val textViewQuantity: AppCompatTextView = itemView.findViewById(R.id.textViewQuantity)
         private val textViewName: AppCompatTextView = itemView.findViewById(R.id.textViewName)
+        private val imageViewTransparentEffect: AppCompatImageView = itemView.findViewById(R.id.imageViewTransparentEffect)
 
         fun bindView(colorQuantity: ColorQuantityModel, position: Int, clickListener: OnColorQuantityClickListener) {
-            cardViewColor.setCardBackgroundColor(colorQuantity.value.toInt())
+            if (colorQuantity.value.toInt() != 0) {
+                cardViewColor.setCardBackgroundColor(colorQuantity.value.toInt())
+                imageViewTransparentEffect.visibility = View.GONE
+            } else {
+                cardViewColor.setCardBackgroundColor(-1)
+                imageViewTransparentEffect.visibility = View.VISIBLE
+            }
+            cardViewColor.setCardBackgroundColor(if (colorQuantity.value != "0") colorQuantity.value.toInt() else -1)
             textViewQuantity.text = colorQuantity.quantity.toString()
             textViewName.text = colorQuantity.name
             itemView.setOnClickListener {
