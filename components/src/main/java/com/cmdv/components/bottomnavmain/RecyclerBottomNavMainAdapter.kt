@@ -96,7 +96,15 @@ class RecyclerBottomNavMainAdapter(
 				ivIcon.imageTintList = ContextCompat.getColorStateList(
 					context,
 					if (ivIcon.isSelected) R.color.colorBottomNavIconSelected else R.color.colorBottomNavIcon)
-				tvLabel.text = context.resources.getString(itemMainPage.label)
+				tvLabel.apply {
+					text = context.resources.getString(itemMainPage.label)
+					setTextColor(
+						if (itemView.ivIcon.isSelected)
+							ContextCompat.getColor(context, R.color.colorBottomNavIconSelected)
+						else
+							ContextCompat.getColor(context, R.color.colorBottomNavIcon)
+					)
+				}
 				ivBadge.visibility = View.GONE
 				container.setOnClickListener { handleItemClick(position) }
 				tag = itemMainPage.tag

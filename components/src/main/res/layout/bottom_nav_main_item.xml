@@ -29,6 +29,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:theme="@style/BottomNavLabel"
+		android:layout_marginTop="6dp"
 		app:layout_constraintEnd_toEndOf="@id/ivIcon"
 		app:layout_constraintStart_toStartOf="@id/ivIcon"
 		app:layout_constraintTop_toBottomOf="@id/ivIcon"

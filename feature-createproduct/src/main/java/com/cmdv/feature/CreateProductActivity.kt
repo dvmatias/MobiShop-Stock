@@ -10,11 +10,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.cmdv.components.colorquantity.Mode
+import com.cmdv.components.colorpicker.Mode
 import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
+import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
@@ -166,15 +167,16 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupProductQuantityInputField() {
-        editTextProductQuantity.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.quantity =
-                    if (!s.isNullOrEmpty()) s.toString().toInt() else 0
-            }
-        })
-        viewModel.errorEmptyQuantity.observe(this, Observer { errorStringId ->
-            manageInputError(errorStringId, editTextProductQuantity, textInputProductQuantity)
-        })
+        // TODO
+//        editTextProductQuantity.addTextChangedListener(object : SimpleTextWatcher() {
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                viewModel.quantity =
+//                    if (!s.isNullOrEmpty()) s.toString().toInt() else 0
+//            }
+//        })
+//        viewModel.errorEmptyQuantity.observe(this, Observer { errorStringId ->
+//            manageInputError(errorStringId, editTextProductQuantity, textInputProductQuantity)
+//        })
     }
 
     private fun setupProductQuantityLowBarrierInputField() {
@@ -194,9 +196,20 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupComponentColorQuantity() {
-        componentColorQuantityView.setup(Mode.EDIT, null, this)
-        componentColorQuantityView.mutableLiveItemList.observe(this, Observer {
-            viewModel.colorQuantities = it
+        componentColorQuantityView.setup(this, Mode.EDIT, null)
+        componentColorQuantityView.mutableLiveColorQuantityList.observe(this, Observer {
+            viewModel.colorQuantities = ArrayList(it)
+            viewModel.quantity =
+                    if (it.isNotEmpty()){
+                        var sum = 0
+                        for (item in it) {
+                            sum += item.quantity
+                        }
+                        sum
+                    } else {
+                        0
+                    }
+
         })
     }
 
@@ -356,12 +369,11 @@ class CreateProductActivity : AppCompatActivity() {
         editTextProductCostPrice.text?.clear()
         editTextProductOriginalPrice.text?.clear()
         editTextProductSellingPrice.text?.clear()
-        editTextProductQuantity.text?.clear()
         editTextProductTags.text?.clear()
 
         spinnerProductTypes.setSelection(0)
         spinnerProductQuantityLowBarrier.setSelection(0)
-        componentColorQuantityView.clear(Mode.EDIT, this)
+//        componentColorQuantityView.clear(Mode.EDIT, this)
 
         scrollView.requestFocus()
     }

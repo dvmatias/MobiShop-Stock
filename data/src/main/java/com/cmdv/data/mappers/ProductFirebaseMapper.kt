@@ -1,14 +1,8 @@
 package com.cmdv.data.mappers
 
-import com.cmdv.data.entities.DateEntity
-import com.cmdv.data.entities.PriceEntity
-import com.cmdv.data.entities.ProductFirebaseEntity
-import com.cmdv.data.entities.QuantityEntity
+import com.cmdv.data.entities.*
 import com.cmdv.domain.mapper.BaseMapper
-import com.cmdv.domain.models.DateModel
-import com.cmdv.domain.models.PriceModel
-import com.cmdv.domain.models.ProductModel
-import com.cmdv.domain.models.QuantityModel
+import com.cmdv.domain.models.*
 
 class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() {
 
@@ -31,7 +25,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
                 e.quantity?.available ?: 0,
                 e.quantity?.sold ?: 0,
                 e.quantity?.lowBarrier ?: 5,
-                arrayListOf() // TODO
+                transformColorQuantitiesEntityToModel(e.quantity?.colorQuantities)
             ),
             e.tags?.map { it.values.toString() } ?: listOf(),
             DateModel(
@@ -61,10 +55,31 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             DateEntity(m.date.createdDate, m.date.updatedDate)
         )
 
-    private fun transformColorQuantitiesModelToEntity(colorQuantities: ArrayList<Pair<String, Int>>): List<Map<String, String>> =
+    private fun transformColorQuantitiesModelToEntity(colorQuantities: ArrayList<ColorQuantityModel>): List<ColorQuantityEntity> =
         colorQuantities.map {
-            mapOf(it.first to it.second.toString())
+            ColorQuantityEntity(
+                it.name,
+                it.value,
+                it.quantity
+            )
         }
+
+    private fun transformColorQuantitiesEntityToModel(colorQuantities: List<ColorQuantityEntity>?): ArrayList<ColorQuantityModel> {
+        val response: ArrayList<ColorQuantityModel> = arrayListOf()
+        if (colorQuantities == null) return response
+
+        for (e in colorQuantities) {
+            response.add(
+                ColorQuantityModel(
+                    e.name ?: "",
+                    e.value ?: "",
+                    e.quantity ?: 0
+                )
+            )
+        }
+
+        return response
+    }
 
     private fun transformTagsModelToEntity(tags: List<String>): List<Map<String, String>> =
         tags.map {

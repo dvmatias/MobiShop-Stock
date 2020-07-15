@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.cmdv.feature.R
-import com.cmdv.feature.fragments.TabProductsSearchFragment
-import com.cmdv.feature.fragments.TabSalesSearchFragment
+import com.cmdv.feature.fragments.ProductsSearchSectionTabFragment
+import com.cmdv.feature.fragments.SalesSearchSectionTabFragment
 
 private val TABS = arrayOf(
-    TabProductsSearchFragment() to R.string.labelTabProducts,
-    TabSalesSearchFragment() to R.string.labelTabSales
+    ProductsSearchSectionTabFragment() to R.string.labelTabProducts,
+    SalesSearchSectionTabFragment() to R.string.labelTabSales
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :

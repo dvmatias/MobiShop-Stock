@@ -4,4 +4,21 @@
     <color name="colorBottomNavIcon">#95271B53</color>
     <color name="colorBottomNavIconSelected">@color/colorMain</color>
 
+    <color name="productColorTransparent">#00000000</color>
+    <color name="productColorWhite">#FFFFFF</color>
+    <color name="productColorBlack">#000000</color>
+    <color name="productColorGrey">#CFCFC4</color>
+    <color name="productColorBrown">#836953</color>
+    <color name="productColorRed">#FD4A40</color>
+    <color name="productColorOrange">#FFA92E</color>
+    <color name="productColorYellow">#FBFB59</color>
+    <color name="productColorGreen">#77DD77</color>
+    <color name="productColorBlue">#4095F6</color>
+    <color name="productColorLightBlue">#ACE7FF</color>
+    <color name="productColorViolet">#C95DFD</color>
+    <color name="productColorPink">#FD7797</color>
+    <color name="productColorSalmon">#FBC2AD</color>
+    <color name="productColorSkin">#FFDBAC</color>
+    <color name="productColorBeige">#A3895E</color>
+
 </resources>

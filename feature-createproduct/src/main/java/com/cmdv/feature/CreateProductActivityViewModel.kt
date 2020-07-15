@@ -3,6 +3,7 @@ package com.cmdv.feature
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.repositories.ProductRepository
@@ -52,7 +53,7 @@ class CreateProductActivityViewModel(
         }
     var lowBarrier: Int = -1
 
-    var colorQuantities: ArrayList<Pair<String, Int>> = arrayListOf()
+    var colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
 
     // Error
     val errorEmptyName = MutableLiveData<Int>()

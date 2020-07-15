@@ -3,4 +3,7 @@
     <string name="labelBottomNavTabHome">Inicio</string>
     <string name="labelBottomNavTabSales">Ventas</string>
     <string name="labelBottomNavTabProfile">Perfil</string>
+
+    <string name="labelTabSales">ventas</string>
+    <string name="labelTabShopCart">carrito</string>
 </resources>

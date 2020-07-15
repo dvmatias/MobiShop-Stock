@@ -2,9 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:layout_height="match_parent">
 
     <!-- Explanation -->
     <androidx.cardview.widget.CardView
@@ -30,24 +28,29 @@
             android:textSize="13sp" />
     </androidx.cardview.widget.CardView>
 
+    <!-- Product General Info Layout -->
     <include
         android:id="@+id/productInfo"
         layout="@layout/product_info" />
 
+    <!-- Product Price Info Layout -->
     <include
         android:id="@+id/priceInfo"
         layout="@layout/price_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/productInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Product Quantity Info Layout -->
     <include
         android:id="@+id/quantityInfo"
         layout="@layout/quantity_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/priceInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

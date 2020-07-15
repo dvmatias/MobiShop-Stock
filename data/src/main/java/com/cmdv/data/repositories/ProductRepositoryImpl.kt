@@ -56,7 +56,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
-        colorQuantities: ArrayList<Pair<String, Int>>,
+        colorQuantities: ArrayList<ColorQuantityModel>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>> {
@@ -133,7 +133,7 @@ class ProductRepositoryImpl : ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
-        colorQuantities: ArrayList<Pair<String, Int>>,
+        colorQuantities: ArrayList<ColorQuantityModel>,
         lowBarrier: Int,
         tags: List<String>
     ): ProductModel {

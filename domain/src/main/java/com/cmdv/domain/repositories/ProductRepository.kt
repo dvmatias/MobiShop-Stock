@@ -1,6 +1,7 @@
 package com.cmdv.domain.repositories
 
 import androidx.lifecycle.MutableLiveData
+import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 
@@ -20,7 +21,7 @@ interface ProductRepository {
         originalPrice: String,
         sellingPrice: String,
         quantity: Int,
-        colorQuantities: ArrayList<Pair<String, Int>>,
+        colorQuantities: ArrayList<ColorQuantityModel>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>

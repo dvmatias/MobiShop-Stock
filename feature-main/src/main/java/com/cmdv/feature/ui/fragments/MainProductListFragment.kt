@@ -20,7 +20,7 @@ import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_product_list.*
+import kotlinx.android.synthetic.main.fragment_product_list_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -50,7 +50,7 @@ class MainProductListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(R.layout.fragment_product_list, container, false)
+        inflater.inflate(R.layout.fragment_product_list_main, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,6 +58,7 @@ class MainProductListFragment : Fragment() {
         setupSwipeRefresh()
         setupRecyclerProduct()
         getProducts()
+        fabCreateProduct.setOnClickListener { navigator.toAddProductScreen(activityOrigin = activity!!) }
     }
 
     private fun setupSwipeRefresh() {

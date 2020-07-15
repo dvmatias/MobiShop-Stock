@@ -4,4 +4,6 @@
     <string name="labelBottomNavTabHome">Home</string>
     <string name="labelBottomNavTabSales">Sales</string>
     <string name="labelBottomNavTabProfile">Profile</string>
+    <string name="labelTabSales">sales</string>
+    <string name="labelTabShopCart">shop cart</string>
 </resources>
