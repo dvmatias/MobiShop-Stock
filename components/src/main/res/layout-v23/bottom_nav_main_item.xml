@@ -9,7 +9,7 @@
 	android:focusable="true"
 	android:paddingStart="@dimen/dim_8dp"
 	android:paddingEnd="@dimen/dim_8dp"
-	android:background="?android:attr/selectableItemBackground">
+	android:foreground="?attr/selectableItemBackground">
 
 	<!-- Icon -->
 	<androidx.appcompat.widget.AppCompatImageView
