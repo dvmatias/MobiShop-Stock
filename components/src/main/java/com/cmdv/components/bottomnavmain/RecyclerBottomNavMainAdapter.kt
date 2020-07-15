@@ -85,21 +85,26 @@ class RecyclerBottomNavMainAdapter(
 
 		fun bindItem(itemMainPage: ItemMainPageModel, listener: OnItemClickListener, position: Int, context: Context) {
 			this.listener = listener
+			val isSelected: Boolean = itemView.ivIcon.isSelected
 
 			itemView.apply {
-				ivIcon.setImageDrawable(
-					ContextCompat.getDrawable(
-						context,
-						if (ivIcon.isSelected) itemMainPage.iconSelected else itemMainPage.icon
+				ivIcon.apply {
+					setImageDrawable(
+						ContextCompat.getDrawable(
+							context,
+							if (isSelected) itemMainPage.iconSelected else itemMainPage.icon
+						)
 					)
-				)
-				ivIcon.imageTintList = ContextCompat.getColorStateList(
-					context,
-					if (ivIcon.isSelected) R.color.colorBottomNavIconSelected else R.color.colorBottomNavIcon)
+					imageTintList = ContextCompat.getColorStateList(
+						context,
+						if (isSelected) R.color.colorBottomNavIconSelected else R.color.colorBottomNavIcon
+					)
+				}
+
 				tvLabel.apply {
 					text = context.resources.getString(itemMainPage.label)
 					setTextColor(
-						if (itemView.ivIcon.isSelected)
+						if (isSelected)
 							ContextCompat.getColor(context, R.color.colorBottomNavIconSelected)
 						else
 							ContextCompat.getColor(context, R.color.colorBottomNavIcon)
