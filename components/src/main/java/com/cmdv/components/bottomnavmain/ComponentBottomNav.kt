@@ -58,7 +58,7 @@ class ComponentBottomNav : ConstraintLayout, RecyclerBottomNavMainAdapter.OnItem
         val selectedView = recyclerView.findViewHolderForLayoutPosition(currentPosition)?.itemView
         val unselectedView = recyclerView.findViewHolderForLayoutPosition(oldPosition)?.itemView
         when (position) {
-            oldPosition -> listener?.onItemReselected(selectedView)
+            this.oldPosition -> listener?.onItemReselected(selectedView)
             else -> {
                 listener?.apply {
                     onItemUnselected(unselectedView)
