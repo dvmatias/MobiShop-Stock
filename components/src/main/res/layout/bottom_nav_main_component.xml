@@ -3,30 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F6F6F6"
+    android:background="@color/colorBottomNavBackground"
     android:baselineAligned="false"
-    android:elevation="4dp"
-    android:orientation="horizontal"
-    android:weightSum="1">
+    android:elevation="@dimen/dim_4dp"
+    android:orientation="horizontal">
 
+    <!-- Separator -->
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DFDFDF"
+        android:layout_height="@dimen/dim_1dp"
+        android:background="@color/colorBottomNavSeparator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- Bottom Nav Recycler View -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:numColumns="3"
+        android:numColumns="@integer/int_3"
         android:stretchMode="columnWidth"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

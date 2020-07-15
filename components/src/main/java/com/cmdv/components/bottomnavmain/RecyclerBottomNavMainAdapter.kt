@@ -32,7 +32,7 @@ class RecyclerBottomNavMainAdapter(
 	 * Remove not enabled tabs.
 	 */
 	private fun setupItemList() {
-		val mockItemList = itemMainPageList.filter { item ->
+		val mockItemList: List<ItemMainPageModel> = itemMainPageList.filter { item ->
 			item.enable
 		}
 		itemMainPageList = mockItemList

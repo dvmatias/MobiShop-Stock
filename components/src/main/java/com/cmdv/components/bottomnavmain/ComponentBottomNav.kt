@@ -12,11 +12,8 @@ import kotlinx.android.synthetic.main.bottom_nav_main_component.view.*
 class ComponentBottomNav : ConstraintLayout, RecyclerBottomNavMainAdapter.OnItemClickListener {
 
     private var currentPosition: Int = -1
-
     private var oldPosition: Int = -1
-
     private var listener: OnBottomNavMainItemSelectedListener? = null
-
     private lateinit var adapter: RecyclerBottomNavMainAdapter
 
     constructor(context: Context) : super(context) {
@@ -43,10 +40,12 @@ class ComponentBottomNav : ConstraintLayout, RecyclerBottomNavMainAdapter.OnItem
      */
     fun setup(itemMainPageList: MutableList<ItemMainPageModel>, listener: OnBottomNavMainItemSelectedListener?) {
         this.listener = listener
-        this.apply {
-            adapter = RecyclerBottomNavMainAdapter(context, this, itemMainPageList)
-            recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            recyclerView.adapter = adapter
+        apply {
+            this.adapter = RecyclerBottomNavMainAdapter(context, this, itemMainPageList)
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = this@ComponentBottomNav.adapter
+            }
         }
     }
 
@@ -54,15 +53,17 @@ class ComponentBottomNav : ConstraintLayout, RecyclerBottomNavMainAdapter.OnItem
      * [RecyclerBottomNavMainAdapter.OnItemClickListener] implementation.
      */
     override fun onItemClick(position: Int) {
-        oldPosition = currentPosition
-        currentPosition = position
+        this.oldPosition = currentPosition
+        this.currentPosition = position
         val selectedView = recyclerView.findViewHolderForLayoutPosition(currentPosition)?.itemView
         val unselectedView = recyclerView.findViewHolderForLayoutPosition(oldPosition)?.itemView
         when (position) {
             oldPosition -> listener?.onItemReselected(selectedView)
             else -> {
-                listener?.onItemUnselected(unselectedView)
-                listener?.onItemSelected(selectedView, position)
+                listener?.apply {
+                    onItemUnselected(unselectedView)
+                    onItemSelected(selectedView, position)
+                }
                 adapter.updateSelected(selectedView, unselectedView)
                 recyclerView.post { adapter.notifyDataSetChanged() }
             }

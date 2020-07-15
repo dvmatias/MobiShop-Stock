@@ -21,4 +21,8 @@
     <color name="productColorSkin">#FFDBAC</color>
     <color name="productColorBeige">#A3895E</color>
 
+   <!-- Bottom Nav -->
+    <color name="colorBottomNavBackground">#F6F6F6</color>
+    <color name="colorBottomNavSeparator">#DFDFDF</color>
+
 </resources>

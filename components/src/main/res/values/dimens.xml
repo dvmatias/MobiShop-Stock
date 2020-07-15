@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dim_4dp">4dp</dimen>
+    <dimen name="dim_1dp">1dp</dimen>
+
+    <integer name="int_1">1</integer>
+    <integer name="int_2">2</integer>
+    <integer name="int_3">3</integer>
+    <integer name="int_4">4</integer>
+</resources>
