@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DialogTitleStyle" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/cereal_bold</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/colorTextDark1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+</resources>

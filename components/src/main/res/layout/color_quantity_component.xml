@@ -12,13 +12,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/addColorQuantityBtn"
-        layout="@layout/layout_add_color_quantity"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/buttonAddColorQuantity"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        android:text="ADD"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

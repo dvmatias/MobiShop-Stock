@@ -10,11 +10,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.cmdv.components.colorquantity.Mode
+import com.cmdv.components.colorpicker.Mode
 import com.cmdv.core.helpers.HtmlHelper
 import com.cmdv.core.helpers.KeyboardHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.core.helpers.formatPrice
+import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
@@ -195,8 +196,8 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun setupComponentColorQuantity() {
-        componentColorQuantityView.setup(Mode.EDIT, null, this)
-        componentColorQuantityView.mutableLiveItemList.observe(this, Observer {
+        componentColorQuantityView.setup(this, Mode.EDIT, null)
+        componentColorQuantityView.mutableLiveColorQuantityList.observe(this, Observer {
             viewModel.colorQuantities = ArrayList(it)
             viewModel.quantity =
                     if (it.isNotEmpty()){
@@ -372,7 +373,7 @@ class CreateProductActivity : AppCompatActivity() {
 
         spinnerProductTypes.setSelection(0)
         spinnerProductQuantityLowBarrier.setSelection(0)
-        componentColorQuantityView.clear(Mode.EDIT, this)
+//        componentColorQuantityView.clear(Mode.EDIT, this)
 
         scrollView.requestFocus()
     }

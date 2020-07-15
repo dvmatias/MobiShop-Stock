@@ -25,7 +25,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
                 e.quantity?.available ?: 0,
                 e.quantity?.sold ?: 0,
                 e.quantity?.lowBarrier ?: 5,
-                arrayListOf() // TODO
+                transformColorQuantitiesEntityToModel(e.quantity?.colorQuantities)
             ),
             e.tags?.map { it.values.toString() } ?: listOf(),
             DateModel(
@@ -63,6 +63,23 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
                 it.quantity
             )
         }
+
+    private fun transformColorQuantitiesEntityToModel(colorQuantities: List<ColorQuantityEntity>?): ArrayList<ColorQuantityModel> {
+        val response: ArrayList<ColorQuantityModel> = arrayListOf()
+        if (colorQuantities == null) return response
+
+        for (e in colorQuantities) {
+            response.add(
+                ColorQuantityModel(
+                    e.name ?: "",
+                    e.value ?: "",
+                    e.quantity ?: 0
+                )
+            )
+        }
+
+        return response
+    }
 
     private fun transformTagsModelToEntity(tags: List<String>): List<Map<String, String>> =
         tags.map {

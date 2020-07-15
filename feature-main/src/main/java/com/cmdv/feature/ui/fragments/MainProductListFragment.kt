@@ -58,6 +58,7 @@ class MainProductListFragment : Fragment() {
         setupSwipeRefresh()
         setupRecyclerProduct()
         getProducts()
+        fabCreateProduct.setOnClickListener { navigator.toAddProductScreen(activityOrigin = activity!!) }
     }
 
     private fun setupSwipeRefresh() {

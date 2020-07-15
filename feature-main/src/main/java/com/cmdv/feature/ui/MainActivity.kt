@@ -21,6 +21,7 @@ import com.cmdv.feature.ui.fragments.MainProfileFragment
 import com.cmdv.feature.ui.fragments.MainSalesFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -128,7 +129,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.actionCreateProduct -> navigator.toAddProductScreen(activityOrigin = this)
             R.id.actionSearch -> navigator.toSearchScreen(activityOrigin = this)
         }
         return true

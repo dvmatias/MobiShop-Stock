@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewColorQuantity"
+        android:id="@+id/textViewQuantity"
         android:textAppearance="@style/InputTextAppearance"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -15,6 +15,7 @@
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:lines="1"
+        android:textColor="@color/colorTextDark1"
         android:ellipsize="end"
         android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
