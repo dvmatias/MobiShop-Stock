@@ -3,12 +3,11 @@ package com.cmdv.feature
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cmdv.core.Constants.Companion.DATE_FORMAT_DD_MM_YY_HH_MM_SS
 import com.cmdv.domain.models.*
 import com.cmdv.domain.repositories.ProductRepository
 import java.text.SimpleDateFormat
 import java.util.*
-
-private const val DATE_FORMAT_DD_MM_YY = "dd-MM-yyyy'T'HH:mm:ss.SSS"
 
 class EditProductActivityViewModel(
     private val productRepository: ProductRepository
@@ -114,7 +113,7 @@ class EditProductActivityViewModel(
             product.tags,
             DateModel(
                 product.date.createdDate,
-                SimpleDateFormat(DATE_FORMAT_DD_MM_YY, Locale.getDefault()).format(Date().time)
+                SimpleDateFormat(DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault()).format(Date().time)
             )
         )
 

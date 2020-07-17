@@ -1,7 +1,7 @@
 package com.cmdv.domain.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.datasources.UserStoreListener
+import com.cmdv.domain.datasources.firebase.UserStoreListener
 import com.google.firebase.auth.FirebaseUser
 
 interface UserRepository {

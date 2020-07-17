@@ -1,15 +1,15 @@
-package com.cmdv.data.datasources
+package com.cmdv.data.datasources.firebase
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.datasources.AuthRegisterListener
-import com.cmdv.domain.datasources.FirebaseAuthSource
+import com.cmdv.domain.datasources.firebase.AuthFirebaseSource
+import com.cmdv.domain.datasources.firebase.AuthRegisterListener
 import com.cmdv.domain.models.DateModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class FirebaseAuthSourceImpl : FirebaseAuthSource {
+class AuthFirebaseSourceImpl : AuthFirebaseSource {
 
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
@@ -48,10 +48,10 @@ class FirebaseAuthSourceImpl : FirebaseAuthSource {
                         currentUser.uid,
                         currentUser.displayName ?: "",
                         currentUser.email ?: "",
-                    false,
-                    false,
-                    false,
-                    DateModel("", "")
+                        false,
+                        false,
+                        false,
+                        DateModel("", "")
                     )
                 )
         } else {

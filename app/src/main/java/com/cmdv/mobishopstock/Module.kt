@@ -1,15 +1,18 @@
 package com.cmdv.mobishopstock
 
 import com.cmdv.core.navigator.Navigator
-import com.cmdv.data.datasources.FirebaseAuthSourceImpl
-import com.cmdv.data.datasources.FirebaseUserSourceImpl
+import com.cmdv.data.datasources.db.ShopCartDatabase
+import com.cmdv.data.datasources.firebase.AuthFirebaseSourceImpl
+import com.cmdv.data.datasources.firebase.FirebaseUserSourceImpl
 import com.cmdv.data.repositories.AuthRepositoryImpl
 import com.cmdv.data.repositories.ProductRepositoryImpl
+import com.cmdv.data.repositories.ShopCartRepositoryImpl
 import com.cmdv.data.repositories.UserRepositoryImpl
-import com.cmdv.domain.datasources.FirebaseAuthSource
-import com.cmdv.domain.datasources.FirebaseUserSource
+import com.cmdv.domain.datasources.firebase.AuthFirebaseSource
+import com.cmdv.domain.datasources.firebase.UserFirebaseSource
 import com.cmdv.domain.repositories.AuthRepository
 import com.cmdv.domain.repositories.ProductRepository
+import com.cmdv.domain.repositories.ShopCartRepository
 import com.cmdv.domain.repositories.UserRepository
 import com.cmdv.feature.CreateProductActivityViewModel
 import com.cmdv.feature.EditProductActivityViewModel
@@ -18,7 +21,6 @@ import com.cmdv.feature.ui.MainActivityViewModel
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import com.cmdv.feature.ui.fragments.MainProductListFragmentViewModel
-import com.cmdv.feature.ui.fragments.salestabs.ShopCartSectionTabFragmentViewModel
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -29,14 +31,15 @@ val appModule = module {
 }
 
 val dataSourceModule = module {
-    single<FirebaseAuthSource> { FirebaseAuthSourceImpl() }
-    single<FirebaseUserSource> { FirebaseUserSourceImpl() }
+    single<AuthFirebaseSource> { AuthFirebaseSourceImpl() }
+    single<UserFirebaseSource> { FirebaseUserSourceImpl() }
 }
 
 val repositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<ProductRepository> { ProductRepositoryImpl() }
+    single<ShopCartRepository> { ShopCartRepositoryImpl(ShopCartDatabase.getInstance(get()).shopCartDAO) }
 }
 
 val viewModelModule = module {
@@ -44,9 +47,9 @@ val viewModelModule = module {
 
     viewModel { MainActivityViewModel(get()) }
     viewModel { MainProductListFragmentViewModel(get()) }
-    viewModel { ShopCartSectionTabFragmentViewModel() }
 
     viewModel { CreateProductActivityViewModel(get()) }
+
     viewModel { EditProductActivityViewModel(get()) }
 }
 

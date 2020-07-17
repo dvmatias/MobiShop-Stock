@@ -21,11 +21,10 @@ import com.cmdv.feature.ui.fragments.MainProfileFragment
 import com.cmdv.feature.ui.fragments.MainSalesFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnCreateShopCartClickListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
     private val navigator: Navigator by inject()
@@ -196,4 +195,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * [OnCreateShopCartClickListener] implementation.
+     */
+    override fun onCreateShopCartClick() {
+        viewModel.createShopCart("shop cart test")
+    }
+}
+
+interface OnCreateShopCartClickListener {
+    fun onCreateShopCartClick()
 }

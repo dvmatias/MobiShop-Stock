@@ -5,7 +5,7 @@ class Constants {
     companion object {
         const val TAG_LOGGER = "Mobi Shop Logger"
 
-        const val DATE_FORMAT_DD_MM_YY = "dd/MM/yyyy"
+        const val DATE_FORMAT_DD_MM_YY_HH_MM_SS = "dd-MM-yyyy'T'HH:mm:ss.SSS"
 
         const val REQUEST_CODE_EDIT_PRODUCT = 9320
 

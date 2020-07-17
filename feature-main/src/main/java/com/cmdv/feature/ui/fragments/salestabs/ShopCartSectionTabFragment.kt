@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.cmdv.components.TabFragmentPlaceHolder
 import com.cmdv.feature.R
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
-
-    private val viewModel: ShopCartSectionTabFragmentViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +20,6 @@ class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
         savedInstanceState: Bundle?
     ): View? =
         inflater.inflate(R.layout.fragment_shop_cart_section, container, false)
-
 
     override fun newInstance(): Fragment =
         ShopCartSectionTabFragment().apply {

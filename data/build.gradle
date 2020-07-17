@@ -60,5 +60,12 @@ dependencies {
     implementation libs.firebase_database
     // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
+    // Room
+    implementation libs.room
+    implementation libs.room_ktx
+    kapt libs.room_annotation_processor
+    // Coroutines
+    implementation libs.coroutines_core
+    implementation libs.coroutines_android
 
 }

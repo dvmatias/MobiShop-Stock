@@ -2,7 +2,7 @@ package com.cmdv.data.repositories
 
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.BuildConfig
-import com.cmdv.data.entities.ProductFirebaseEntity
+import com.cmdv.data.entities.firebase.ProductFirebaseEntity
 import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.*
 import com.cmdv.domain.repositories.ProductRepository

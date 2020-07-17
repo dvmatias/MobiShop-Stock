@@ -1,10 +1,10 @@
-package com.cmdv.domain.datasources
+package com.cmdv.domain.datasources.firebase
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.models.UserModel
+import com.cmdv.domain.datasources.firebase.UserStoreListener
 import com.google.firebase.auth.FirebaseUser
 
-interface FirebaseUserSource {
+interface UserFirebaseSource {
 
     fun get(uid: String): MutableLiveData<Any>
 
@@ -12,9 +12,4 @@ interface FirebaseUserSource {
 
     fun storeUser(firebaseUser: FirebaseUser?, userStoreListener: UserStoreListener)
 
-}
-
-interface UserStoreListener {
-    fun onSuccess(user: UserModel)
-    fun onError(message: String)
 }

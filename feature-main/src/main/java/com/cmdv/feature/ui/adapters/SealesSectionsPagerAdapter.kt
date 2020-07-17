@@ -25,4 +25,8 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getCount(): Int =
         TABS.size
+
+    fun getShopCartFragmentInstance(): ShopCartSectionTabFragment =
+        TABS[1].first as ShopCartSectionTabFragment
+
 }

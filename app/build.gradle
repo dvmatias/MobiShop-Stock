@@ -69,5 +69,9 @@ dependencies {
     implementation libs.kotlin
     implementation libs.ktx
     implementation libs.appcompat
+    // Room
+    implementation libs.room
+    implementation libs.room_ktx
+    kapt libs.room_annotation_processor
 
 }

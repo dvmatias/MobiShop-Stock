@@ -1,11 +1,11 @@
-package com.cmdv.data.datasources
+package com.cmdv.data.datasources.firebase
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.data.entities.DateEntity
-import com.cmdv.data.entities.UserFirebaseEntity
+import com.cmdv.data.entities.firebase.DateEntity
+import com.cmdv.data.entities.firebase.UserFirebaseEntity
 import com.cmdv.data.mappers.UserMapper
-import com.cmdv.domain.datasources.FirebaseUserSource
-import com.cmdv.domain.datasources.UserStoreListener
+import com.cmdv.domain.datasources.firebase.UserFirebaseSource
+import com.cmdv.domain.datasources.firebase.UserStoreListener
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
@@ -13,7 +13,7 @@ import java.util.*
 
 private const val DATE_FORMAT_DD_MM_YY = "dd-MM-yyyy'T'HH:mm:ss.SSS"
 
-class FirebaseUserSourceImpl : FirebaseUserSource {
+class FirebaseUserSourceImpl : UserFirebaseSource {
 
     private val dbRootRef: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val dbWhiteListRef: DatabaseReference = dbRootRef.getReference("whitelist")

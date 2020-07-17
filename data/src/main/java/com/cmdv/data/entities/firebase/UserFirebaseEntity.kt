@@ -1,4 +1,6 @@
-package com.cmdv.data.entities
+package com.cmdv.data.entities.firebase
+
+import com.cmdv.data.entities.firebase.DateEntity
 
 class UserFirebaseEntity(
     val uid: String?,

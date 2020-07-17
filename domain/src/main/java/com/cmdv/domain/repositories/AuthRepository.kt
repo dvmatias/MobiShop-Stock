@@ -1,7 +1,7 @@
 package com.cmdv.domain.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.datasources.AuthRegisterListener
+import com.cmdv.domain.datasources.firebase.AuthRegisterListener
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.google.firebase.auth.FirebaseUser
