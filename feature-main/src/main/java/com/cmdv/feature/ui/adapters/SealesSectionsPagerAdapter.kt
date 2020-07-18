@@ -9,8 +9,8 @@ import com.cmdv.feature.ui.fragments.salestabs.SalesSectionTabFragment
 import com.cmdv.feature.ui.fragments.salestabs.ShopCartSectionTabFragment
 
 private val TABS = arrayOf(
-    SalesSectionTabFragment() to R.string.labelTabSales,
-    ShopCartSectionTabFragment() to R.string.labelTabShopCart
+    ShopCartSectionTabFragment() to R.string.labelTabShopCarts,
+    SalesSectionTabFragment() to R.string.labelTabSales
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
@@ -25,8 +25,5 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getCount(): Int =
         TABS.size
-
-    fun getShopCartFragmentInstance(): ShopCartSectionTabFragment =
-        TABS[1].first as ShopCartSectionTabFragment
 
 }

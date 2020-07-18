@@ -39,8 +39,8 @@ class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
         super.onViewCreated(view, savedInstanceState)
 
         // TODO Delete: use this only to delete all shop carts in DB
-         viewModel.deleteAll()
-//        setupRecyclerShopCart()
+//         viewModel.deleteAll()
+        setupRecyclerShopCart()
         viewModel.liveDataOpenShopCarts.observe(this, Observer { list ->
             logErrorMessage("$list")
             shopCartAdapter.setItems(list)

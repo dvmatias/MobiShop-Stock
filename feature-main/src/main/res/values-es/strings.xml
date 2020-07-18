@@ -5,5 +5,5 @@
     <string name="labelBottomNavTabProfile">Perfil</string>
 
     <string name="labelTabSales">ventas</string>
-    <string name="labelTabShopCart">carrito</string>
+    <string name="labelTabShopCarts">carritos</string>
 </resources>
