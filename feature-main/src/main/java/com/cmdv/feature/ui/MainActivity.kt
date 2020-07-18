@@ -199,7 +199,8 @@ class MainActivity : AppCompatActivity(), OnCreateShopCartClickListener {
      * [OnCreateShopCartClickListener] implementation.
      */
     override fun onCreateShopCartClick() {
-        viewModel.createShopCart("shop cart test")
+        viewModel.createShopCart("") // TODO Replace for proper logic to obtain shop cart name
+
     }
 }
 

@@ -7,7 +7,7 @@ enum class ShopCartStatus(val status: String) {
 }
 
 data class ShopCartModel(
-    val products: ArrayList<Any>,
+    val products: ArrayList<Int>,
     val total: Double,
     val status: ShopCartStatus
 )

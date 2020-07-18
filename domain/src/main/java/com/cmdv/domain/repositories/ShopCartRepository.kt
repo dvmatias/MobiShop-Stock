@@ -1,5 +1,6 @@
 package com.cmdv.domain.repositories
 
+import androidx.lifecycle.LiveData
 import com.cmdv.domain.models.ShopCartModel
 
 interface ShopCartRepository {
@@ -10,6 +11,8 @@ interface ShopCartRepository {
 
     suspend fun deleteShopCart(shopCartModel: ShopCartModel)
 
-    suspend fun getAllShopCarts(): List<ShopCartModel>
+    fun getAllOpenShopCarts(): LiveData<List<ShopCartModel>>
+
+    suspend fun deleteAll()
 
 }
