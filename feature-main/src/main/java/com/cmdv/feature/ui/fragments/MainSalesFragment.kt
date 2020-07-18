@@ -1,19 +1,26 @@
 package com.cmdv.feature.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.cmdv.components.dialog.createshopcart.ComponentCreateShopCartDialog
+import com.cmdv.components.dialog.createshopcart.CreateShopCartDialogListener
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.OnCreateShopCartClickListener
 import com.cmdv.feature.ui.adapters.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.fragment_sales_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainSalesFragment : Fragment() {
 
-    private var listener: OnCreateShopCartClickListener? = null
+    private val viewModel: MainSalesFragmentViewModel by viewModel()
+
+    private val createShopCartDialogListener = object: CreateShopCartDialogListener {
+        override fun onCreateShopCartDialogPositiveClick(name: String) {
+            viewModel.createShopCart(name)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +41,13 @@ class MainSalesFragment : Fragment() {
         tabsSales.setupWithViewPager(viewPagerSales)
 
         fabCreateShopCart.setOnClickListener {
-            listener?.onCreateShopCartClick()
+            openCreateShopCartDialog()
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnCreateShopCartClickListener) {
-            this.listener = context
-        } else {
-            throw IllegalAccessError("Calling Activity must implement ${OnCreateShopCartClickListener::class.java.simpleName}.")
+    private fun openCreateShopCartDialog() {
+        activity?.let {
+            ComponentCreateShopCartDialog(it, createShopCartDialogListener).show()
         }
     }
 

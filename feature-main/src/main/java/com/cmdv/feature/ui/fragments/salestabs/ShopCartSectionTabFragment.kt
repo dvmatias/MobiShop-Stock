@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.components.TabFragmentPlaceHolder
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.feature.R
+import kotlinx.android.synthetic.main.fragment_shop_cart_section.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
 
     private val viewModel: ShopCartSectionTabFragmentViewModel by viewModel()
+
+    private lateinit var shopCartAdapter: ShopCartRecyclerAdapter
 
     override fun newInstance(): Fragment =
         ShopCartSectionTabFragment().apply {
@@ -34,10 +38,21 @@ class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.test.observe(this, Observer {
-            // TODO manage shop cart list
-            logErrorMessage("$it")
+        // TODO Delete: use this only to delete all shop carts in DB
+         viewModel.deleteAll()
+//        setupRecyclerShopCart()
+        viewModel.liveDataOpenShopCarts.observe(this, Observer { list ->
+            logErrorMessage("$list")
+            shopCartAdapter.setItems(list)
         })
+    }
+
+    private fun setupRecyclerShopCart() {
+        shopCartAdapter = ShopCartRecyclerAdapter()
+        recyclerViewShopCart.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            adapter = shopCartAdapter
+        }
     }
 
 }

@@ -8,7 +8,7 @@ import com.cmdv.data.entities.db.ShopCartDatabaseEntity
 
 @Database(
     entities = [ShopCartDatabaseEntity::class],
-    version = 1
+    version = 2
 )
 abstract class ShopCartDatabase : RoomDatabase() {
 
@@ -21,11 +21,14 @@ abstract class ShopCartDatabase : RoomDatabase() {
             synchronized(this) {
                 var instance: ShopCartDatabase? = INSTANCE
                 if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        ShopCartDatabase::class.java,
-                        "shop_cart_database"
-                    ).build()
+                    instance =
+                        Room.databaseBuilder(
+                            context.applicationContext,
+                            ShopCartDatabase::class.java,
+                            "shop_cart_database"
+                        )
+                        .fallbackToDestructiveMigration()
+                        .build()
                 }
                 return instance
             }

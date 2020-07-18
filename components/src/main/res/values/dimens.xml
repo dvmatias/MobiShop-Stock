@@ -6,6 +6,13 @@
     <dimen name="dim_6dp">6dp</dimen>
     <dimen name="dim_12dp">12dp</dimen>
     <dimen name="dim_2dp">2dp</dimen>
+    <dimen name="dim_22dp">22dp</dimen>
+    <dimen name="dim_20dp">20dp</dimen>
+    <dimen name="dim_16dp">16dp</dimen>
+    <dimen name="text_15sp">15sp</dimen>
+    <dimen name="text_13sp">13sp</dimen>
+    <dimen name="text_14sp">14sp</dimen>
+    <dimen name="text_24sp">24sp</dimen>
 
     <integer name="int_1">1</integer>
     <integer name="int_2">2</integer>

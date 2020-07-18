@@ -12,6 +12,8 @@ data class ShopCartDatabaseEntity(
     val id: Int,
     @ColumnInfo(name = "shop_cart_name")
     val name: String?,
+    @ColumnInfo(name = "shop_cart_is_closed")
+    val isClosed: Boolean?,
     @Embedded
     val date: ShopCartDateDatabaseEntity?,
     @Embedded
@@ -32,9 +34,9 @@ data class ShopCartDatabaseEntity(
     )
 
     data class ShopCartProductDatabaseEntity(
+        val code: String?,
         val name: String?,
         val price: Double?,
-        val code: String?,
         val imageName: String?,
         val colorQuantity: ArrayList<ShopCartProductColorQuantityDatabaseEntity>?
     ) {

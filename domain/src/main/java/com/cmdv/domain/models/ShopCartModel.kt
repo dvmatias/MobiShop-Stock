@@ -2,49 +2,34 @@ package com.cmdv.domain.models
 
 enum class ShopCartStatus(val status: String) {
     OPEN("open"),
-    CLOSED("closed"),
-    PENDING("pending")
+    CLOSED("closed")
 }
 
 data class ShopCartModel(
-    val products: ArrayList<Int>,
-    val total: Double,
-    val status: ShopCartStatus
-)
-
-
-/*
-
-data class ShopCartDatabaseEntity(
-    val id: Int,
+    val id: Long,
     val name: String,
-    val date: ShopCartDateDatabaseEntity,
-    val products: ArrayList<ShopCartProductDatabaseEntity>,
-    val discount: Double,
-    val subtotal: Double
+    val date: DateModel,
+    val status: ShopCartStatus,
+    val products: List<ShopCartProductModel>
 ) {
 
-    data class ShopCartDateDatabaseEntity(
+    data class DateModel(
         val createdDate: String,
         val updatedDate: String,
         val closedDate: String
     )
 
-    data class ShopCartProductDatabaseEntity(
+    data class ShopCartProductModel(
+        val code: String,
         val name: String,
         val price: Double,
-        val code: String,
         val imageName: String,
-        val colorQuantity: ArrayList<ShopCartProductColorQuantityDatabaseEntity>
-    ) {
+        val colorQuantity: List<ShopCartProductColorQuantityDatabaseModel>?
+    )
 
-        data class ShopCartProductColorQuantityDatabaseEntity(
-            val colorValue: String,
-            val colorQuantity: Int
-        )
-
-    }
+    data class ShopCartProductColorQuantityDatabaseModel(
+        val colorValue: String,
+        val colorQuantity: Int
+    )
 
 }
-
- */

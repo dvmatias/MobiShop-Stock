@@ -27,7 +27,7 @@ class ShopCartRepositoryImpl(
             shopCartDAO.getAllOpenShopCarts()
         ) { list ->
             return@map list?.map {
-                ShopCartModel(arrayListOf(), it.id.toDouble(), ShopCartStatus.OPEN)
+                ShopCartDatabaseMapper().transformEntityToModel(it)
             } ?: listOf()
         }
     }

@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui
+package com.cmdv.feature.ui.fragments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,8 +8,14 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivityViewModel(
+class MainSalesFragmentViewModel(
     private val shopCartRepository: ShopCartRepository
 ) : ViewModel() {
 
+    fun createShopCart(name: String) = viewModelScope.launch {
+        shopCartRepository.insertShopCart(
+            name,
+            SimpleDateFormat(Constants.DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault()).format(Date().time)
+        )
+    }
 }

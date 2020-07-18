@@ -1,12 +1,18 @@
 package com.cmdv.feature.ui.fragments.salestabs
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cmdv.domain.repositories.ShopCartRepository
+import kotlinx.coroutines.launch
 
 class ShopCartSectionTabFragmentViewModel(
-    shopCartRepository: ShopCartRepository
+    private val shopCartRepository: ShopCartRepository
 ) : ViewModel() {
 
-    val test = shopCartRepository.getAllOpenShopCarts()
+    val liveDataOpenShopCarts = shopCartRepository.getAllOpenShopCarts()
+
+    fun deleteAll() = viewModelScope.launch {
+        shopCartRepository.deleteAll()
+    }
 
 }

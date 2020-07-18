@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="titleColorPickerDialog">Elegí el Color</string>
+    <string name="hint_create_shop_cart_dialog_name">Nombre (opcional)</string>
+    <string name="text_create_shop_cart_dialog_description">Estas por crear un Carrito de Compra. Si querés, podés darle un nombre bonito. En cuanto lo crees, podés comenzar a añadirle productos. Este Carrito de Compra estará abierto hasta que elijas cerralo.</string>
+    <string name="text_create_shop_cart_dialog_title">Crear Carrito de Compra</string>
+    <string name="text_create_shop_cart_dialog_footer">Recordá que una vez cerrado, un Carrito de Compra se convierte en una Venta.</string>
+    <string name="label_create_shop_cart_dialog_negative_button">Cancelar</string>
+    <string name="label_create_shop_cart_dialog_positive_button">Aceptar</string>
 
     <string-array name="colorName">
         <item>Transparente</item>

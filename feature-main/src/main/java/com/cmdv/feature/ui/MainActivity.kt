@@ -24,13 +24,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), OnCreateShopCartClickListener {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModel()
+
     private val navigator: Navigator by inject()
 
     private lateinit var searchView: SearchView
+
     private var query: String? = null
+
     private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
         ItemMainPageModel(
             R.string.labelBottomNavTabHome,
@@ -195,15 +198,4 @@ class MainActivity : AppCompatActivity(), OnCreateShopCartClickListener {
         }
     }
 
-    /**
-     * [OnCreateShopCartClickListener] implementation.
-     */
-    override fun onCreateShopCartClick() {
-        viewModel.createShopCart("") // TODO Replace for proper logic to obtain shop cart name
-
-    }
-}
-
-interface OnCreateShopCartClickListener {
-    fun onCreateShopCartClick()
 }
