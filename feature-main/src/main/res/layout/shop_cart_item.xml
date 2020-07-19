@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -9,7 +10,7 @@
     <include layout="@layout/shop_cart_item_header" />
 
     <!-- Body -->
-    <include layout="@layout/shop_cart_item_body" />
+    <include layout="@layout/shop_cart_item_body"/>
 
     <!-- Footer -->
     <include layout="@layout/shop_cart_item_footer" />

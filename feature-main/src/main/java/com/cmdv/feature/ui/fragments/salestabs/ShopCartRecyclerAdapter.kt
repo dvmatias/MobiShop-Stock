@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.core.Constants
 import com.cmdv.core.helpers.getDayMonthYearWithBars
 import com.cmdv.core.helpers.getHoursMinutes
+import com.cmdv.core.utils.collapseShopCartItemBody
+import com.cmdv.core.utils.expandShopCartItemBody
 import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<ShopCartRecyclerAdapter.ShopCartViewHolder>() {
 
@@ -36,16 +40,21 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
 
     class ShopCartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private lateinit var shopCart: ShopCartModel
+
         // Header
         private val textViewOpenedDate = itemView.findViewById<AppCompatTextView>(R.id.textViewOpenedDate)
         private val textViewOpenedTime = itemView.findViewById<AppCompatTextView>(R.id.textViewOpenedTime)
         private val textViewName = itemView.findViewById<AppCompatTextView>(R.id.textViewName)
         private val imageButtonExpandCollapse = itemView.findViewById<ImageButton>(R.id.imageButtonExpandCollapse)
+
         // Footer
         private val textViewItemNumber = itemView.findViewById<AppCompatTextView>(R.id.textViewItemNumber)
         private val textViewSubtotal = itemView.findViewById<AppCompatTextView>(R.id.textViewSubtotal)
         private val textViewDiscount = itemView.findViewById<AppCompatTextView>(R.id.textViewDiscount)
         private val textViewTotal = itemView.findViewById<AppCompatTextView>(R.id.textViewTotal)
+
+        // Body
+        private val constraintBodyContainer = itemView.findViewById<ConstraintLayout>(R.id.constraintBodyContainer)
 
         fun bindView(context: Context, shopCart: ShopCartModel) {
             this.shopCart = shopCart
@@ -67,7 +76,12 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
             )
             textViewName.text = this.shopCart.name
             imageButtonExpandCollapse.setOnClickListener {
-
+                constraintBodyContainer.tag?.let { tag ->
+                    when (tag) {
+                        "collapsed", "collapsing" -> expandShopCartItemBody(constraintBodyContainer)
+                        "expanded", "expanding" -> collapseShopCartItemBody(constraintBodyContainer)
+                    }
+                }
             }
         }
 
@@ -104,3 +118,4 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
     }
 
 }
+
