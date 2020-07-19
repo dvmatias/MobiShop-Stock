@@ -11,6 +11,19 @@
     android:visibility="gone"
     tools:visibility="visible">
 
+    <!-- Label - Empty -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewShopCartEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_shop_cart_item_empty"
+        android:padding="@dimen/dim_22dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <!-- Recycler Shop Cart Products -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProducts"
@@ -22,9 +35,10 @@
 
     <!-- Button - Close Shop Cart -->
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonCloseShopCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="close the sale"
+        android:text="@string/label_shop_cart_item_close_button"
         android:backgroundTint="@color/colorAccent"
         android:textColor="@color/colorWhite"
         android:layout_marginTop="@dimen/dim_20dp"

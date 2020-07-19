@@ -103,6 +103,7 @@ class MainProductListFragment : Fragment() {
         override fun onActionAddToCart(position: Int) {
             Snackbar.make(activity!!.window.decorView.rootView, "Action Ad To Cart detected on product position $position", Snackbar.LENGTH_SHORT)
                 .show()
+
         }
     }
 

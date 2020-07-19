@@ -16,4 +16,6 @@
     <string name="placeholder_shop_cart_item_subtotal">$ %s</string>
     <string name="placeholder_shop_cart_item_discount">$ %s</string>
     <string name="placeholder_shop_cart_item_total">$ %s</string>
+    <string name="label_shop_cart_item_empty">This shopping cart is empty!</string>
+    <string name="label_shop_cart_item_close_button">Cerrá la venta</string>
 </resources>

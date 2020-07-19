@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -55,10 +56,14 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
 
         // Body
         private val constraintBodyContainer = itemView.findViewById<ConstraintLayout>(R.id.constraintBodyContainer)
+        private val textViewShopCartEmpty = itemView.findViewById<AppCompatTextView>(R.id.textViewShopCartEmpty)
+        private val recyclerViewProducts = itemView.findViewById<RecyclerView>(R.id.recyclerViewProducts)
+        private val buttonCloseShopCart = itemView.findViewById<AppCompatButton>(R.id.buttonCloseShopCart)
 
         fun bindView(context: Context, shopCart: ShopCartModel) {
             this.shopCart = shopCart
             setupHeader(context)
+            setupBody()
             setupFooter(context)
         }
 
@@ -82,6 +87,18 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
                         "expanded", "expanding" -> collapseShopCartItemBody(constraintBodyContainer)
                     }
                 }
+            }
+        }
+
+        private fun setupBody() {
+            if (shopCart.products.isEmpty()) {
+                textViewShopCartEmpty.visibility = View.VISIBLE
+                recyclerViewProducts.visibility = View.GONE
+                buttonCloseShopCart.visibility = View.GONE
+            } else {
+                textViewShopCartEmpty.visibility = View.GONE
+                recyclerViewProducts.visibility = View.VISIBLE
+                buttonCloseShopCart.visibility = View.VISIBLE
             }
         }
 
