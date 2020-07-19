@@ -88,14 +88,17 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
         }
 
         private fun getSubtotal(): String {
+            // TODO
             return "0.00"
         }
 
         private fun getDiscount(): String {
+            // TODO
             return "0.00"
         }
 
         private fun getTotal(): String {
+            // TODO
             return "0.00"
         }
     }

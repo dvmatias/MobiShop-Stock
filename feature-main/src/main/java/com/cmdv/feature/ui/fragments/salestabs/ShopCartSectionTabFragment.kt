@@ -50,6 +50,7 @@ class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
     private fun setupRecyclerShopCart() {
         shopCartAdapter = ShopCartRecyclerAdapter(activity!!)
         recyclerViewShopCart.apply {
+            addItemDecoration(ShopCartItemDecoration())
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = shopCartAdapter
         }
