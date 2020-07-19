@@ -1,14 +1,21 @@
 package com.cmdv.feature.ui.fragments.salestabs
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.cmdv.core.Constants
+import com.cmdv.core.helpers.getDayMonthYearWithBars
+import com.cmdv.core.helpers.getHoursMinutes
 import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
+import java.text.SimpleDateFormat
+import java.util.*
 
-class ShopCartRecyclerAdapter : RecyclerView.Adapter<ShopCartRecyclerAdapter.ShopCartViewHolder>() {
+class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<ShopCartRecyclerAdapter.ShopCartViewHolder>() {
 
     private var items: List<ShopCartModel> = listOf()
 
@@ -18,21 +25,78 @@ class ShopCartRecyclerAdapter : RecyclerView.Adapter<ShopCartRecyclerAdapter.Sho
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopCartViewHolder =
-        ShopCartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.shop_cart_item , parent, false))
+        ShopCartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.shop_cart_item, parent, false))
 
     override fun onBindViewHolder(holder: ShopCartViewHolder, position: Int) {
-        holder.bindView(items[position])
+        holder.bindView(context, items[position])
     }
 
     override fun getItemCount(): Int =
         items.size
 
-    class ShopCartViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val textViewMock =
-            itemView.findViewById<AppCompatTextView>(R.id.textViewMock)
+    class ShopCartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private lateinit var shopCart: ShopCartModel
+        // Header
+        private val textViewOpenedDate = itemView.findViewById<AppCompatTextView>(R.id.textViewOpenedDate)
+        private val textViewOpenedTime = itemView.findViewById<AppCompatTextView>(R.id.textViewOpenedTime)
+        private val textViewName = itemView.findViewById<AppCompatTextView>(R.id.textViewName)
+        private val imageButtonExpandCollapse = itemView.findViewById<ImageButton>(R.id.imageButtonExpandCollapse)
+        // Footer
+        private val textViewItemNumber = itemView.findViewById<AppCompatTextView>(R.id.textViewItemNumber)
+        private val textViewSubtotal = itemView.findViewById<AppCompatTextView>(R.id.textViewSubtotal)
+        private val textViewDiscount = itemView.findViewById<AppCompatTextView>(R.id.textViewDiscount)
+        private val textViewTotal = itemView.findViewById<AppCompatTextView>(R.id.textViewTotal)
 
-        fun bindView(shopCart: ShopCartModel) {
-            textViewMock.text = shopCart.id.toString()
+        fun bindView(context: Context, shopCart: ShopCartModel) {
+            this.shopCart = shopCart
+            setupHeader(context)
+            setupFooter(context)
+        }
+
+        private fun setupHeader(context: Context) {
+            textViewOpenedDate.text = getDayMonthYearWithBars(
+                this.shopCart.date.createdDate,
+                SimpleDateFormat(Constants.DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault())
+            )
+            textViewOpenedTime.text = String.format(
+                context.resources.getString(R.string.placeholder_shop_cart_item_opened_time),
+                getHoursMinutes(
+                    this.shopCart.date.createdDate,
+                    SimpleDateFormat(Constants.DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault())
+                )
+            )
+            textViewName.text = this.shopCart.name
+            imageButtonExpandCollapse.setOnClickListener {
+
+            }
+        }
+
+        private fun setupFooter(context: Context) {
+            textViewItemNumber.text = shopCart.products.size.toString()
+            textViewSubtotal.text = String.format(
+                context.resources.getString(R.string.placeholder_shop_cart_item_subtotal),
+                getSubtotal()
+            )
+            textViewDiscount.text = String.format(
+                context.resources.getString(R.string.placeholder_shop_cart_item_discount),
+                getDiscount()
+            )
+            textViewTotal.text = String.format(
+                context.resources.getString(R.string.placeholder_shop_cart_item_total),
+                getTotal()
+            )
+        }
+
+        private fun getSubtotal(): String {
+            return "0.00"
+        }
+
+        private fun getDiscount(): String {
+            return "0.00"
+        }
+
+        private fun getTotal(): String {
+            return "0.00"
         }
     }
 

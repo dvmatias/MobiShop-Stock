@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_activity_main">MainActivity</string>
     <string name="labelBottomNavTabHome">Inicio</string>
     <string name="labelBottomNavTabSales">Ventas</string>
     <string name="labelBottomNavTabProfile">Perfil</string>
 
     <string name="labelTabSales">ventas</string>
     <string name="labelTabShopCarts">carritos</string>
+    <string name="label_shop_cart_item_created_at">creado en</string>
+    <string name="placeholder_shop_cart_item_opened_time">%s hs</string>
+    <string name="label_shop_cart_item_items_number"># productos</string>
+    <string name="label_shop_cart_item_subtotal">Subtotal</string>
+    <string name="label_shop_cart_item_discount">Descuento</string>
+    <string name="label_shop_cart_item_total">Total</string>
+    <string name="placeholder_shop_cart_item_subtotal">$ %s</string>
+    <string name="placeholder_shop_cart_item_discount">$ %s</string>
+    <string name="placeholder_shop_cart_item_total">$ %s</string>
 </resources>

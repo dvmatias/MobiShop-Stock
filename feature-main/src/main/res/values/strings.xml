@@ -4,6 +4,16 @@
     <string name="labelBottomNavTabHome">Home</string>
     <string name="labelBottomNavTabSales">Sales</string>
     <string name="labelBottomNavTabProfile">Profile</string>
+
     <string name="labelTabSales">sales</string>
     <string name="labelTabShopCarts">shop carts</string>
+    <string name="label_shop_cart_item_created_at">created at</string>
+    <string name="placeholder_shop_cart_item_opened_time">%s hs</string>
+    <string name="label_shop_cart_item_items_number"># items</string>
+    <string name="label_shop_cart_item_subtotal">Subtotal</string>
+    <string name="label_shop_cart_item_discount">Discount</string>
+    <string name="label_shop_cart_item_total">Total</string>
+    <string name="placeholder_shop_cart_item_subtotal">$ %s</string>
+    <string name="placeholder_shop_cart_item_discount">$ %s</string>
+    <string name="placeholder_shop_cart_item_total">$ %s</string>
 </resources>

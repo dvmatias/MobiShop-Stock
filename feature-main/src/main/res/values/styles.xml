@@ -20,4 +20,21 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TextShopCartIemLabel1">
+        <item name="android:textSize">@dimen/text_12sp</item>
+        <item name="fontFamily">@font/cereal_bold</item>
+        <item name="android:textColor">@color/colorTextDark1</item>
+    </style>
+
+    <style name="TextShopCartIemLabel2">
+        <item name="android:textSize">@dimen/text_14sp</item>
+        <item name="fontFamily">@font/cereal_book</item>
+        <item name="android:textColor">@color/colorTextDark3</item>
+    </style>
+
+    <style name="TextShopCartIemDisplay2">
+        <item name="android:textSize">@dimen/text_16sp</item>
+        <item name="fontFamily">@font/cereal_book</item>
+        <item name="android:textColor">@color/colorTextDark2</item>
+    </style>
 </resources>
