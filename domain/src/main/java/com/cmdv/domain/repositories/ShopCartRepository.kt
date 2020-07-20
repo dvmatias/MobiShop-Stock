@@ -15,4 +15,6 @@ interface ShopCartRepository {
 
     suspend fun deleteAll()
 
+    suspend fun getDataCount(): Int
+
 }

@@ -1,5 +1,6 @@
 package com.cmdv.feature.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.core.Constants
 import com.cmdv.core.navigator.Navigator
-import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
@@ -17,7 +17,6 @@ import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback
 import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback.SwipeActionListener
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_product_list_main.*
@@ -32,6 +31,8 @@ class MainProductListFragment : Fragment() {
     private val productAdapter: RecyclerProductAdapter by inject()
     private val gson: Gson by inject()
     private val navigator: Navigator by inject()
+
+    private var listener: MainProductListFragmentListener? = null
 
     companion object {
         @JvmStatic
@@ -61,12 +62,20 @@ class MainProductListFragment : Fragment() {
         fabCreateProduct.setOnClickListener { navigator.toAddProductScreen(activityOrigin = activity!!) }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainProductListFragmentListener) {
+            this.listener = context
+        } else {
+            throw IllegalStateException("Calling Activity mus implement")
+        }
+    }
+
     private fun setupSwipeRefresh() {
         swipeRefreshMain.setOnRefreshListener { onRefresh() }
     }
 
     private fun onRefresh() {
-        logErrorMessage("onRefresh()")
         viewModel.getProducts()
     }
 
@@ -101,8 +110,6 @@ class MainProductListFragment : Fragment() {
         }
 
         override fun onActionAddToCart(position: Int) {
-            Snackbar.make(activity!!.window.decorView.rootView, "Action Ad To Cart detected on product position $position", Snackbar.LENGTH_SHORT)
-                .show()
 
         }
     }
@@ -163,5 +170,15 @@ class MainProductListFragment : Fragment() {
             noProductsFoundLayout.visibility = View.VISIBLE
             contentMain.visibility = View.GONE
         }
+    }
+
+    /**
+     * Interface to be implemented by calling activity.
+     * Communicates action in thi fragment to calling activity.
+     */
+    interface MainProductListFragmentListener {
+
+        fun onSwipeActionAddProductToShopCart(product: ProductModel)
+
     }
 }

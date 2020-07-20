@@ -9,7 +9,7 @@ import com.cmdv.domain.repositories.ProductRepository
 
 class MainProductListFragmentViewModel(
     private val productRepository: ProductRepository
-): ViewModel() {
+) : ViewModel() {
 
     // Product list
     private val _products = MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>()

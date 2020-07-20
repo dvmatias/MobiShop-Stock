@@ -22,4 +22,7 @@ interface ShopCartDAO {
     @Query("DELETE FROM shop_cart_table")
     suspend fun deleteAll()
 
+    @Query("SELECT COUNT(shop_cart_id) FROM shop_cart_table")
+    suspend fun getDataCount(): Int
+
 }

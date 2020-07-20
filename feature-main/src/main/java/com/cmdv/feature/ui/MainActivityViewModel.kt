@@ -12,4 +12,13 @@ class MainActivityViewModel(
     private val shopCartRepository: ShopCartRepository
 ) : ViewModel() {
 
+    // Shop Cart List
+    val liveDataOpenShopCarts = shopCartRepository.getAllOpenShopCarts()
+
+    fun createShopCart(name: String) = viewModelScope.launch {
+        shopCartRepository.insertShopCart(
+            name,
+            SimpleDateFormat(Constants.DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault()).format(Date().time)
+        )
+    }
 }

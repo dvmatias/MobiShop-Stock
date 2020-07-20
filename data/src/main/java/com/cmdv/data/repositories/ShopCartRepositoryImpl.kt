@@ -5,7 +5,6 @@ import androidx.lifecycle.Transformations
 import com.cmdv.data.datasources.db.ShopCartDAO
 import com.cmdv.data.mappers.ShopCartDatabaseMapper
 import com.cmdv.domain.models.ShopCartModel
-import com.cmdv.domain.models.ShopCartStatus
 import com.cmdv.domain.repositories.ShopCartRepository
 
 // TODO Add FB data source
@@ -35,5 +34,8 @@ class ShopCartRepositoryImpl(
     override suspend fun deleteAll() {
         shopCartDAO.deleteAll()
     }
+
+    override suspend fun getDataCount(): Int =
+        shopCartDAO.getDataCount()
 
 }

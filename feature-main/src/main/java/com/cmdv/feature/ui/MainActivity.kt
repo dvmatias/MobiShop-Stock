@@ -10,10 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
+import com.cmdv.components.dialog.createshopcart.ComponentCreateShopCartDialog
+import com.cmdv.components.dialog.createshopcart.CreateShopCartDialogListener
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ItemMainPageModel
+import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
 import com.cmdv.feature.ui.fragments.MainProductListFragment
@@ -24,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainSalesFragment.MainSalesFragmentListener, MainProductListFragment.MainProductListFragmentListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
 
@@ -179,6 +182,50 @@ class MainActivity : AppCompatActivity() {
 
         override fun onItemUnselected(view: View?) {
             logErrorMessage("onItemUnselected() $view")
+        }
+    }
+
+    private fun openCreateShopCartDialog() {
+        ComponentCreateShopCartDialog(this, createShopCartDialogListener).show()
+    }
+
+    /**
+     * [MainProductListFragment.MainProductListFragmentListener] implementation.
+     */
+    override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
+        viewModel.liveDataOpenShopCarts.observe(this, androidx.lifecycle.Observer { list ->
+            if (list != null) {
+                when (list.size) {
+                    0 -> {
+                        openCreateShopCartDialog()
+                        // TODO Add product to shop cart if creation succeeded.
+                    }
+                    1 -> {
+                        // TODO Add product to unique shop cart
+                    }
+                    else -> {
+                        // TODO Prompt user to choose shop cart to add product.
+                    }
+                }
+            }
+        })
+    }
+
+    /**
+     * [MainSalesFragment.MainSalesFragmentListener] implementation.
+     */
+    override fun onCreateShopCartClick() {
+        openCreateShopCartDialog()
+    }
+
+    /**
+     * [CreateShopCartDialogListener] implementation.
+     */
+    private val createShopCartDialogListener = object: CreateShopCartDialogListener {
+        override fun onCreateShopCartDialogPositiveClick(name: String) {
+            suspend {
+                viewModel.createShopCart(name)
+            }
         }
     }
 
