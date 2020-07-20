@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager
 
 private const val SCROLL_DURATION_MS = 300
 
-class StylingSwipeLockableViewPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
+class ComponentSwipeLockableViewPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
     private var swipeEnabled = false
     var scrollDuration: Int? = null
 
@@ -32,7 +32,7 @@ class StylingSwipeLockableViewPager(context: Context, attrs: AttributeSet) : Vie
 
     inner class MyScroller(context: Context) : Scroller(context, DecelerateInterpolator()) {
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
-            val scrollDuration = this@StylingSwipeLockableViewPager.scrollDuration ?: SCROLL_DURATION_MS
+            val scrollDuration = this@ComponentSwipeLockableViewPager.scrollDuration ?: SCROLL_DURATION_MS
             super.startScroll(startX, startY, dx, dy, scrollDuration)
         }
     }

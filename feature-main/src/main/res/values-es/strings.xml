@@ -5,7 +5,7 @@
     <string name="labelBottomNavTabSales">Ventas</string>
     <string name="labelBottomNavTabProfile">Perfil</string>
 
-    <string name="labelTabSales">ventas</string>
+    <string name="labelTabProducts">productos</string>
     <string name="labelTabShopCarts">carritos</string>
     <string name="label_shop_cart_item_created_at">creado en</string>
     <string name="placeholder_shop_cart_item_opened_time">%s hs</string>

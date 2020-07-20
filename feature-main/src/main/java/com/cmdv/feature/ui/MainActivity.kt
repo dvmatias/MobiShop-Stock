@@ -19,15 +19,17 @@ import com.cmdv.domain.models.ItemMainPageModel
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
-import com.cmdv.feature.ui.fragments.MainProductListFragment
-import com.cmdv.feature.ui.fragments.MainProfileFragment
-import com.cmdv.feature.ui.fragments.MainSalesFragment
+import com.cmdv.feature.ui.fragments.home.MainHomeFragment
+import com.cmdv.feature.ui.fragments.home.MainHomeFragmentListener
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
+import com.cmdv.feature.ui.fragments.profile.MainProfileFragment
+import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), MainSalesFragment.MainSalesFragmentListener, MainProductListFragment.MainProductListFragmentListener {
+class MainActivity : AppCompatActivity(), MainHomeFragmentListener, MainTabProductListFragment.MainProductListFragmentListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
 
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity(), MainSalesFragment.MainSalesFragmentLis
             "home",
             R.drawable.ic_bottom_nav_home_32dp,
             R.drawable.ic_bottom_nav_home_selected_32dp,
-            MainProductListFragment.newInstance(),
+            MainHomeFragment.newInstance(),
             true
         ),
         ItemMainPageModel(
@@ -140,11 +142,12 @@ class MainActivity : AppCompatActivity(), MainSalesFragment.MainSalesFragmentLis
     }
 
     override fun onBackPressed() {
-        if (!searchView.isIconified) {
-            searchView.onActionViewCollapsed()
-        } else {
-            super.onBackPressed()
-        }
+        super.onBackPressed()
+//        if (!searchView.isIconified) {
+//            searchView.onActionViewCollapsed()
+//        } else {
+//            super.onBackPressed()
+//        }
     }
 
     private fun setupToolbar() {
@@ -190,7 +193,7 @@ class MainActivity : AppCompatActivity(), MainSalesFragment.MainSalesFragmentLis
     }
 
     /**
-     * [MainProductListFragment.MainProductListFragmentListener] implementation.
+     * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
     override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
         viewModel.liveDataOpenShopCarts.observe(this, androidx.lifecycle.Observer { list ->
@@ -212,21 +215,23 @@ class MainActivity : AppCompatActivity(), MainSalesFragment.MainSalesFragmentLis
     }
 
     /**
-     * [MainSalesFragment.MainSalesFragmentListener] implementation.
+     * [CreateShopCartDialogListener] implementation.
      */
-    override fun onCreateShopCartClick() {
-        openCreateShopCartDialog()
+    private val createShopCartDialogListener = object : CreateShopCartDialogListener {
+        override fun onCreateShopCartDialogPositiveClick(name: String) {
+            viewModel.createShopCart(name)
+        }
     }
 
     /**
-     * [CreateShopCartDialogListener] implementation.
+     * [MainHomeFragmentListener] implementation.
      */
-    private val createShopCartDialogListener = object: CreateShopCartDialogListener {
-        override fun onCreateShopCartDialogPositiveClick(name: String) {
-            suspend {
-                viewModel.createShopCart(name)
-            }
-        }
+    override fun onCreateProductClick() {
+        navigator.toAddProductScreen(activityOrigin = this)
+    }
+
+    override fun onCreateShopCartClick() {
+        openCreateShopCartDialog()
     }
 
     /**

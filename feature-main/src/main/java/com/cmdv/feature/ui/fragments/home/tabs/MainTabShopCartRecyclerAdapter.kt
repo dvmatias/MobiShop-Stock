@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.fragments.salestabs
+package com.cmdv.feature.ui.fragments.home.tabs
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<ShopCartRecyclerAdapter.ShopCartViewHolder>() {
+class MainTabShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<MainTabShopCartRecyclerAdapter.ShopCartViewHolder>() {
 
     private var items: List<ShopCartModel> = listOf()
 
@@ -30,7 +30,9 @@ class ShopCartRecyclerAdapter(private val context: Context) : RecyclerView.Adapt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopCartViewHolder =
-        ShopCartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.shop_cart_item, parent, false))
+        ShopCartViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.shop_cart_item, parent, false)
+        )
 
     override fun onBindViewHolder(holder: ShopCartViewHolder, position: Int) {
         holder.bindView(context, items[position])

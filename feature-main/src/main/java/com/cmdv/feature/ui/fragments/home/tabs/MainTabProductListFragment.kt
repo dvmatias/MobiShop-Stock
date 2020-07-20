@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.fragments
+package com.cmdv.feature.ui.fragments.home.tabs
 
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cmdv.components.TabFragmentPlaceHolder
 import com.cmdv.core.Constants
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.domain.models.LiveDataStatusWrapper
@@ -19,14 +20,14 @@ import com.cmdv.feature.ui.controllers.SwipeToAddToCartOrEditCallback.SwipeActio
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_product_list_main.*
+import kotlinx.android.synthetic.main.fragment_main_tab_product_list.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
-class MainProductListFragment : Fragment() {
+class MainTabProductListFragment : TabFragmentPlaceHolder() {
 
-    private val viewModel: MainProductListFragmentViewModel by viewModel()
+    private val viewModel: MainTabProductListFragmentViewModel by viewModel()
     private val itemProductDecoration: ItemProductDecoration by inject()
     private val productAdapter: RecyclerProductAdapter by inject()
     private val gson: Gson by inject()
@@ -34,13 +35,10 @@ class MainProductListFragment : Fragment() {
 
     private var listener: MainProductListFragmentListener? = null
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            MainProductListFragment().apply {
-                arguments = Bundle().apply {}
-            }
-    }
+    override fun newInstance(): Fragment =
+        MainTabProductListFragment().apply {
+            arguments = Bundle().apply {}
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +49,7 @@ class MainProductListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(R.layout.fragment_product_list_main, container, false)
+        inflater.inflate(R.layout.fragment_main_tab_product_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,7 +57,6 @@ class MainProductListFragment : Fragment() {
         setupSwipeRefresh()
         setupRecyclerProduct()
         getProducts()
-        fabCreateProduct.setOnClickListener { navigator.toAddProductScreen(activityOrigin = activity!!) }
     }
 
     override fun onAttach(context: Context) {

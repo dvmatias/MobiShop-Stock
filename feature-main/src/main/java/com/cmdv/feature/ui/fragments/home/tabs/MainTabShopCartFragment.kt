@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.fragments.salestabs
+package com.cmdv.feature.ui.fragments.home.tabs
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,14 +13,14 @@ import com.cmdv.feature.R
 import kotlinx.android.synthetic.main.fragment_shop_cart_section.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
+class MainTabShopCartFragment : TabFragmentPlaceHolder() {
 
-    private val viewModel: ShopCartSectionTabFragmentViewModel by viewModel()
+    private val viewModel: MainTabShopCartFragmentViewModel by viewModel()
 
-    private lateinit var shopCartAdapter: ShopCartRecyclerAdapter
+    private lateinit var shopCartAdapter: MainTabShopCartRecyclerAdapter
 
     override fun newInstance(): Fragment =
-        ShopCartSectionTabFragment().apply {
+        MainTabShopCartFragment().apply {
             arguments = Bundle().apply {}
         }
 
@@ -39,7 +39,7 @@ class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
         super.onViewCreated(view, savedInstanceState)
 
         // TODO Delete: use this only to delete all shop carts in DB
-         viewModel.deleteAll()
+//         viewModel.deleteAll()
         setupRecyclerShopCart()
         viewModel.liveDataOpenShopCarts.observe(this, Observer { list ->
             logErrorMessage("$list")
@@ -48,7 +48,7 @@ class ShopCartSectionTabFragment : TabFragmentPlaceHolder() {
     }
 
     private fun setupRecyclerShopCart() {
-        shopCartAdapter = ShopCartRecyclerAdapter(activity!!)
+        shopCartAdapter = MainTabShopCartRecyclerAdapter(activity!!)
         recyclerViewShopCart.apply {
             addItemDecoration(ShopCartItemDecoration())
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

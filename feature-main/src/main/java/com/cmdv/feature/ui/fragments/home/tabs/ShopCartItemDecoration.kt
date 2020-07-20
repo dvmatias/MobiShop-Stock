@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.fragments.salestabs
+package com.cmdv.feature.ui.fragments.home.tabs
 
 import android.graphics.Rect
 import android.view.View

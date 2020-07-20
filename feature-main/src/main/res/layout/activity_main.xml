@@ -60,7 +60,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Main fragments container -->
-    <com.cmdv.components.viewpager.StylingSwipeLockableViewPager
+    <com.cmdv.components.viewpager.ComponentSwipeLockableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

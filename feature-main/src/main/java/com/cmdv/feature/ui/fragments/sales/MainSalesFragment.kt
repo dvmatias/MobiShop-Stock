@@ -1,14 +1,22 @@
-package com.cmdv.feature.ui.fragments.salestabs
+package com.cmdv.feature.ui.fragments.sales
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.cmdv.components.TabFragmentPlaceHolder
+import androidx.fragment.app.Fragment
 import com.cmdv.feature.R
 
-class SalesSectionTabFragment : TabFragmentPlaceHolder() {
+class MainSalesFragment : Fragment() {
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            MainSalesFragment().apply {
+                arguments = Bundle().apply {}
+            }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { }
@@ -19,12 +27,7 @@ class SalesSectionTabFragment : TabFragmentPlaceHolder() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sales_section, container, false)
+        return inflater.inflate(R.layout.fragment_main_sales, container, false)
     }
-
-    override fun newInstance(): Fragment =
-        SalesSectionTabFragment().apply {
-            arguments = Bundle().apply {}
-        }
 
 }

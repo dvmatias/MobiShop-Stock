@@ -1,11 +1,11 @@
-package com.cmdv.feature.ui.fragments.salestabs
+package com.cmdv.feature.ui.fragments.home.tabs
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmdv.domain.repositories.ShopCartRepository
 import kotlinx.coroutines.launch
 
-class ShopCartSectionTabFragmentViewModel(
+class MainTabShopCartFragmentViewModel(
     private val shopCartRepository: ShopCartRepository
 ) : ViewModel() {
 

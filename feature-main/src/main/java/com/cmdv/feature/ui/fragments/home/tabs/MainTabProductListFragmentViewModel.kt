@@ -1,4 +1,4 @@
-package com.cmdv.feature.ui.fragments
+package com.cmdv.feature.ui.fragments.home.tabs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.repositories.ProductRepository
 
-class MainProductListFragmentViewModel(
+class MainTabProductListFragmentViewModel(
     private val productRepository: ProductRepository
 ) : ViewModel() {
 
