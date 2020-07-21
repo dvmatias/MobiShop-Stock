@@ -4,6 +4,6 @@ import com.cmdv.domain.models.ShopCartModel
 
 interface AddProductToShopCartDialogListener {
 
-    fun onAddProductToShopCartDialogPositiveClick(shopCartProduct: ShopCartModel.ShopCartProductModel)
+    fun onAddProductToShopCartDialogPositiveClick(shopCartId: Long, product: ShopCartModel.ShopCartProductModel)
 
 }

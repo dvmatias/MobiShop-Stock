@@ -17,7 +17,7 @@ interface ShopCartDAO {
     suspend fun deleteShopCart(shopCart: ShopCartDatabaseEntity)
 
     @Query("SELECT * FROM shop_cart_table WHERE shop_cart_id=:id ")
-    suspend fun getById(id: String): ShopCartDatabaseEntity
+    suspend fun getById(id: Int): ShopCartDatabaseEntity
 
     @Query("SELECT * FROM shop_cart_table")
     fun getAllOpenShopCarts(): LiveData<List<ShopCartDatabaseEntity>>

@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.dialog_add_product_to_shop_cart_component.
 
 class ComponentAddProductToShopCartDialog(
     context: Context,
+    private val shopCartId: Long,
     private val product: ProductModel,
     private val listener: AddProductToShopCartDialogListener
 ) : Dialog(context) {
@@ -60,9 +61,9 @@ class ComponentAddProductToShopCartDialog(
     private fun setupButtons() {
         buttonNegative.setOnClickListener { dismiss() }
         buttonPositive.setOnClickListener {
-            val productToAdd: ShopCartModel.ShopCartProductModel? = getProductToAdd()
-            if (productToAdd != null) {
-                listener.onAddProductToShopCartDialogPositiveClick(productToAdd)
+            val product: ShopCartModel.ShopCartProductModel? = getProductToAdd()
+            if (product != null) {
+                listener.onAddProductToShopCartDialogPositiveClick(shopCartId, product)
             }
             dismiss()
         }

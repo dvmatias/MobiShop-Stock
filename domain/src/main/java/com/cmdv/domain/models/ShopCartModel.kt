@@ -10,7 +10,9 @@ data class ShopCartModel(
     val name: String,
     val date: DateModel,
     val status: ShopCartStatus,
-    val products: List<ShopCartProductModel>
+    val products: ArrayList<ShopCartProductModel>,
+    val discount: String,
+    val subtotal: String
 ) {
 
     data class DateModel(

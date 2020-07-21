@@ -21,8 +21,8 @@ class ShopCartRepositoryImpl(
     override suspend fun deleteShopCart(shopCartModel: ShopCartModel) =
         shopCartDAO.deleteShopCart(ShopCartDatabaseMapper().transformModelToEntity(shopCartModel))
 
-    override suspend fun getShopCartById(id: String): ShopCartModel =
-        ShopCartDatabaseMapper().transformEntityToModel(shopCartDAO.getById(id))
+    override suspend fun getShopCartById(id: Long): ShopCartModel =
+        ShopCartDatabaseMapper().transformEntityToModel(shopCartDAO.getById(id.toInt()))
 
     override fun getAllOpenShopCarts(): LiveData<List<ShopCartModel>> {
         return Transformations.map(
@@ -32,6 +32,28 @@ class ShopCartRepositoryImpl(
                 ShopCartDatabaseMapper().transformEntityToModel(it)
             } ?: listOf()
         }
+    }
+
+    override suspend fun addProduct(shopCartId: Long, product: ShopCartModel.ShopCartProductModel) {
+        val shopCart: ShopCartModel = getShopCartById(shopCartId)
+        var alreadyContainProduct = false
+        var index = -1
+        for (i in 0 until shopCart.products.size) {
+            val p = shopCart.products[i]
+            if (p.code == product.code) {
+                index = i
+                alreadyContainProduct = true
+                break
+            }
+        }
+        if (alreadyContainProduct) {
+            shopCart.products.removeAt(index)
+            shopCart.products.add(index, product)
+        } else {
+            shopCart.products.add(product)
+        }
+        // TODO update date of update.
+        updateShopCart(shopCart)
     }
 
     override suspend fun deleteAll() {

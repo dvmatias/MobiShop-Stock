@@ -11,9 +11,11 @@ interface ShopCartRepository {
 
     suspend fun deleteShopCart(shopCartModel: ShopCartModel)
 
-    suspend fun getShopCartById(id: String): ShopCartModel
+    suspend fun getShopCartById(id: Long): ShopCartModel
 
     fun getAllOpenShopCarts(): LiveData<List<ShopCartModel>>
+
+    suspend fun addProduct(shopCartId: Long, product: ShopCartModel.ShopCartProductModel)
 
     suspend fun deleteAll()
 

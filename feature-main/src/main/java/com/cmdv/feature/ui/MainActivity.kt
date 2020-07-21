@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
 import com.cmdv.components.dialog.addproducttoshopcart.ComponentAddProductToShopCartDialog
@@ -30,8 +31,12 @@ import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.android.scope.lifecycleScope
 import org.koin.android.viewmodel.ext.android.viewModel
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity(),
     MainHomeFragmentListener,
@@ -198,7 +203,7 @@ class MainActivity : AppCompatActivity(),
      * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
     override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
-        viewModel.liveDataOpenShopCarts.observe(this, androidx.lifecycle.Observer { list ->
+        viewModel.liveDataOpenShopCarts.observe(this, Observer { list ->
             if (list != null) {
                 when (list.size) {
                     0 ->
@@ -207,12 +212,7 @@ class MainActivity : AppCompatActivity(),
                                 ((pager.adapter as PagerMainFragmentAdapter).getItem(0) as MainHomeFragment)
                                     .goToShopCartTab()
                             }.show()
-                    1 ->
-                        ComponentAddProductToShopCartDialog(
-                            this,
-                            product,
-                            addProductToCartDialogListener
-                        ).show()
+                    1 -> ComponentAddProductToShopCartDialog(this, list[0].id, product, addProductToCartDialogListener).show()
                     else -> {
                         // TODO Open dialog for user choose color/quantity
                         // If accept dialog and quantity != 0 -> Prompt user to choose shop cart to add product.
@@ -246,9 +246,15 @@ class MainActivity : AppCompatActivity(),
      * [AddProductToShopCartDialogListener] implementation.
      */
     private val addProductToCartDialogListener: AddProductToShopCartDialogListener = object : AddProductToShopCartDialogListener {
-        override fun onAddProductToShopCartDialogPositiveClick(shopCartProduct: ShopCartModel.ShopCartProductModel) {
-            logErrorMessage("")
-            // TODO save product to shop cart
+        override fun onAddProductToShopCartDialogPositiveClick(
+            shopCartId: Long,
+            product: ShopCartModel.ShopCartProductModel
+        ) {
+            GlobalScope.launch {
+                logErrorMessage("AAAAAAAAAAA")
+                viewModel.addShopCartProduct(shopCartId, product)
+                logErrorMessage("BBBBBBBBBBBBB")
+            }
         }
     }
 
