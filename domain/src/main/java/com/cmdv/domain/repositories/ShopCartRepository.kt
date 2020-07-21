@@ -11,6 +11,8 @@ interface ShopCartRepository {
 
     suspend fun deleteShopCart(shopCartModel: ShopCartModel)
 
+    suspend fun getShopCartById(id: String): ShopCartModel
+
     fun getAllOpenShopCarts(): LiveData<List<ShopCartModel>>
 
     suspend fun deleteAll()

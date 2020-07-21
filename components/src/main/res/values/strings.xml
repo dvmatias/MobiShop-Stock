@@ -8,6 +8,12 @@
     <string name="label_create_shop_cart_dialog_negative_button">Cancel</string>
     <string name="label_create_shop_cart_dialog_positive_button">Accept</string>
 
+    <string name="text_add_product_to_shop_cart_dialog_description">Choose the quantity and colors you want to add to the shopping cart.</string>
+    <string name="label_add_product_to_shop_cart_dialog_positive_button">Accept</string>
+    <string name="label_add_product_to_shop_cart_dialog_negative_button">Cancel</string>
+    <string name="label_add_product_to_shop_cart_dialog_total">Total</string>
+    <string name="placeholder_add_product_to_shop_cart_dialog_max">(%d Max)</string>
+
     <string-array name="colorName">
         <item>Transparent</item>
         <item>White</item>

@@ -9,8 +9,8 @@ import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartFragment
 
 private val TABS = arrayOf(
-    MainTabProductListFragment() to R.string.labelTabProducts,
-    MainTabShopCartFragment() to R.string.labelTabShopCarts
+    MainTabProductListFragment() to R.string.label_tab_products,
+    MainTabShopCartFragment() to R.string.label_tab_shop_cart
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bgr_container_dialog"
+    android:paddingBottom="@dimen/dim_30dp">
+
+    <!-- Title -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:background="@drawable/bgr_title_dialog"
+        android:fontFamily="@font/cereal_book"
+        android:lines="1"
+        android:paddingStart="@dimen/dim_28dp"
+        android:paddingTop="@dimen/dim_30dp"
+        android:paddingEnd="@dimen/dim_28dp"
+        android:paddingBottom="@dimen/dim_14dp"
+        android:textColor="@color/colorTextDark1"
+        android:textSize="@dimen/text_20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Product Name" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#CAB8DC"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"/>
+
+    <!-- Description -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cereal_book"
+        android:paddingTop="@dimen/dim_12dp"
+        android:paddingBottom="@dimen/dim_12dp"
+        android:paddingStart="@dimen/dim_28dp"
+        android:paddingEnd="@dimen/dim_28dp"
+        android:text="@string/text_add_product_to_shop_cart_dialog_description"
+        android:textColor="@color/colorTextDark2"
+        android:textSize="@dimen/text_14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
+
+    <!-- Color Quantities -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dim_22dp"
+        android:paddingEnd="@dimen/dim_22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDescription"/>
+
+    <!-- Label - Total -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTotalLabel"
+        style="@style/TextShopCartIemLabel2"
+        android:layout_width="21dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="@dimen/dim_8dp"
+        android:text="@string/label_add_product_to_shop_cart_dialog_total"
+        android:textColor="@color/colorTextDark1"
+        app:layout_constraintBottom_toBottomOf="@id/textViewTotal"
+        app:layout_constraintEnd_toStartOf="@id/textViewTotal"
+        app:layout_constraintTop_toTopOf="@id/textViewTotal" />
+
+    <!-- Total -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bgr_shop_cart_item_total"
+        android:fontFamily="@font/cereal_bold"
+        android:gravity="end"
+        android:layout_marginEnd="@dimen/dim_28dp"
+        android:layout_marginTop="@dimen/dim_12dp"
+        android:paddingTop="@dimen/dim_8dp"
+        android:paddingStart="@dimen/dim_14dp"
+        android:paddingEnd="@dimen/dim_14dp"
+        android:paddingBottom="@dimen/dim_8dp"
+        android:textColor="@color/colorTextDark1"
+        android:textSize="@dimen/text_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        tools:text="2" />
+
+    <!-- Button - Positive -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonPositive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_30dp"
+        android:layout_marginEnd="@dimen/dim_28dp"
+        android:backgroundTint="@color/colorMainViolet"
+        android:textColor="@color/colorWhite"
+        android:text="@string/label_add_product_to_shop_cart_dialog_positive_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTotal" />
+
+    <!-- Button - Negative -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonNegative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_30dp"
+        android:layout_marginEnd="@dimen/dim_24dp"
+        android:background="@null"
+        android:textColor="@color/colorMainViolet"
+        android:text="@string/label_add_product_to_shop_cart_dialog_negative_button"
+        app:layout_constraintEnd_toStartOf="@id/buttonPositive"
+        app:layout_constraintTop_toBottomOf="@id/textViewTotal" />
+</androidx.constraintlayout.widget.ConstraintLayout>

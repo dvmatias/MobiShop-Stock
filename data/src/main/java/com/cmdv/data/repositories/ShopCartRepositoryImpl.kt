@@ -21,6 +21,9 @@ class ShopCartRepositoryImpl(
     override suspend fun deleteShopCart(shopCartModel: ShopCartModel) =
         shopCartDAO.deleteShopCart(ShopCartDatabaseMapper().transformModelToEntity(shopCartModel))
 
+    override suspend fun getShopCartById(id: String): ShopCartModel =
+        ShopCartDatabaseMapper().transformEntityToModel(shopCartDAO.getById(id))
+
     override fun getAllOpenShopCarts(): LiveData<List<ShopCartModel>> {
         return Transformations.map(
             shopCartDAO.getAllOpenShopCarts()

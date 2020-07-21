@@ -89,4 +89,8 @@ class MainHomeFragment : Fragment() {
         else
             throw IllegalAccessException("Calling Activity must implement ${MainHomeFragmentListener::class.java.simpleName}.")
     }
+
+    fun goToShopCartTab() {
+        viewPagerHome.currentItem = 1
+    }
 }

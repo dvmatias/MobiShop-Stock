@@ -5,8 +5,8 @@
     <string name="labelBottomNavTabSales">Ventas</string>
     <string name="labelBottomNavTabProfile">Perfil</string>
 
-    <string name="labelTabProducts">productos</string>
-    <string name="labelTabShopCarts">carritos</string>
+    <string name="label_tab_products">productos</string>
+    <string name="label_tab_shop_cart">carrito</string>
     <string name="label_shop_cart_item_created_at">creado en</string>
     <string name="placeholder_shop_cart_item_opened_time">%s hs</string>
     <string name="label_shop_cart_item_items_number"># productos</string>
@@ -18,4 +18,6 @@
     <string name="placeholder_shop_cart_item_total">$ %s</string>
     <string name="label_shop_cart_item_empty">El carrito de compras está vacío!</string>
     <string name="label_shop_cart_item_close_button">Close the sale</string>
+    <string name="message_no_shop_cart_add_product_snackbar">There are no shopping cart to add this product. Would you like to create one?</string>
+    <string name="action_no_shop_cart_add_product_snackbar">Yes</string>
 </resources>

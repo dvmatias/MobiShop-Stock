@@ -22,9 +22,9 @@ data class ShopCartModel(
     data class ShopCartProductModel(
         val code: String,
         val name: String,
-        val price: Double,
+        val price: String,
         val imageName: String,
-        val colorQuantity: List<ShopCartProductColorQuantityDatabaseModel>?
+        val colorQuantity: List<ShopCartProductColorQuantityDatabaseModel>
     )
 
     data class ShopCartProductColorQuantityDatabaseModel(

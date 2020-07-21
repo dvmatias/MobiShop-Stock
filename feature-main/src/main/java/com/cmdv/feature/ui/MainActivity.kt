@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
+import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
+import com.cmdv.components.dialog.addproducttoshopcart.ComponentAddProductToShopCartDialog
 import com.cmdv.components.dialog.createshopcart.ComponentCreateShopCartDialog
 import com.cmdv.components.dialog.createshopcart.CreateShopCartDialogListener
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
@@ -17,6 +19,7 @@ import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ItemMainPageModel
 import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
 import com.cmdv.feature.ui.fragments.home.MainHomeFragment
@@ -24,12 +27,15 @@ import com.cmdv.feature.ui.fragments.home.MainHomeFragmentListener
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
 import com.cmdv.feature.ui.fragments.profile.MainProfileFragment
 import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), MainHomeFragmentListener, MainTabProductListFragment.MainProductListFragmentListener {
+class MainActivity : AppCompatActivity(),
+    MainHomeFragmentListener,
+    MainTabProductListFragment.MainProductListFragmentListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
 
@@ -188,10 +194,6 @@ class MainActivity : AppCompatActivity(), MainHomeFragmentListener, MainTabProdu
         }
     }
 
-    private fun openCreateShopCartDialog() {
-        ComponentCreateShopCartDialog(this, createShopCartDialogListener).show()
-    }
-
     /**
      * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
@@ -199,15 +201,21 @@ class MainActivity : AppCompatActivity(), MainHomeFragmentListener, MainTabProdu
         viewModel.liveDataOpenShopCarts.observe(this, androidx.lifecycle.Observer { list ->
             if (list != null) {
                 when (list.size) {
-                    0 -> {
-                        openCreateShopCartDialog()
-                        // TODO Add product to shop cart if creation succeeded.
-                    }
-                    1 -> {
-                        // TODO Add product to unique shop cart
-                    }
+                    0 ->
+                        Snackbar.make(mainLayout, getString(R.string.message_no_shop_cart_add_product_snackbar), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.action_no_shop_cart_add_product_snackbar)) {
+                                ((pager.adapter as PagerMainFragmentAdapter).getItem(0) as MainHomeFragment)
+                                    .goToShopCartTab()
+                            }.show()
+                    1 ->
+                        ComponentAddProductToShopCartDialog(
+                            this,
+                            product,
+                            addProductToCartDialogListener
+                        ).show()
                     else -> {
-                        // TODO Prompt user to choose shop cart to add product.
+                        // TODO Open dialog for user choose color/quantity
+                        // If accept dialog and quantity != 0 -> Prompt user to choose shop cart to add product.
                     }
                 }
             }
@@ -231,7 +239,17 @@ class MainActivity : AppCompatActivity(), MainHomeFragmentListener, MainTabProdu
     }
 
     override fun onCreateShopCartClick() {
-        openCreateShopCartDialog()
+        ComponentCreateShopCartDialog(this, createShopCartDialogListener).show()
+    }
+
+    /**
+     * [AddProductToShopCartDialogListener] implementation.
+     */
+    private val addProductToCartDialogListener: AddProductToShopCartDialogListener = object : AddProductToShopCartDialogListener {
+        override fun onAddProductToShopCartDialogPositiveClick(shopCartProduct: ShopCartModel.ShopCartProductModel) {
+            logErrorMessage("")
+            // TODO save product to shop cart
+        }
     }
 
     /**

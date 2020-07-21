@@ -39,7 +39,7 @@ class ShopCartDatabaseMapper : BaseMapper<ShopCartDatabaseEntity, ShopCartModel>
             ShopCartModel.ShopCartProductModel(
                 it.code ?: DEFAULT_STRING,
                 it.name ?: DEFAULT_STRING,
-                it.price ?: DEFAULT_DOUBLE,
+                it.price?.toString() ?: DEFAULT_STRING,
                 it.imageName ?: DEFAULT_STRING,
                 transformColoQuantityEntityToModel(it.colorQuantity)
             )
@@ -47,7 +47,7 @@ class ShopCartDatabaseMapper : BaseMapper<ShopCartDatabaseEntity, ShopCartModel>
 
     private fun transformColoQuantityEntityToModel(
         colorQuantity: ArrayList<ShopCartDatabaseEntity.ShopCartProductDatabaseEntity.ShopCartProductColorQuantityDatabaseEntity>?
-    ): List<ShopCartModel.ShopCartProductColorQuantityDatabaseModel>? =
+    ): List<ShopCartModel.ShopCartProductColorQuantityDatabaseModel> =
         colorQuantity?.map {
             ShopCartModel.ShopCartProductColorQuantityDatabaseModel(
                 it.colorValue ?: DEFAULT_STRING,

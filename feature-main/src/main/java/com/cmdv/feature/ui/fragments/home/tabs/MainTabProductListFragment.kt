@@ -107,7 +107,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder() {
         }
 
         override fun onActionAddToCart(position: Int) {
-
+            listener?.onSwipeActionAddProductToShopCart(productAdapter.getProduct(position))
         }
     }
 
