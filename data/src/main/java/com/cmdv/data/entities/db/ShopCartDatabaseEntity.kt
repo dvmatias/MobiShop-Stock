@@ -14,9 +14,9 @@ data class ShopCartDatabaseEntity(
     val name: String?,
     @ColumnInfo(name = "shop_cart_is_closed")
     val isClosed: Boolean?,
-    @Embedded
+    @ColumnInfo(name = "shop_cart_date")
     val date: ShopCartDateDatabaseEntity?,
-    @Embedded
+    @ColumnInfo(name = "shop_cart_products")
     val products: ArrayList<ShopCartProductDatabaseEntity>?,
     @ColumnInfo(name = "shop_cart_discount")
     val discount: Double?,

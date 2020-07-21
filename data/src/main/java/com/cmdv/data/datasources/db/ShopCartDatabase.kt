@@ -1,14 +1,18 @@
 package com.cmdv.data.datasources.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.cmdv.data.entities.db.ShopCartDatabaseEntity
+import com.cmdv.data.entities.db.ShopCartDateDatabaseEntityConverter
+import com.cmdv.data.entities.db.ShopCartProductDatabaseEntityConverter
 
 @Database(
     entities = [ShopCartDatabaseEntity::class],
-    version = 2
+    version = 3
+)
+@TypeConverters(
+    ShopCartDateDatabaseEntityConverter::class,
+    ShopCartProductDatabaseEntityConverter::class
 )
 abstract class ShopCartDatabase : RoomDatabase() {
 

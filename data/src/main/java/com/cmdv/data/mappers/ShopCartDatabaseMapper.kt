@@ -18,7 +18,7 @@ class ShopCartDatabaseMapper : BaseMapper<ShopCartDatabaseEntity, ShopCartModel>
 
     override fun transformModelToEntity(m: ShopCartModel): ShopCartDatabaseEntity {
         val id: Int = m.id.toInt()
-        val name: String? = m.name+"abc"
+        val name: String? = m.name
         val isClosed: Boolean? = m.status == ShopCartStatus.CLOSED
         val date: ShopCartDateDatabaseEntity? = transformDateModelToEntity(m.date)
         val products: ArrayList<ShopCartProductDatabaseEntity>? = transformProductsModelToEntity(m.products)

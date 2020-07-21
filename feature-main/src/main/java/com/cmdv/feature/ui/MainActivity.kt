@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
@@ -203,7 +204,8 @@ class MainActivity : AppCompatActivity(),
      * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
     override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
-        viewModel.liveDataOpenShopCarts.observe(this, Observer { list ->
+        val observer = Observer<List<ShopCartModel>> { list ->
+            viewModel.liveDataOpenShopCarts.removeObservers(this)
             if (list != null) {
                 when (list.size) {
                     0 ->
@@ -219,7 +221,8 @@ class MainActivity : AppCompatActivity(),
                     }
                 }
             }
-        })
+        }
+        viewModel.liveDataOpenShopCarts.observe(this, observer)
     }
 
     /**

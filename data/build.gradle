@@ -64,6 +64,8 @@ dependencies {
     implementation libs.room
     implementation libs.room_ktx
     kapt libs.room_annotation_processor
+    // Gson
+    implementation libs.gson
     // Coroutines
     implementation libs.coroutines_core
     implementation libs.coroutines_android
