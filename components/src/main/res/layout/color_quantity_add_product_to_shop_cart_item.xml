@@ -13,18 +13,21 @@
         android:id="@+id/imageButtonSubtract"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:layout_constraintStart_toEndOf="@id/cardViewColor"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/dim_12dp"
+        android:background="@drawable/bgr_color_quantity_add_product_to_shop_cart_add_subtract_button"
+        android:src="@drawable/ic_subtract_product_color_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_subtract_product_color_24dp"/>
+        app:layout_constraintStart_toEndOf="@id/cardViewColor"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewQuantity"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="22sp"
+        android:textSize="@dimen/text_20sp"
+        android:fontFamily="@font/cereal_book"
+        android:textColor="@color/colorTextDark2"
         android:gravity="center_horizontal"
         android:focusable="false"
         app:layout_constraintStart_toEndOf="@id/imageButtonSubtract"
@@ -35,16 +38,17 @@
         android:id="@+id/imageButtonAdd"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:layout_constraintStart_toEndOf="@id/textViewQuantity"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bgr_color_quantity_add_product_to_shop_cart_add_subtract_button"
+        android:src="@drawable/ic_add_product_color_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_add_product_color_24dp"/>
+        app:layout_constraintStart_toEndOf="@id/textViewQuantity"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewMaxQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/dim_18dp"
         app:layout_constraintStart_toEndOf="@id/imageButtonAdd"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
