@@ -10,18 +10,9 @@
     <!-- Title -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewTitle"
+        style="@style/TextTitleDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:background="@drawable/bgr_title_dialog"
-        android:fontFamily="@font/cereal_medium"
-        android:textColor="@color/colorTextDark1"
-        android:lines="1"
-        android:textSize="@dimen/text_20sp"
-        android:paddingStart="@dimen/dim_28dp"
-        android:paddingTop="@dimen/dim_30dp"
-        android:paddingEnd="@dimen/dim_28dp"
-        android:paddingBottom="@dimen/dim_14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,16 +29,10 @@
     <!-- Description -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewDescription"
+        style="@style/TextDescriptionDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_book"
-        android:paddingTop="@dimen/dim_12dp"
-        android:paddingBottom="@dimen/dim_12dp"
-        android:paddingStart="@dimen/dim_28dp"
-        android:paddingEnd="@dimen/dim_28dp"
         android:text="@string/text_add_product_to_shop_cart_dialog_description"
-        android:textColor="@color/colorTextDark2"
-        android:textSize="@dimen/text_14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
@@ -99,12 +84,9 @@
     <!-- Button - Positive -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonPositive"
+        style="@style/ButtonPositiveDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_30dp"
-        android:layout_marginEnd="@dimen/dim_28dp"
-        android:backgroundTint="@color/colorMainViolet"
-        android:textColor="@color/colorWhite"
         android:text="@string/label_add_product_to_shop_cart_dialog_positive_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTotal" />
@@ -112,12 +94,9 @@
     <!-- Button - Negative -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonNegative"
+        style="@style/ButtonNegativeDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_30dp"
-        android:layout_marginEnd="@dimen/dim_24dp"
-        android:background="@null"
-        android:textColor="@color/colorMainViolet"
         android:text="@string/label_add_product_to_shop_cart_dialog_negative_button"
         app:layout_constraintEnd_toStartOf="@id/buttonPositive"
         app:layout_constraintTop_toBottomOf="@id/textViewTotal" />

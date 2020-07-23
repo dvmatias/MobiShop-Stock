@@ -1,43 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="@dimen/dim_22dp">
+    android:background="@drawable/bgr_container_dialog"
+    android:paddingBottom="@dimen/dim_30dp">
 
     <!-- Title -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewTitle"
+        style="@style/TextTitleDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent2"
-        android:ellipsize="end"
-        android:fontFamily="@font/cereal_bold"
-        android:lines="1"
-        android:paddingStart="@dimen/dim_20dp"
-        android:paddingTop="@dimen/dim_20dp"
-        android:paddingEnd="@dimen/dim_20dp"
-        android:paddingBottom="@dimen/dim_12dp"
         android:text="@string/text_create_shop_cart_dialog_title"
-        android:textColor="@color/colorTextDark1"
-        android:textSize="@dimen/text_24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#CAB8DC"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"/>
+
     <!-- Description -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewDescription"
+        style="@style/TextDescriptionDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_book"
-        android:paddingTop="@dimen/dim_16dp"
-        android:paddingBottom="@dimen/dim_16dp"
-        android:paddingStart="@dimen/dim_22dp"
-        android:paddingEnd="@dimen/dim_22dp"
         android:text="@string/text_create_shop_cart_dialog_description"
-        android:textColor="@color/colorTextDark2"
-        android:textSize="@dimen/text_14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
@@ -57,56 +51,31 @@
     <!-- Description -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewFooter"
+        style="@style/TextDescriptionDialog.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_book"
-        android:paddingTop="@dimen/dim_16dp"
-        android:paddingBottom="@dimen/dim_16dp"
-        android:paddingStart="@dimen/dim_26dp"
-        android:paddingEnd="@dimen/dim_26dp"
         android:text="@string/text_create_shop_cart_dialog_footer"
-        android:textColor="@color/colorTextDark3"
-        android:textSize="@dimen/text_13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextShopCartName" />
 
     <!-- Button - Negative -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewNegativeButton"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonNegative"
+        style="@style/ButtonNegativeDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_16dp"
-        android:layout_marginEnd="@dimen/dim_12dp"
-        android:fontFamily="@font/open_sans_bold"
-        android:paddingTop="@dimen/dim_8dp"
-        android:paddingBottom="@dimen/dim_8dp"
-        android:paddingStart="@dimen/dim_26dp"
-        android:paddingEnd="@dimen/dim_26dp"
         android:text="@string/label_create_shop_cart_dialog_negative_button"
-        android:textAllCaps="true"
-        android:textColor="@color/colorTextDark1"
-        android:textSize="@dimen/text_15sp"
-        app:layout_constraintEnd_toStartOf="@id/textViewPositiveButton"
+        app:layout_constraintEnd_toStartOf="@id/buttonPositive"
         app:layout_constraintTop_toBottomOf="@id/textViewFooter" />
 
     <!-- Button - Positive -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewPositiveButton"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonPositive"
+        style="@style/ButtonPositiveDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_16dp"
-        android:layout_marginEnd="@dimen/dim_16dp"
-        android:background="@color/colorAccent2"
-        android:fontFamily="@font/open_sans_bold"
-        android:paddingTop="@dimen/dim_8dp"
-        android:paddingBottom="@dimen/dim_8dp"
-        android:paddingStart="@dimen/dim_26dp"
-        android:paddingEnd="@dimen/dim_26dp"
         android:text="@string/label_create_shop_cart_dialog_positive_button"
-        android:textAllCaps="true"
-        android:textColor="@color/colorTextDark1"
-        android:textSize="@dimen/text_15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewFooter" />
 

@@ -23,21 +23,23 @@ class ComponentCreateShopCartDialog(context: Context, private val listener: Crea
     }
 
     private fun setupWindowParams() {
-        window?.setLayout(
-            (DisplayHelper.getDisplayWidthPx() * DIALOG_WIDTH_DISPLAY_PERCENTAGE).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        window?.apply{
+            setLayout((DisplayHelper.getDisplayWidthPx() * DIALOG_WIDTH_DISPLAY_PERCENTAGE).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+            setBackgroundDrawableResource(android.R.color.transparent)
+        }
+        setCancelable(false)
     }
 
     private fun setupPositiveButton() {
-        textViewPositiveButton.setOnClickListener {
+        buttonPositive.setOnClickListener {
             listener.onCreateShopCartDialogPositiveClick(editTextShopCartName.text.toString())
             dismiss()
         }
     }
 
     private fun setupNegativeButton() {
-        textViewNegativeButton.setOnClickListener {
+        buttonNegative.setOnClickListener {
             dismiss()
         }
     }
