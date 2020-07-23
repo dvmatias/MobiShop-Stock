@@ -8,8 +8,10 @@ import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.core.Constants
+import com.cmdv.core.helpers.formatPriceWithCurrency
 import com.cmdv.core.helpers.getDayMonthYearWithBars
 import com.cmdv.core.helpers.getHoursMinutes
 import com.cmdv.core.utils.collapseShopCartItemBody
@@ -43,29 +45,26 @@ class MainTabShopCartRecyclerAdapter(private val context: Context) : RecyclerVie
 
     class ShopCartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private lateinit var shopCart: ShopCartModel
-
+        private lateinit var productAdapter: ShopCartProductRecyclerAdapter
         // Header
         private val textViewOpenedDate = itemView.findViewById<AppCompatTextView>(R.id.textViewOpenedDate)
         private val textViewOpenedTime = itemView.findViewById<AppCompatTextView>(R.id.textViewOpenedTime)
         private val textViewName = itemView.findViewById<AppCompatTextView>(R.id.textViewName)
         private val imageButtonExpandCollapse = itemView.findViewById<ImageButton>(R.id.imageButtonExpandCollapse)
-
         // Footer
         private val textViewItemNumber = itemView.findViewById<AppCompatTextView>(R.id.textViewItemNumber)
         private val textViewSubtotal = itemView.findViewById<AppCompatTextView>(R.id.textViewSubtotal)
         private val textViewDiscount = itemView.findViewById<AppCompatTextView>(R.id.textViewDiscount)
         private val textViewTotal = itemView.findViewById<AppCompatTextView>(R.id.textViewTotal)
-
         // Body
         private val constraintBodyContainer = itemView.findViewById<ConstraintLayout>(R.id.constraintBodyContainer)
         private val textViewShopCartEmpty = itemView.findViewById<AppCompatTextView>(R.id.textViewShopCartEmpty)
-        private val recyclerViewProducts = itemView.findViewById<RecyclerView>(R.id.recyclerViewProducts)
-        private val buttonCloseShopCart = itemView.findViewById<AppCompatButton>(R.id.buttonCloseShopCart)
+        private val recyclerProduct = itemView.findViewById<RecyclerView>(R.id.recyclerProduct)
 
         fun bindView(context: Context, shopCart: ShopCartModel) {
             this.shopCart = shopCart
             setupHeader(context)
-            setupBody()
+            setupBody(context)
             setupFooter(context)
         }
 
@@ -92,47 +91,46 @@ class MainTabShopCartRecyclerAdapter(private val context: Context) : RecyclerVie
             }
         }
 
-        private fun setupBody() {
+        private fun setupBody(context: Context) {
             if (shopCart.products.isEmpty()) {
                 textViewShopCartEmpty.visibility = View.VISIBLE
-                recyclerViewProducts.visibility = View.GONE
-                buttonCloseShopCart.visibility = View.GONE
+                recyclerProduct.visibility = View.GONE
             } else {
                 textViewShopCartEmpty.visibility = View.GONE
-                recyclerViewProducts.visibility = View.VISIBLE
-                buttonCloseShopCart.visibility = View.VISIBLE
+                recyclerProduct.visibility = View.VISIBLE
+                setupRecyclerProduct(context)
             }
         }
 
         private fun setupFooter(context: Context) {
             textViewItemNumber.text = shopCart.products.size.toString()
-            textViewSubtotal.text = String.format(
-                context.resources.getString(R.string.placeholder_shop_cart_item_subtotal),
-                getSubtotal()
-            )
-            textViewDiscount.text = String.format(
-                context.resources.getString(R.string.placeholder_shop_cart_item_discount),
-                getDiscount()
-            )
-            textViewTotal.text = String.format(
-                context.resources.getString(R.string.placeholder_shop_cart_item_total),
-                getTotal()
-            )
+            textViewSubtotal.text = formatPriceWithCurrency(getSubtotal())
+            textViewDiscount.text = formatPriceWithCurrency(getDiscount())
+            textViewTotal.text = formatPriceWithCurrency(getTotal())
         }
 
-        private fun getSubtotal(): String {
-            // TODO
-            return "0.00"
+        private fun getSubtotal(): Float {
+            var subtotal: Float = 0F
+            shopCart.products.forEach { product ->
+                var quantity = 0
+                product.colorQuantity.forEach { colorQuantity ->
+                    quantity += colorQuantity.colorQuantity
+                }
+                subtotal += quantity * product.price.toFloat()
+            }
+            return subtotal
         }
 
-        private fun getDiscount(): String {
-            // TODO
-            return "0.00"
-        }
+        private fun getDiscount(): Float = 0F
 
-        private fun getTotal(): String {
-            // TODO
-            return "0.00"
+        private fun getTotal(): Float = getSubtotal() - getDiscount()
+
+        private fun setupRecyclerProduct(context: Context) {
+            productAdapter = ShopCartProductRecyclerAdapter(shopCart.products)
+            recyclerProduct.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                adapter = productAdapter
+            }
         }
     }
 

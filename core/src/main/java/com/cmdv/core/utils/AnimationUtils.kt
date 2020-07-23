@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import androidx.constraintlayout.widget.ConstraintLayout
 
 fun expandShopCartItemBody(v: View) {
     v.measure(1, 1)
@@ -12,13 +13,18 @@ fun expandShopCartItemBody(v: View) {
     v.layoutParams.height = 1
     v.visibility = View.VISIBLE
 
-    val va: ValueAnimator = ValueAnimator.ofInt(0, targetHeight)
+    val va: ValueAnimator = ValueAnimator.ofInt(v.height, targetHeight)
     va.addUpdateListener { valueAnimator ->
         v.layoutParams.height = valueAnimator.animatedValue as Int
         v.requestLayout()
     }
     va.addListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(p0: Animator?) {}
+
+        override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            v.tag = "expanded"
+            v.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        }
 
         override fun onAnimationEnd(p0: Animator?) {
             v.tag = "expanded"
@@ -27,7 +33,9 @@ fun expandShopCartItemBody(v: View) {
 
         override fun onAnimationCancel(p0: Animator?) {}
 
-        override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {}
+        override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            v.tag = "expanding"
+        }
 
         override fun onAnimationStart(p0: Animator?) {
             v.tag = "expanding"
@@ -55,11 +63,16 @@ fun collapseShopCartItemBody(v: View) {
             v.visibility = View.GONE
         }
 
-        override fun onAnimationEnd(p0: Animator?) {}
+        override fun onAnimationEnd(p0: Animator?) {
+            v.tag = "collapsed"
+            v.visibility = View.GONE
+        }
 
         override fun onAnimationCancel(p0: Animator?) {}
 
-        override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {}
+        override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            v.tag = "collapsing"
+        }
 
         override fun onAnimationStart(p0: Animator?) {
             v.tag = "collapsing"

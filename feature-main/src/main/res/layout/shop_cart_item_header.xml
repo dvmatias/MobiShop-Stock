@@ -49,13 +49,10 @@
     <!-- Name -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewName"
+        style="@style/Title1.Large"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:fontFamily="@font/cereal_medium"
-        android:textColor="@color/colorTextDark1"
-        android:lines="1"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

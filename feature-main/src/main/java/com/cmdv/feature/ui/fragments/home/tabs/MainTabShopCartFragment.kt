@@ -48,11 +48,13 @@ class MainTabShopCartFragment : TabFragmentPlaceHolder() {
     }
 
     private fun setupRecyclerShopCart() {
-        shopCartAdapter = MainTabShopCartRecyclerAdapter(activity!!)
-        recyclerViewShopCart.apply {
-            addItemDecoration(ShopCartItemDecoration())
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = shopCartAdapter
+        activity?.let {
+            shopCartAdapter = MainTabShopCartRecyclerAdapter(it)
+            recyclerViewShopCart.apply {
+                addItemDecoration(ShopCartItemDecoration())
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                adapter = shopCartAdapter
+            }
         }
     }
 
