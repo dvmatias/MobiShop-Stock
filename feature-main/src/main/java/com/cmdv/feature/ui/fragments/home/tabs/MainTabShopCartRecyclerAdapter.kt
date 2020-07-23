@@ -126,7 +126,7 @@ class MainTabShopCartRecyclerAdapter(private val context: Context) : RecyclerVie
         private fun getTotal(): Float = getSubtotal() - getDiscount()
 
         private fun setupRecyclerProduct(context: Context) {
-            productAdapter = ShopCartProductRecyclerAdapter(shopCart.products)
+            productAdapter = ShopCartProductRecyclerAdapter(context, shopCart.products)
             recyclerProduct.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = productAdapter

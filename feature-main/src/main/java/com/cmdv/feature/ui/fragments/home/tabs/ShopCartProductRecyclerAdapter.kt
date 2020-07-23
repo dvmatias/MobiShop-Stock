@@ -1,17 +1,20 @@
 package com.cmdv.feature.ui.fragments.home.tabs
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.core.helpers.formatPriceWithCurrency
-import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ShopCartModel.ShopCartProductModel
 import com.cmdv.feature.R
 
 class ShopCartProductRecyclerAdapter(
+    private val context: Context,
     private val items: ArrayList<ShopCartProductModel>
 ) : RecyclerView.Adapter<ShopCartProductRecyclerAdapter.ProductViewHolder>() {
 
@@ -19,7 +22,7 @@ class ShopCartProductRecyclerAdapter(
         ProductViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_shop_cart_item, parent, false))
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        holder.bindView(items[position])
+        holder.bindView(items[position], context, position)
     }
 
     override fun getItemCount(): Int = items.size
@@ -37,13 +40,13 @@ class ShopCartProductRecyclerAdapter(
 
         private lateinit var product: ShopCartProductModel
 
-        fun bindView(item: ShopCartProductModel) {
+        fun bindView(item: ShopCartProductModel, context: Context, position: Int) {
             this.product = item
 
             setName()
             setQuantity()
             setCode()
-            setupOverflowMenu()
+            setupOverflowMenu(context, position)
             setupUnitPrice()
             setupTotalPrice()
         }
@@ -60,9 +63,9 @@ class ShopCartProductRecyclerAdapter(
             textViewCode.text = "#${product.code}"
         }
 
-        private fun setupOverflowMenu() {
+        private fun setupOverflowMenu(context: Context, position: Int) {
             imageViewMoreButton.setOnClickListener {
-                openItemMenu()
+                openItemMenu(context, position)
             }
         }
 
@@ -82,8 +85,24 @@ class ShopCartProductRecyclerAdapter(
             return quantity
         }
 
-        private fun openItemMenu() {
-
+        private fun openItemMenu(context: Context, position: Int) {
+            PopupMenu(context, imageViewMoreButton).apply {
+                inflate(R.menu.product_popup_menu)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.actionEditProduct -> {
+                            // TODO Edit product color/quantities
+                            Toast.makeText(context, "Edit! $position", Toast.LENGTH_SHORT).show()
+                        }
+                        R.id.actionDeleteProduct -> {
+                            // TODO delete product from shop cart
+                            Toast.makeText(context, "Delete! $position", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    true
+                }
+                show()
+            }
         }
     }
 
