@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.components.TabFragmentPlaceHolder
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
 import kotlinx.android.synthetic.main.fragment_shop_cart_section.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -81,7 +82,7 @@ class MainTabShopCartListFragment : TabFragmentPlaceHolder() {
 
         fun onDeleteShopCartProductClick()
 
-        fun onCloseSaleClick()
+        fun onCloseSaleClick(shopCart: ShopCartModel)
 
     }
 

@@ -123,7 +123,7 @@ class MainTabShopCartRecyclerAdapter(
                 buttonCloseSale.apply {
                     visibility = View.VISIBLE
                     setOnClickListener {
-                        shopCartListFragmentListener.onCloseSaleClick()
+                        shopCartListFragmentListener.onCloseSaleClick(shopCart)
                     }
                 }
 

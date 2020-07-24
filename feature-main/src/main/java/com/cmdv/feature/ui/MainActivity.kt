@@ -27,7 +27,6 @@ import com.cmdv.feature.ui.fragments.home.MainHomeFragment
 import com.cmdv.feature.ui.fragments.home.MainHomeFragmentListener
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment.MainProductListFragmentListener
-import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartListFragment
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartListFragment.MainTabShopCartListFragmentListener
 import com.cmdv.feature.ui.fragments.profile.MainProfileFragment
 import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
@@ -237,8 +236,11 @@ class MainActivity : AppCompatActivity(),
         Toast.makeText(this, "onDeleteShopCartProductClick()", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onCloseSaleClick() {
-        Toast.makeText(this, "onCloseSaleClick()", Toast.LENGTH_SHORT).show()
+    override fun onCloseSaleClick(shopCart: ShopCartModel) {
+        viewModel.liveDataSale.observe(this, Observer {
+            logErrorMessage("$it")
+        })
+        viewModel.closeShoppingCart(shopCart)
     }
 
     /**

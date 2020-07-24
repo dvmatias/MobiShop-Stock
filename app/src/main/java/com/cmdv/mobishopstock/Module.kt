@@ -4,16 +4,10 @@ import com.cmdv.core.navigator.Navigator
 import com.cmdv.data.datasources.db.ShopCartDatabase
 import com.cmdv.data.datasources.firebase.AuthFirebaseSourceImpl
 import com.cmdv.data.datasources.firebase.FirebaseUserSourceImpl
-import com.cmdv.data.repositories.AuthRepositoryImpl
-import com.cmdv.data.repositories.ProductRepositoryImpl
-import com.cmdv.data.repositories.ShopCartRepositoryImpl
-import com.cmdv.data.repositories.UserRepositoryImpl
+import com.cmdv.data.repositories.*
 import com.cmdv.domain.datasources.firebase.AuthFirebaseSource
 import com.cmdv.domain.datasources.firebase.UserFirebaseSource
-import com.cmdv.domain.repositories.AuthRepository
-import com.cmdv.domain.repositories.ProductRepository
-import com.cmdv.domain.repositories.ShopCartRepository
-import com.cmdv.domain.repositories.UserRepository
+import com.cmdv.domain.repositories.*
 import com.cmdv.feature.CreateProductActivityViewModel
 import com.cmdv.feature.EditProductActivityViewModel
 import com.cmdv.feature.SplashActivityViewModel
@@ -41,12 +35,13 @@ val repositoryModule = module {
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<ProductRepository> { ProductRepositoryImpl() }
     single<ShopCartRepository> { ShopCartRepositoryImpl(ShopCartDatabase.getInstance(get()).shopCartDAO) }
+    single<SaleRepository> { SaleRepositoryImpl() }
 }
 
 val viewModelModule = module {
     viewModel { SplashActivityViewModel(get(), get()) }
 
-    viewModel { MainActivityViewModel(get()) }
+    viewModel { MainActivityViewModel(get(), get()) }
     viewModel { MainTabProductListFragmentViewModel(get()) }
     viewModel { MainTabShopCartFragmentViewModel(get()) }
 
