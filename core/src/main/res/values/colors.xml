@@ -2,9 +2,13 @@
 <resources>
     <color name="colorPrimary">#ED2A48</color>
     <color name="colorPrimaryDark">#A3162B</color>
-    <color name="colorAccent">#F8579C</color>
+    <color name="colorAccent">#1DE9B6</color>
+    <color name="colorAccent2">#FDDD0E</color>
 
-    <color name="colorMain">#6A1B9A</color>
+    <color name="colorFab">#FF1744</color>
+
+    <color name="colorMain">#AA00FF</color>
+    <color name="colorMainViolet">#803998</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTextHintLight">#BCFFFFFF</color>

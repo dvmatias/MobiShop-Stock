@@ -1,15 +1,15 @@
 package com.cmdv.data.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.datasources.AuthRegisterListener
-import com.cmdv.domain.datasources.FirebaseAuthSource
+import com.cmdv.domain.datasources.firebase.AuthRegisterListener
+import com.cmdv.domain.datasources.firebase.AuthFirebaseSource
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 
 class AuthRepositoryImpl(
-    private val firebaseAuthSource: FirebaseAuthSource
+    private val firebaseAuthSource: AuthFirebaseSource
 ) : AuthRepository {
 
     override fun register(

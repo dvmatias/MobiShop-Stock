@@ -54,6 +54,8 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext_junit
     androidTestImplementation libs.espresso
+    // Constraint Layout
+    implementation libs.constraint_layout
     // Koin
     api libs.koin
     api libs.koin_scope

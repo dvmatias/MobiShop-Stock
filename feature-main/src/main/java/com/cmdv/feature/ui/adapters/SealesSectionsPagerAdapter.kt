@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.fragments.salestabs.SalesSectionTabFragment
-import com.cmdv.feature.ui.fragments.salestabs.ShopCartSectionTabFragment
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartFragment
 
 private val TABS = arrayOf(
-    SalesSectionTabFragment() to R.string.labelTabSales,
-    ShopCartSectionTabFragment() to R.string.labelTabShopCart
+    MainTabProductListFragment() to R.string.label_tab_products,
+    MainTabShopCartFragment() to R.string.label_tab_shop_cart
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
@@ -25,4 +25,5 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getCount(): Int =
         TABS.size
+
 }

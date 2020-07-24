@@ -11,11 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.cmdv.components.colorpicker.Mode
-import com.cmdv.core.helpers.HtmlHelper
-import com.cmdv.core.helpers.KeyboardHelper
-import com.cmdv.core.helpers.SimpleTextWatcher
-import com.cmdv.core.helpers.formatPrice
-import com.cmdv.domain.models.ColorQuantityModel
+import com.cmdv.core.helpers.*
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
@@ -200,15 +196,15 @@ class CreateProductActivity : AppCompatActivity() {
         componentColorQuantityView.mutableLiveColorQuantityList.observe(this, Observer {
             viewModel.colorQuantities = ArrayList(it)
             viewModel.quantity =
-                    if (it.isNotEmpty()){
-                        var sum = 0
-                        for (item in it) {
-                            sum += item.quantity
-                        }
-                        sum
-                    } else {
-                        0
+                if (it.isNotEmpty()) {
+                    var sum = 0
+                    for (item in it) {
+                        sum += item.quantity
                     }
+                    sum
+                } else {
+                    0
+                }
 
         })
     }

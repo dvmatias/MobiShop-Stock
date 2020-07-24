@@ -1,6 +1,6 @@
 package com.cmdv.data.mappers
 
-import com.cmdv.data.entities.*
+import com.cmdv.data.entities.firebase.*
 import com.cmdv.domain.mapper.BaseMapper
 import com.cmdv.domain.models.*
 

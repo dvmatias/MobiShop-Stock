@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dim_8dp"
+    android:paddingBottom="@dimen/dim_8dp"
+    android:paddingStart="@dimen/dim_12dp"
+    android:paddingEnd="@dimen/dim_12dp"
+    android:background="@color/colorWhite">
+
+    <!-- Label - Products Number -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewItemNumberLabel"
+        style="@style/TextShopCartIemLabel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/label_shop_cart_item_items_number" />
+
+    <!-- Products Number -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewItemNumber"
+        style="@style/TextShopCartIemDisplay2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemNumberLabel"
+        tools:text="1" />
+
+    <!-- Label - Subtotal -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewSubtotalLabel"
+        style="@style/TextShopCartIemLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dim_8dp"
+        android:text="@string/label_shop_cart_item_subtotal"
+        app:layout_constraintBottom_toBottomOf="@id/textViewSubtotal"
+        app:layout_constraintEnd_toStartOf="@id/textViewSubtotal"
+        app:layout_constraintTop_toTopOf="@+id/textViewSubtotal" />
+
+    <!-- Subtotal -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewSubtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_15sp"
+        android:fontFamily="@font/cereal_bold"
+        android:textColor="@color/colorTextDark2"
+        android:minWidth="72dp"
+        android:gravity="end"
+        android:padding="@dimen/dim_8dp"
+        android:background="@drawable/bgr_shop_cart_item_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="$100.00" />
+
+    <!-- Label - Discount -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewDiscountLabel"
+        style="@style/TextShopCartIemLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dim_8dp"
+        android:text="@string/label_shop_cart_item_discount"
+        app:layout_constraintBottom_toBottomOf="@id/textViewDiscount"
+        app:layout_constraintEnd_toStartOf="@id/textViewDiscount"
+        app:layout_constraintTop_toTopOf="@+id/textViewDiscount" />
+
+    <!-- Discount -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewDiscount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_15sp"
+        android:fontFamily="@font/cereal_bold"
+        android:textColor="@color/colorTextDark2"
+        android:minWidth="72dp"
+        android:gravity="end"
+        android:padding="@dimen/dim_8dp"
+        android:background="@drawable/bgr_shop_cart_item_total"
+        android:layout_marginTop="@dimen/dim_2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewSubtotal"
+        tools:text="$10.00" />
+
+    <!-- Label - Total -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTotalLabel"
+        style="@style/TextShopCartIemLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dim_8dp"
+        android:text="@string/label_shop_cart_item_total"
+        app:layout_constraintBottom_toBottomOf="@id/textViewTotal"
+        app:layout_constraintEnd_toStartOf="@id/textViewTotal"
+        app:layout_constraintTop_toTopOf="@+id/textViewTotal" />
+
+    <!-- Total -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_18sp"
+        android:fontFamily="@font/cereal_bold"
+        android:textColor="@color/colorTextDark1"
+        android:minWidth="72dp"
+        android:gravity="end"
+        android:padding="@dimen/dim_8dp"
+        android:background="@drawable/bgr_shop_cart_item_total"
+        android:layout_marginTop="@dimen/dim_2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDiscount"
+        tools:text="$90.00" />
+</androidx.constraintlayout.widget.ConstraintLayout>

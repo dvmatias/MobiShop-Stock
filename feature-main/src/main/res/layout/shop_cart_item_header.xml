@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <!-- Label - Opened -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewOpenedLabel"
+        style="@style/TextShopCartIemLabel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:layout_marginStart="@dimen/dim_12dp"
+        android:text="@string/label_shop_cart_item_created_at"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Opened Date -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewOpenedDate"
+        style="@style/TextShopCartIemDisplay2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dim_12dp"
+        android:layout_marginTop="@dimen/dim_2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewOpenedLabel"
+        tools:text="12/12/2020" />
+
+    <!-- Opened Time -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewOpenedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cereal_book"
+        android:lines="1"
+        android:textColor="@color/colorTextDark2"
+        android:textSize="12sp"
+        android:layout_marginStart="@dimen/dim_12dp"
+        android:layout_marginBottom="@dimen/dim_8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewOpenedDate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="12:25hs" />
+
+    <!-- Name -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewName"
+        style="@style/Title1.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Name"/>
+
+    <!-- Expand/Collapse Button -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageButtonExpandCollapse"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bgr_shop_cart_item_button_expand_collapse"
+        android:src="@drawable/ic_collapse_expand_shop_cart_item_24"
+        android:layout_marginEnd="@dimen/dim_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#CAB8DC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

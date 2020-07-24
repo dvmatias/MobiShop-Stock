@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bgr_container_dialog"
+    android:paddingBottom="@dimen/dim_30dp">
+
+    <!-- Title -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTitle"
+        style="@style/TextTitleDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_shop_cart_dialog_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#CAB8DC"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"/>
+
+    <!-- Description -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewDescription"
+        style="@style/TextDescriptionDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_shop_cart_dialog_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
+
+    <!-- Input - Shopping Cart's Name -->
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextShopCartName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dim_22dp"
+        android:layout_marginEnd="@dimen/dim_22dp"
+        android:hint="@string/hint_create_shop_cart_dialog_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
+    <!-- Description -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewFooter"
+        style="@style/TextDescriptionDialog.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_shop_cart_dialog_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextShopCartName" />
+
+    <!-- Button - Negative -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonNegative"
+        style="@style/ButtonNegativeDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_create_shop_cart_dialog_negative_button"
+        app:layout_constraintEnd_toStartOf="@id/buttonPositive"
+        app:layout_constraintTop_toBottomOf="@id/textViewFooter" />
+
+    <!-- Button - Positive -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonPositive"
+        style="@style/ButtonPositiveDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_create_shop_cart_dialog_positive_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewFooter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
