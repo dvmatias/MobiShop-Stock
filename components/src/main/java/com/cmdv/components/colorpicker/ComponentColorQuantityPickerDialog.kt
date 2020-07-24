@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cmdv.components.R
+import com.cmdv.core.Constants.Companion.DIALOG_WIDTH_DISPLAY_PERCENTAGE
 import com.cmdv.core.helpers.DisplayHelper
 import com.cmdv.domain.models.ColorQuantityModel
 import kotlinx.android.synthetic.main.component_colo_picker_dialog.*
-
-private const val DIALOG_WIDTH_DISPLAY_PERCENTAGE = 0.8
 
 internal class ComponentColorQuantityPickerDialog(context: Context) : Dialog(context) {
 

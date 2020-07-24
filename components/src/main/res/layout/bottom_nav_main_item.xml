@@ -7,43 +7,42 @@
 	android:layout_height="match_parent"
 	android:clickable="true"
 	android:focusable="true"
-	android:paddingStart="8dp"
-	android:foreground="?attr/selectableItemBackground"
-	android:paddingEnd="8dp">
+	android:paddingStart="@dimen/dim_8dp"
+	android:paddingEnd="@dimen/dim_8dp"
+	android:background="?android:attr/selectableItemBackground">
 
-	<!-- ICON -->
+	<!-- Icon -->
 	<androidx.appcompat.widget.AppCompatImageView
 		android:id="@+id/ivIcon"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="6dp"
-		android:src="@drawable/ic_add_color_quantity_36dp"
+		android:layout_marginTop="@dimen/dim_6dp"
 		android:theme="@style/BottomNavIcon"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		tools:src="@drawable/ic_add_color_quantity_36dp" />
 
-	<!-- LABEL -->
+	<!-- Label -->
 	<androidx.appcompat.widget.AppCompatTextView
 		android:id="@+id/tvLabel"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/dim_6dp"
 		android:theme="@style/BottomNavLabel"
-		android:layout_marginTop="6dp"
 		app:layout_constraintEnd_toEndOf="@id/ivIcon"
 		app:layout_constraintStart_toStartOf="@id/ivIcon"
 		app:layout_constraintTop_toBottomOf="@id/ivIcon"
 		tools:text="Home\nAlone" />
 
-	<!-- BADGE -->
+	<!-- Badge -->
 	<androidx.appcompat.widget.AppCompatImageView
 		android:id="@+id/ivBadge"
-		android:layout_width="12dp"
+		android:layout_width="@dimen/dim_12dp"
 		android:layout_height="12dp"
-		android:background="#37FF9800"
-		android:layout_marginTop="2dp"
+		android:layout_marginTop="@dimen/dim_2dp"
+		android:background="@color/colorAccent"
 		android:translationX="2.5dp"
 		app:layout_constraintEnd_toEndOf="@id/ivIcon"
 		app:layout_constraintTop_toTopOf="@id/ivIcon" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

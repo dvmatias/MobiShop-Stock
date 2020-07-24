@@ -9,36 +9,55 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
+import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
+import com.cmdv.components.dialog.addproducttoshopcart.ComponentAddProductToShopCartDialog
+import com.cmdv.components.dialog.createshopcart.ComponentCreateShopCartDialog
+import com.cmdv.components.dialog.createshopcart.CreateShopCartDialogListener
 import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ItemMainPageModel
+import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
-import com.cmdv.feature.ui.fragments.MainProductListFragment
-import com.cmdv.feature.ui.fragments.MainProfileFragment
-import com.cmdv.feature.ui.fragments.MainSalesFragment
+import com.cmdv.feature.ui.fragments.home.MainHomeFragment
+import com.cmdv.feature.ui.fragments.home.MainHomeFragmentListener
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
+import com.cmdv.feature.ui.fragments.profile.MainProfileFragment
+import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.android.scope.lifecycleScope
 import org.koin.android.viewmodel.ext.android.viewModel
+import kotlin.math.log
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    MainHomeFragmentListener,
+    MainTabProductListFragment.MainProductListFragmentListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
+
     private val navigator: Navigator by inject()
 
     private lateinit var searchView: SearchView
+
     private var query: String? = null
+
     private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
         ItemMainPageModel(
             R.string.labelBottomNavTabHome,
             "home",
             R.drawable.ic_bottom_nav_home_32dp,
             R.drawable.ic_bottom_nav_home_selected_32dp,
-            MainProductListFragment.newInstance(),
+            MainHomeFragment.newInstance(),
             true
         ),
         ItemMainPageModel(
@@ -135,11 +154,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!searchView.isIconified) {
-            searchView.onActionViewCollapsed()
-        } else {
-            super.onBackPressed()
-        }
+        super.onBackPressed()
+//        if (!searchView.isIconified) {
+//            searchView.onActionViewCollapsed()
+//        } else {
+//            super.onBackPressed()
+//        }
     }
 
     private fun setupToolbar() {
@@ -177,6 +197,65 @@ class MainActivity : AppCompatActivity() {
 
         override fun onItemUnselected(view: View?) {
             logErrorMessage("onItemUnselected() $view")
+        }
+    }
+
+    /**
+     * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
+     */
+    override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
+        val observer = Observer<List<ShopCartModel>> { list ->
+            viewModel.liveDataOpenShopCarts.removeObservers(this)
+            if (list != null) {
+                when (list.size) {
+                    0 ->
+                        Snackbar.make(mainLayout, getString(R.string.message_no_shop_cart_add_product_snackbar), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.action_no_shop_cart_add_product_snackbar)) {
+                                ((pager.adapter as PagerMainFragmentAdapter).getItem(0) as MainHomeFragment)
+                                    .goToShopCartTab()
+                            }.show()
+                    1 -> ComponentAddProductToShopCartDialog(this, list[0].id, product, addProductToCartDialogListener).show()
+                    else -> {
+                        // TODO Open dialog for user choose color/quantity
+                        // If accept dialog and quantity != 0 -> Prompt user to choose shop cart to add product.
+                    }
+                }
+            }
+        }
+        viewModel.liveDataOpenShopCarts.observe(this, observer)
+    }
+
+    /**
+     * [CreateShopCartDialogListener] implementation.
+     */
+    private val createShopCartDialogListener = object : CreateShopCartDialogListener {
+        override fun onCreateShopCartDialogPositiveClick(name: String) {
+            viewModel.createShopCart(name)
+        }
+    }
+
+    /**
+     * [MainHomeFragmentListener] implementation.
+     */
+    override fun onCreateProductClick() {
+        navigator.toAddProductScreen(activityOrigin = this)
+    }
+
+    override fun onCreateShopCartClick() {
+        ComponentCreateShopCartDialog(this, createShopCartDialogListener).show()
+    }
+
+    /**
+     * [AddProductToShopCartDialogListener] implementation.
+     */
+    private val addProductToCartDialogListener: AddProductToShopCartDialogListener = object : AddProductToShopCartDialogListener {
+        override fun onAddProductToShopCartDialogPositiveClick(
+            shopCartId: Long,
+            product: ShopCartModel.ShopCartProductModel
+        ) {
+            GlobalScope.launch {
+                viewModel.addShopCartProduct(shopCartId, product)
+            }
         }
     }
 

@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9016C"
-    tools:context=".ui.fragments.MainProductListFragment">
+    tools:context=".ui.fragments.home.tabs.MainTabProductListFragment">
 
 </FrameLayout>

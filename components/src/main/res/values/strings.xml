@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="titleColorPickerDialog">Choose a Color</string>
+    <string name="hint_create_shop_cart_dialog_name">Name (optional)</string>
+    <string name="text_create_shop_cart_dialog_description">You\'re about to create a new shopping cart. You can give it a nice name. As soon as you create it you can start adding products. This shopping cart will be open until you choose to close it.</string>
+    <string name="text_create_shop_cart_dialog_title">Create a Shop Cart</string>
+    <string name="text_create_shop_cart_dialog_footer">Remember, once you close a Shopping Cart it will turn into a Sale.</string>
+    <string name="label_create_shop_cart_dialog_negative_button">Cancel</string>
+    <string name="label_create_shop_cart_dialog_positive_button">Accept</string>
+
+    <string name="text_add_product_to_shop_cart_dialog_description">Choose the quantity and colors you want to add to the shopping cart.</string>
+    <string name="label_add_product_to_shop_cart_dialog_positive_button">Accept</string>
+    <string name="label_add_product_to_shop_cart_dialog_negative_button">Cancel</string>
+    <string name="label_add_product_to_shop_cart_dialog_total">Total</string>
+    <string name="placeholder_add_product_to_shop_cart_dialog_max">(%d Max)</string>
 
     <string-array name="colorName">
         <item>Transparent</item>

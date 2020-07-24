@@ -1,13 +1,13 @@
 package com.cmdv.data.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.datasources.FirebaseUserSource
-import com.cmdv.domain.datasources.UserStoreListener
+import com.cmdv.domain.datasources.firebase.UserFirebaseSource
+import com.cmdv.domain.datasources.firebase.UserStoreListener
 import com.cmdv.domain.repositories.UserRepository
 import com.google.firebase.auth.FirebaseUser
 
 class UserRepositoryImpl(
-    private val firebaseUserSource: FirebaseUserSource
+    private val firebaseUserSource: UserFirebaseSource
 ) : UserRepository {
 
     override fun get(uid: String): MutableLiveData<Any> =

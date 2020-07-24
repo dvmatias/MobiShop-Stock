@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <!-- Overflow Button -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewMoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dim_4dp"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:layout_marginEnd="@dimen/dim_12dp"
+        android:src="@drawable/ic_more_24dp"
+        android:tint="@color/colorTextDark2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Product Name -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewName"
+        style="@style/Title1.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:layout_marginStart="@dimen/dim_12dp"
+        app:layout_constraintStart_toEndOf="@id/imageViewMoreButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textViewUnitPrice"
+        tools:text="Name"/>
+
+    <!-- Product Code -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewCode"
+        style="@style/Tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_4dp"
+        android:layout_marginStart="@dimen/dim_12dp"
+        app:layout_constraintStart_toEndOf="@id/imageViewMoreButton"
+        app:layout_constraintTop_toBottomOf="@id/textViewName"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="#0000" />
+
+    <!-- Product Quantity -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewQuantity"
+        style="@style/Tag2.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dim_12dp"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:layout_marginBottom="@dimen/dim_8dp"
+        app:layout_constraintStart_toEndOf="@id/imageViewMoreButton"
+        app:layout_constraintTop_toBottomOf="@id/textViewCode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="12"/>
+
+    <!-- Product Unit Price -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewUnitPrice"
+        style="@style/Display3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dim_12dp"
+        android:layout_marginBottom="@dimen/dim_4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textViewTotalPrice"
+        tools:text="each $10" />
+
+    <!-- Product Total Price -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTotalPrice"
+        style="@style/Display1.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dim_8dp"
+        android:layout_marginEnd="@dimen/dim_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="$120"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/colorBottomNavSeparator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

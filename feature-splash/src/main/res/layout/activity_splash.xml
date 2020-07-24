@@ -89,7 +89,7 @@
                 android:layout_height="56dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="32dp"
-                android:backgroundTint="#803998"
+                android:backgroundTint="@color/colorAccent"
                 android:textSize="20sp"
                 tools:text="Login"
                 android:textColor="@color/colorWhite" />

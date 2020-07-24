@@ -3,8 +3,8 @@ package com.cmdv.feature
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cmdv.domain.datasources.AuthRegisterListener
-import com.cmdv.domain.datasources.UserStoreListener
+import com.cmdv.domain.datasources.firebase.AuthRegisterListener
+import com.cmdv.domain.datasources.firebase.UserStoreListener
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.AuthRepository
