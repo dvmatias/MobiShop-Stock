@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.PopupMenu
@@ -91,12 +92,10 @@ class ShopCartProductRecyclerAdapter(
                 setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.actionEditProduct -> {
-                            // TODO Edit product color/quantities
-                            Toast.makeText(context, "Edit! $position", Toast.LENGTH_SHORT).show()
+                            (context as MainTabShopCartListFragment.MainTabShopCartListFragmentListener).onEditShopCartProductClick()
                         }
                         R.id.actionDeleteProduct -> {
-                            // TODO delete product from shop cart
-                            Toast.makeText(context, "Delete! $position", Toast.LENGTH_SHORT).show()
+                            (context as MainTabShopCartListFragment.MainTabShopCartListFragmentListener).onDeleteShopCartProductClick()
                         }
                     }
                     true

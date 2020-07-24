@@ -9,12 +9,12 @@
     <string name="label_tab_shop_cart">shop cart</string>
     <string name="label_shop_cart_item_created_at">created at</string>
     <string name="placeholder_shop_cart_item_opened_time">%s hs</string>
-    <string name="label_shop_cart_item_items_number"># items</string>
+    <string name="label_shop_cart_item_items_number">Total items</string>
     <string name="label_shop_cart_item_subtotal">Subtotal</string>
     <string name="label_shop_cart_item_discount">Discount</string>
     <string name="label_shop_cart_item_total">Total</string>
     <string name="label_shop_cart_item_empty">This shopping cart is empty!</string>
-    <string name="label_shop_cart_item_close_button">Cerrá la venta</string>
-    <string name="message_no_shop_cart_add_product_snackbar">There are no shopping cart to add this product. Would you like to create one?</string>
-    <string name="action_no_shop_cart_add_product_snackbar">Yes</string>
+    <string name="label_shop_cart_item_close_button">close sale</string>
+    <string name="message_no_shop_cart_add_product_snack_bar">There are no shopping cart to add this product. Would you like to create one?</string>
+    <string name="action_no_shop_cart_add_product_snack_bar">Yes</string>
 </resources>

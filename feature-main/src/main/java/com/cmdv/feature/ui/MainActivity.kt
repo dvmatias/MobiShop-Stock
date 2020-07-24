@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
@@ -27,6 +26,9 @@ import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
 import com.cmdv.feature.ui.fragments.home.MainHomeFragment
 import com.cmdv.feature.ui.fragments.home.MainHomeFragmentListener
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment.MainProductListFragmentListener
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartListFragment
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartListFragment.MainTabShopCartListFragmentListener
 import com.cmdv.feature.ui.fragments.profile.MainProfileFragment
 import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
 import com.google.android.material.snackbar.Snackbar
@@ -35,13 +37,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.android.scope.lifecycleScope
 import org.koin.android.viewmodel.ext.android.viewModel
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity(),
     MainHomeFragmentListener,
-    MainTabProductListFragment.MainProductListFragmentListener {
+    MainProductListFragmentListener,
+    MainTabShopCartListFragmentListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
 
@@ -209,8 +210,8 @@ class MainActivity : AppCompatActivity(),
             if (list != null) {
                 when (list.size) {
                     0 ->
-                        Snackbar.make(mainLayout, getString(R.string.message_no_shop_cart_add_product_snackbar), Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.action_no_shop_cart_add_product_snackbar)) {
+                        Snackbar.make(mainLayout, getString(R.string.message_no_shop_cart_add_product_snack_bar), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.action_no_shop_cart_add_product_snack_bar)) {
                                 ((pager.adapter as PagerMainFragmentAdapter).getItem(0) as MainHomeFragment)
                                     .goToShopCartTab()
                             }.show()
@@ -223,6 +224,21 @@ class MainActivity : AppCompatActivity(),
             }
         }
         viewModel.liveDataOpenShopCarts.observe(this, observer)
+    }
+
+    /**
+     * [MainProductListFragmentListener] implementation.
+     */
+    override fun onEditShopCartProductClick() {
+        Toast.makeText(this, "onEditShopCartProductClick()", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeleteShopCartProductClick() {
+        Toast.makeText(this, "onDeleteShopCartProductClick()", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCloseSaleClick() {
+        Toast.makeText(this, "onCloseSaleClick()", Toast.LENGTH_SHORT).show()
     }
 
     /**
