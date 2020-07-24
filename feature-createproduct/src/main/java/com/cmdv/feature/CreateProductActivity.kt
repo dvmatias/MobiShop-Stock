@@ -11,10 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.cmdv.components.colorpicker.Mode
-import com.cmdv.core.helpers.HtmlHelper
-import com.cmdv.core.helpers.KeyboardHelper
-import com.cmdv.core.helpers.SimpleTextWatcher
-import com.cmdv.core.helpers.formatPriceWithCurrency
+import com.cmdv.core.helpers.*
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.adapters.ProductTypeSpinnerAdapter
@@ -276,7 +273,7 @@ class CreateProductActivity : AppCompatActivity() {
         if (!s.isNullOrBlank()) {
             val price = s.toString().replace("$", "").replace(".", "").replace(".", "")
             if (price.isNotEmpty()) {
-                formattedPrice = formatPriceWithCurrency(price.toFloat())
+                formattedPrice = formatPrice(price.toFloat())
                 et.apply {
                     setText(StringBuilder(String.format(getString(R.string.placeholder_price), formattedPrice)))
                     setSelection(et.text.toString().length)

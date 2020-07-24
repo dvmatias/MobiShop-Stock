@@ -254,9 +254,7 @@ class MainActivity : AppCompatActivity(),
             product: ShopCartModel.ShopCartProductModel
         ) {
             GlobalScope.launch {
-                logErrorMessage("AAAAAAAAAAA")
                 viewModel.addShopCartProduct(shopCartId, product)
-                logErrorMessage("BBBBBBBBBBBBB")
             }
         }
     }
