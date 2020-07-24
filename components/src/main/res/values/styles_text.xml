@@ -36,7 +36,7 @@
     <style name="Tag1" >
         <item name="android:fontFamily">@font/cereal_medium</item>
         <item name="android:lines">@integer/int_1</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextDark2</item>
         <item name="android:textSize">@dimen/text_12sp</item>
         <item name="android:background">@drawable/shape_item_product_list_thin_code</item>
         <item name="android:paddingStart">@dimen/dim_8dp</item>
