@@ -19,6 +19,7 @@ import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ItemMainPageModel
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
@@ -205,7 +206,6 @@ class MainActivity : AppCompatActivity(),
      */
     override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
         val observer = Observer<List<ShopCartModel>> { list ->
-            viewModel.liveDataOpenShopCarts.removeObservers(this)
             if (list != null) {
                 when (list.size) {
                     0 ->
@@ -238,7 +238,15 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCloseSaleClick(shopCart: ShopCartModel) {
         viewModel.liveDataSale.observe(this, Observer {
-            logErrorMessage("$it")
+            if (it != null) {
+                when (it.status) {
+                    LiveDataStatusWrapper.Status.SUCCESS -> {
+                        GlobalScope.launch {
+                            viewModel.deleteShopCart(shopCart)
+                        }
+                    }
+                }
+            }
         })
         viewModel.closeShoppingCart(shopCart)
     }

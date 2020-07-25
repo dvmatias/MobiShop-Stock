@@ -16,6 +16,7 @@ import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragmentViewModel
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartFragmentViewModel
+import com.cmdv.feature.ui.fragments.sales.MainSalesFragmentViewModel
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -44,6 +45,7 @@ val viewModelModule = module {
     viewModel { MainActivityViewModel(get(), get()) }
     viewModel { MainTabProductListFragmentViewModel(get()) }
     viewModel { MainTabShopCartFragmentViewModel(get()) }
+    viewModel { MainSalesFragmentViewModel(get()) }
 
     viewModel { CreateProductActivityViewModel(get()) }
 

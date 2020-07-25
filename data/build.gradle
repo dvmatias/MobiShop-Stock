@@ -45,6 +45,9 @@ android {
             buildConfigField 'String', 'DB_SALES_ROOT_PATH', '\"sales\"'
         }
     }
+    kotlinOptions {
+        freeCompilerArgs = ["-Xallow-result-return-type"]
+    }
 }
 
 dependencies {
