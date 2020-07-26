@@ -5,14 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmdv.core.Constants
-import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.SaleModel
 import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.domain.repositories.SaleRepository
 import com.cmdv.domain.repositories.ShopCartRepository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
