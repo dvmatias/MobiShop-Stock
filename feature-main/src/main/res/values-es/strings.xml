@@ -15,6 +15,7 @@
     <string name="label_shop_cart_item_total">Total</string>
     <string name="label_shop_cart_item_empty">El carrito de compras está vacío!</string>
     <string name="label_shop_cart_item_close_button">finalizar venta</string>
-    <string name="message_no_shop_cart_add_product_snack_bar">There are no shopping cart to add this product. Would you like to create one?</string>
+    <string name="message_no_shop_cart_add_product_snack_bar">No hay carrito de compras a donde agregar este producto. Te gustaría abrir uno?</string>
     <string name="action_no_shop_cart_add_product_snack_bar">Yes</string>
+    <string name="message_cant_open_more_than_one_shop_cart_snack_bar">No podés tener más de un carrito de compras abiertos al mismo tiempo.</string>
 </resources>

@@ -17,4 +17,5 @@
     <string name="label_shop_cart_item_close_button">close sale</string>
     <string name="message_no_shop_cart_add_product_snack_bar">There are no shopping cart to add this product. Would you like to create one?</string>
     <string name="action_no_shop_cart_add_product_snack_bar">Yes</string>
+    <string name="message_cant_open_more_than_one_shop_cart_snack_bar">You can\'t have more than one Shopping Cart open at the same time.</string>
 </resources>

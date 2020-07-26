@@ -25,10 +25,13 @@ class MainActivityViewModel(
     // Shop Cart List
     val liveDataOpenShopCarts = shopCartRepository.getAllOpenShopCarts()
 
-    // Sale
-    private var _mutableLiveDataSale = MutableLiveData<LiveDataStatusWrapper<SaleModel>>()
-    val liveDataSale: LiveData<LiveDataStatusWrapper<SaleModel>>
-        get() = _mutableLiveDataSale
+    suspend fun getShopCartCount(): Int {
+        return shopCartRepository.getDataCount()
+    }
+
+    suspend fun getOpenShopCart(): ShopCartModel? {
+        return shopCartRepository.getOpenShopCart()
+    }
 
     fun createShopCart(name: String) = viewModelScope.launch {
         shopCartRepository.insertShopCart(
@@ -40,6 +43,11 @@ class MainActivityViewModel(
     suspend fun addShopCartProduct(shopCartId: Long, product: ShopCartModel.ShopCartProductModel) {
         shopCartRepository.addProduct(shopCartId, product)
     }
+
+    // Sale
+    private var _mutableLiveDataSale = MutableLiveData<LiveDataStatusWrapper<SaleModel>>()
+    val liveDataSale: LiveData<LiveDataStatusWrapper<SaleModel>>
+        get() = _mutableLiveDataSale
 
     fun closeShoppingCart(shopCart: ShopCartModel) {
         viewModelScope.launch {
