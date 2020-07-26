@@ -237,18 +237,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCloseSaleClick(shopCart: ShopCartModel) {
-        viewModel.liveDataSale.observe(this, Observer {
-            if (it != null) {
-                when (it.status) {
-                    LiveDataStatusWrapper.Status.SUCCESS -> {
-                        GlobalScope.launch {
-                            viewModel.deleteShopCart(shopCart)
-                        }
-                    }
-                    else -> { }
-                }
-            }
-        })
         viewModel.closeShoppingCart(shopCart)
     }
 

@@ -107,54 +107,6 @@ class ProductRepositoryImpl : ProductRepository {
         return productMutableLiveData
     }
 
-    /**
-     * Generates a random code of four digits and return as String.
-     * This value must be unique in DB so only one product can have it.
-     */
-    private fun generateUniqueRandomProductCode(dataSnapshot: DataSnapshot): String {
-        val randomCode = (1000..9999).random().toString()
-        for (ds in dataSnapshot.children) {
-            val productFirebase: ProductFirebaseEntity? =
-                ds.getValue(ProductFirebaseEntity::class.java)
-            if (productFirebase != null && productFirebase.code.equals(randomCode)) {
-                generateUniqueRandomProductCode(dataSnapshot)
-            }
-        }
-        return randomCode
-    }
-
-    private fun getProductModel(
-        code: String,
-        id: Long,
-        productType: String,
-        name: String,
-        description: String,
-        costPrice: String,
-        originalPrice: String,
-        sellingPrice: String,
-        quantity: Int,
-        colorQuantities: ArrayList<ColorQuantityModel>,
-        lowBarrier: Int,
-        tags: List<String>
-    ): ProductModel {
-
-        val dateString = SimpleDateFormat(DATE_FORMAT_DD_MM_YY, Locale.getDefault()).format(Date().time)
-
-        return ProductModel(
-            code,
-            id,
-            productType,
-            name,
-            description,
-            "temp",
-            "temp",
-            PriceModel(costPrice, if (originalPrice.isEmpty()) sellingPrice else originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0, lowBarrier, colorQuantities),
-            tags,
-            DateModel(dateString, dateString)
-        )
-    }
-
     override fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>) {
         productsMutableLiveData.value = LiveDataStatusWrapper.loading(null)
         dbProductsRef.addValueEventListener(object : ValueEventListener {
@@ -204,5 +156,108 @@ class ProductRepositoryImpl : ProductRepository {
                     (LiveDataStatusWrapper.error(error.message, null))
             }
         })
+    }
+
+    override suspend fun saleProductsInShopCart(shopCart: ShopCartModel) {
+        shopCart.products.forEach { soldProduct ->
+            dbProductsRef.child(soldProduct.id).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val productFirebaseEntity: ProductFirebaseEntity? = snapshot.getValue(ProductFirebaseEntity::class.java)
+                    val product = ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity!!)
+                    val newProduct = modifyProductQuantity(product, soldProduct)
+
+                    dbProductsRef.child(newProduct.id.toString()).setValue(ProductFirebaseMapper().transformModelToEntity(newProduct))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
+
+    }
+
+    private fun modifyProductQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =
+        product.copy(quantity = getNewQuantity(product, soldProduct))
+
+    private fun getNewQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): QuantityModel {
+        var soldNow: Int = 0
+        soldProduct.colorQuantity.forEach {
+            soldNow += it.colorQuantity
+        }
+        val sold: Int = product.quantity.sold + soldNow
+        val available: Int = product.quantity.initial - sold
+
+        var colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
+        product.quantity.colorQuantities.forEach { p ->
+            var founded = false
+            soldProduct.colorQuantity.forEach { scp ->
+                if (!founded) {
+                    if (scp.colorValue == p.value) {
+                        colorQuantities.add(ColorQuantityModel(p.name, p.value, p.quantity - scp.colorQuantity))
+                        founded = true
+                    }
+                }
+            }
+            if (!founded) {
+                colorQuantities.add(ColorQuantityModel(p.name, p.value, p.quantity))
+            }
+        }
+
+        return QuantityModel(
+            product.quantity.initial,
+            available,
+            sold,
+            product.quantity.lowBarrier,
+            colorQuantities
+        )
+    }
+
+    /**
+     * Generates a random code of four digits and return as String.
+     * This value must be unique in DB so only one product can have it.
+     */
+    private fun generateUniqueRandomProductCode(dataSnapshot: DataSnapshot): String {
+        val randomCode = (1000..9999).random().toString()
+        for (ds in dataSnapshot.children) {
+            val productFirebase: ProductFirebaseEntity? =
+                ds.getValue(ProductFirebaseEntity::class.java)
+            if (productFirebase != null && productFirebase.code.equals(randomCode)) {
+                generateUniqueRandomProductCode(dataSnapshot)
+            }
+        }
+        return randomCode
+    }
+
+    private fun getProductModel(
+        code: String,
+        id: Long,
+        productType: String,
+        name: String,
+        description: String,
+        costPrice: String,
+        originalPrice: String,
+        sellingPrice: String,
+        quantity: Int,
+        colorQuantities: ArrayList<ColorQuantityModel>,
+        lowBarrier: Int,
+        tags: List<String>
+    ): ProductModel {
+
+        val dateString = SimpleDateFormat(DATE_FORMAT_DD_MM_YY, Locale.getDefault()).format(Date().time)
+
+        return ProductModel(
+            code,
+            id,
+            productType,
+            name,
+            description,
+            "temp",
+            "temp",
+            PriceModel(costPrice, if (originalPrice.isEmpty()) sellingPrice else originalPrice, sellingPrice),
+            QuantityModel(quantity, quantity, 0, lowBarrier, colorQuantities),
+            tags,
+            DateModel(dateString, dateString)
+        )
     }
 }

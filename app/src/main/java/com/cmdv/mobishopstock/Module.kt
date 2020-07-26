@@ -42,7 +42,7 @@ val repositoryModule = module {
 val viewModelModule = module {
     viewModel { SplashActivityViewModel(get(), get()) }
 
-    viewModel { MainActivityViewModel(get(), get()) }
+    viewModel { MainActivityViewModel(get(), get(), get()) }
     viewModel { MainTabProductListFragmentViewModel(get()) }
     viewModel { MainTabShopCartFragmentViewModel(get()) }
     viewModel { MainSalesFragmentViewModel(get()) }

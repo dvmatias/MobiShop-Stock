@@ -33,6 +33,7 @@ data class ShopCartDatabaseEntity(
     )
 
     data class ShopCartProductDatabaseEntity(
+        val id: String?,
         val code: String?,
         val name: String?,
         val price: Double?,

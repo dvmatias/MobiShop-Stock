@@ -42,6 +42,7 @@ class ShopCartDatabaseMapper : BaseMapper<ShopCartDatabaseEntity, ShopCartModel>
         productsModel.forEach {
             productsEntity.add(
                 ShopCartProductDatabaseEntity(
+                    it.id,
                     it.code,
                     it.name,
                     it.price.toDouble(),
@@ -93,6 +94,7 @@ class ShopCartDatabaseMapper : BaseMapper<ShopCartDatabaseEntity, ShopCartModel>
         products?.forEach {
             model.add(
                 ShopCartProductModel(
+                    it.id ?: DEFAULT_STRING,
                     it.code ?: DEFAULT_STRING,
                     it.name ?: DEFAULT_STRING,
                     it.price?.toString() ?: DEFAULT_STRING,

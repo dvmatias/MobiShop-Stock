@@ -80,6 +80,7 @@ class ComponentAddProductToShopCartDialog(
         if (colorQuantities.isEmpty()) return null
 
         return ShopCartModel.ShopCartProductModel(
+            product.id.toString(),
             product.code,
             product.name,
             product.price.sellingPrice,

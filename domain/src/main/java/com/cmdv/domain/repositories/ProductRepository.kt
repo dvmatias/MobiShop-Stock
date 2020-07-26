@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.ShopCartModel
 
 interface ProductRepository {
 
@@ -29,5 +30,7 @@ interface ProductRepository {
     fun getProducts(productsMutableLiveData: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>)
 
     fun getProductTypes(mutableLiveData: MutableLiveData<LiveDataStatusWrapper<ArrayList<String>>>)
+
+    suspend fun saleProductsInShopCart(shopCart: ShopCartModel)
 
 }

@@ -22,6 +22,7 @@ data class ShopCartModel(
     )
 
     data class ShopCartProductModel(
+        val id: String,
         val code: String,
         val name: String,
         val price: String,
