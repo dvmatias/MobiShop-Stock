@@ -126,7 +126,8 @@ class MainTabShopCartRecyclerAdapter(
                         shopCartListFragmentListener.onCloseSaleClick(shopCart)
                     }
                 }
-
+            } else {
+                buttonCloseSale.visibility = View.GONE
             }
         }
 
