@@ -45,7 +45,7 @@ class MainSalesFragment : Fragment() {
     }
 
     private fun setupRecyclerSale() {
-        salesRecyclerAdapter = SaleRecyclerAdapter()
+        salesRecyclerAdapter = SaleRecyclerAdapter(requireContext())
         recyclerSale.apply {
             adapter = salesRecyclerAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
