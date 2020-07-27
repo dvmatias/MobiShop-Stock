@@ -61,8 +61,8 @@ class ShopCartDatabaseMapper : BaseMapper<ShopCartDatabaseEntity, ShopCartModel>
         colorQuantityModel.forEach {
             colorQuantityEntity.add(
                 ShopCartProductColorQuantityDatabaseEntity(
-                    it.colorValue,
-                    it.colorQuantity
+                    it.value,
+                    it.quantity
                 )
             )
         }

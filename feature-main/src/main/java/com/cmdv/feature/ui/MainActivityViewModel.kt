@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmdv.core.Constants
 import com.cmdv.domain.datasources.firebase.SaleStoreListener
-import com.cmdv.domain.datasources.firebase.UserStoreListener
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.SaleModel
 import com.cmdv.domain.models.ShopCartModel
-import com.cmdv.domain.models.UserModel
 import com.cmdv.domain.repositories.ProductRepository
 import com.cmdv.domain.repositories.SaleRepository
 import com.cmdv.domain.repositories.ShopCartRepository
@@ -73,7 +71,7 @@ class MainActivityViewModel(
         var productsQuantity = 0
         products.forEach {
             it.colorQuantity.forEach { colorQuantity ->
-                productsQuantity += colorQuantity.colorQuantity
+                productsQuantity += colorQuantity.quantity
             }
         }
         return productsQuantity
@@ -83,7 +81,7 @@ class MainActivityViewModel(
         var totalPrice = 0F
         products.forEach { product ->
             product.colorQuantity.forEach { colorQuantity ->
-                totalPrice += product.price.toFloat() * colorQuantity.colorQuantity
+                totalPrice += product.price.toFloat() * colorQuantity.quantity
             }
         }
         return totalPrice

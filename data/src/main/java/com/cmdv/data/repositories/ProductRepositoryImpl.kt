@@ -183,7 +183,7 @@ class ProductRepositoryImpl : ProductRepository {
     private fun getNewQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): QuantityModel {
         var soldNow: Int = 0
         soldProduct.colorQuantity.forEach {
-            soldNow += it.colorQuantity
+            soldNow += it.quantity
         }
         val sold: Int = product.quantity.sold + soldNow
         val available: Int = product.quantity.initial - sold
@@ -193,8 +193,8 @@ class ProductRepositoryImpl : ProductRepository {
             var founded = false
             soldProduct.colorQuantity.forEach { scp ->
                 if (!founded) {
-                    if (scp.colorValue == p.value) {
-                        colorQuantities.add(ColorQuantityModel(p.name, p.value, p.quantity - scp.colorQuantity))
+                    if (scp.value == p.value) {
+                        colorQuantities.add(ColorQuantityModel(p.name, p.value, p.quantity - scp.quantity))
                         founded = true
                     }
                 }

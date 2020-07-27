@@ -111,11 +111,21 @@ class MainTabShopCartRecyclerAdapter(
         }
 
         private fun setupFooter() {
-            textViewItemNumber.text = shopCart.products.size.toString()
+            textViewItemNumber.text = getProductQuantity().toString()
             textViewSubtotal.text = formatPriceWithCurrency(getSubtotal())
             textViewDiscount.text = formatPriceWithCurrency(getDiscount())
             textViewTotal.text = formatPriceWithCurrency(getTotal())
             setupCloseSaleButton()
+        }
+
+        private fun getProductQuantity(): Int {
+            var productQuantity = 0
+            shopCart.products.forEach { product ->
+                product.colorQuantity.forEach { colorQuantity ->
+                    productQuantity += colorQuantity.quantity
+                }
+            }
+            return productQuantity
         }
 
         private fun setupCloseSaleButton() {
@@ -136,7 +146,7 @@ class MainTabShopCartRecyclerAdapter(
             shopCart.products.forEach { product ->
                 var quantity = 0
                 product.colorQuantity.forEach { colorQuantity ->
-                    quantity += colorQuantity.colorQuantity
+                    quantity += colorQuantity.quantity
                 }
                 subtotal += quantity * product.price.toFloat()
             }
@@ -157,4 +167,3 @@ class MainTabShopCartRecyclerAdapter(
     }
 
 }
-

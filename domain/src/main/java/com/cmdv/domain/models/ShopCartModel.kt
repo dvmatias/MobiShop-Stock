@@ -31,8 +31,8 @@ data class ShopCartModel(
     )
 
     data class ShopCartProductColorQuantityDatabaseModel(
-        val colorValue: String,
-        val colorQuantity: Int
+        val value: String,
+        val quantity: Int
     )
 
 }

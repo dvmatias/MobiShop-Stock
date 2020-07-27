@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.PopupMenu
@@ -81,7 +79,7 @@ class ShopCartProductRecyclerAdapter(
         private fun getProductQuantity(): Int {
             var quantity = 0
             product.colorQuantity.forEach { colorQuantity ->
-                quantity += colorQuantity.colorQuantity
+                quantity += colorQuantity.quantity
             }
             return quantity
         }
