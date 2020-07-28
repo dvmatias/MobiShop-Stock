@@ -50,7 +50,7 @@ class SaleRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<S
                 textViewClosedTime.text = String.format(
                     context.resources.getString(R.string.placeholder_shop_cart_item_opened_time),
                     getHoursMinutes(
-                        this.date.createdDate,
+                        this.date.closedDate,
                         SimpleDateFormat(Constants.DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault())
                     )
                 )
