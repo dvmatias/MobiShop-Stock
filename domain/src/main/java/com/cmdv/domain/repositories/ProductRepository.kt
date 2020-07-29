@@ -33,4 +33,9 @@ interface ProductRepository {
 
     suspend fun saleProductsInShopCart(shopCart: ShopCartModel)
 
+    fun searchProducts(
+        _mutableLiveDataFilteredProduct: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>,
+        query: String
+    )
+
 }

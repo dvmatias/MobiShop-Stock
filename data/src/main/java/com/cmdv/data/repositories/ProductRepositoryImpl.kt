@@ -1,5 +1,6 @@
 package com.cmdv.data.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.BuildConfig
 import com.cmdv.data.entities.firebase.ProductFirebaseEntity
@@ -7,6 +8,7 @@ import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.*
 import com.cmdv.domain.repositories.ProductRepository
 import com.google.firebase.database.*
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -175,6 +177,14 @@ class ProductRepositoryImpl : ProductRepository {
             })
         }
 
+    }
+
+    override fun searchProducts(
+        _mutableLiveDataFilteredProduct: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>,
+        query: String
+    ) {
+        _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.loading(null)
+        // TODO
     }
 
     private fun modifyProductQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =
