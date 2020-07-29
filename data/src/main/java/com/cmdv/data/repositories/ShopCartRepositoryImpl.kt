@@ -34,6 +34,15 @@ class ShopCartRepositoryImpl(
         }
     }
 
+    override suspend fun getOpenShopCart(): ShopCartModel? {
+        shopCartDAO.getOpenShopCarts().forEach {
+            if (!it.isClosed!!) {
+                return ShopCartDatabaseMapper().transformEntityToModel(it)
+            }
+        }
+        return null
+    }
+
     override suspend fun addProduct(shopCartId: Long, product: ShopCartModel.ShopCartProductModel) {
         val shopCart: ShopCartModel = getShopCartById(shopCartId)
         var alreadyContainProduct = false

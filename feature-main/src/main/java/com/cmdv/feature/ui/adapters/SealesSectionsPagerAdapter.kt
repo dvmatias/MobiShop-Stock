@@ -6,11 +6,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
-import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartFragment
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartListFragment
 
 private val TABS = arrayOf(
     MainTabProductListFragment() to R.string.label_tab_products,
-    MainTabShopCartFragment() to R.string.label_tab_shop_cart
+    MainTabShopCartListFragment() to R.string.label_tab_shop_cart
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :

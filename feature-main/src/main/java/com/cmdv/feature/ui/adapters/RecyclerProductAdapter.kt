@@ -1,23 +1,18 @@
 package com.cmdv.feature.ui.adapters
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.filters.ProductFilter
-import kotlinx.android.synthetic.main.item_product_list_thin.view.*
 import java.util.*
 
 
@@ -33,6 +28,11 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
     private var data: ArrayList<Any> = arrayListOf()
     private lateinit var fullData: ArrayList<ProductModel>
     private var isFullDataLoaded = false
+    private lateinit var productItemListener: ProductItemListener
+
+    fun setOverFlowMenuListener(productItemListener: ProductItemListener) {
+        this.productItemListener = productItemListener
+    }
 
     fun setProducts(products: ArrayList<ProductModel>) {
         if (!isFullDataLoaded) {
@@ -102,7 +102,7 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
                 (holder as SectionViewHolder).bindView(data[position] as String)
             }
             ItemType.PRODUCT.type -> {
-                (holder as ProductViewHolder).bindView(data[position] as ProductModel, context)
+                (holder as ProductViewHolder).bindView(data[position] as ProductModel, context, productItemListener, position)
             }
         }
     }
@@ -111,22 +111,22 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
      * Product view holder.
      */
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textViewProductName: AppCompatTextView =
-            itemView.findViewById(R.id.textViewProductName)
-        private val textViewProductDescription: AppCompatTextView =
-            itemView.findViewById(R.id.textViewProductDescription)
-        private val textViewProductSellingPrice: AppCompatTextView =
-            itemView.findViewById(R.id.textViewProductSellingPrice)
-        private val textViewProductCostPrice: AppCompatTextView =
-            itemView.findViewById(R.id.textViewProductCostPrice)
-        private val textViewProductCode: AppCompatTextView =
-            itemView.findViewById(R.id.textViewProductCode)
-        private val textViewAvailableQuantity: AppCompatTextView =
-            itemView.findViewById(R.id.textViewAvailableQuantity)
-        private val availableQuantityIndicator: View =
-            itemView.findViewById(R.id.availableQuantityIndicator)
+        private val imageViewMoreButton = itemView.findViewById<AppCompatImageView>(R.id.imageViewMoreButton)
+        private val imageViewAddProductToShopCartButton = itemView.findViewById<AppCompatImageView>(R.id.imageViewAddProductToShopCartButton)
+        private val textViewProductName: AppCompatTextView = itemView.findViewById(R.id.textViewProductName)
+        private val textViewProductDescription: AppCompatTextView = itemView.findViewById(R.id.textViewProductDescription)
+        private val textViewProductSellingPrice: AppCompatTextView = itemView.findViewById(R.id.textViewProductSellingPrice)
+        private val textViewProductCostPrice: AppCompatTextView = itemView.findViewById(R.id.textViewProductCostPrice)
+        private val textViewProductCode: AppCompatTextView = itemView.findViewById(R.id.textViewProductCode)
+        private val textViewAvailableQuantity: AppCompatTextView = itemView.findViewById(R.id.textViewAvailableQuantity)
+        private val availableQuantityIndicator: View = itemView.findViewById(R.id.availableQuantityIndicator)
 
-        fun bindView(product: ProductModel, context: Context) {
+        fun bindView(
+            product: ProductModel,
+            context: Context,
+            productItemListener: ProductItemListener,
+            position: Int
+        ) {
             with(product) {
                 // TODO product image
                 textViewProductName.text = name
@@ -136,6 +136,8 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
                 textViewProductCode.text = String.format(context.getString(R.string.item_product_code_placeholder), code)
                 textViewAvailableQuantity.text = quantity.available.toString()
                 setupAvailableQuantity(product, context)
+                setupOverflowMenu(productItemListener, position)
+                setupAddProductToShopCart(productItemListener, position)
             }
 
         }
@@ -157,6 +159,18 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
                 }
             textViewAvailableQuantity.text = product.quantity.available.toString()
             availableQuantityIndicator.setBackgroundColor(colorBackground)
+        }
+
+        private fun setupOverflowMenu(productItemListener: ProductItemListener, position: Int) {
+            imageViewMoreButton.setOnClickListener {
+                productItemListener.onOverflowMenuButtonClick(position, imageViewMoreButton)
+            }
+        }
+
+        private fun setupAddProductToShopCart(productItemListener: ProductItemListener, position: Int) {
+            imageViewAddProductToShopCartButton.setOnClickListener {
+                productItemListener.onAddProductToShopCartButtonClick(position)
+            }
         }
 
     }

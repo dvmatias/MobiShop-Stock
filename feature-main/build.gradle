@@ -34,6 +34,7 @@ android {
 
             buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products_qa\"'
             buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType_qa\"'
+            buildConfigField 'String', 'DB_SALES_ROOT_PATH', '\"sales_qa\"'
         }
         PRODUCTION {
             dimension "environment"
@@ -41,6 +42,7 @@ android {
 
             buildConfigField 'String', 'DB_PRODUCTS_ROOT_PATH', '\"products\"'
             buildConfigField 'String', 'DB_PRODUCT_TYPE_ROOT_PATH', '\"productType\"'
+            buildConfigField 'String', 'DB_SALES_ROOT_PATH', '\"sales\"'
         }
     }
 

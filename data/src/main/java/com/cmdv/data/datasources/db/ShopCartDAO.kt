@@ -28,4 +28,7 @@ interface ShopCartDAO {
     @Query("SELECT COUNT(shop_cart_id) FROM shop_cart_table")
     suspend fun getDataCount(): Int
 
+    @Query("SELECT * FROM shop_cart_table")
+    suspend fun getOpenShopCarts(): List<ShopCartDatabaseEntity>
+
 }
