@@ -53,11 +53,11 @@ val viewModelModule = module {
 }
 
 val adapterModule = module {
-    single<RecyclerProductAdapter> { RecyclerProductAdapter(androidContext()) }
+    single { RecyclerProductAdapter(get()) }
 }
 
 val itemDecorationModule = module {
-    single<ItemProductDecoration> {
+    single {
         ItemProductDecoration(
             androidContext()
         )

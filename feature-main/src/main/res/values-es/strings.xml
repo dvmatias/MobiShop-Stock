@@ -20,4 +20,7 @@
     <string name="message_cant_open_more_than_one_shop_cart_snack_bar">No podés tener más de un carrito de compras abiertos al mismo tiempo.</string>
 
     <string name="label_sale_item_closed_at">cerrado en</string>
+    <string name="title_action_add">Ingresar</string>
+    <string name="title_action_edit">Editar</string>
+    <string name="title_action_delete">Eliminar</string>
 </resources>

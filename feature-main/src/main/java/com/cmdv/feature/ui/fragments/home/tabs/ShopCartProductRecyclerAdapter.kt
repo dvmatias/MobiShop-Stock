@@ -86,7 +86,7 @@ class ShopCartProductRecyclerAdapter(
 
         private fun openItemMenu(context: Context, position: Int) {
             PopupMenu(context, imageViewMoreButton).apply {
-                inflate(R.menu.product_popup_menu)
+                inflate(R.menu.shop_cart_product_popup_menu)
                 setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.actionEditProduct -> {
