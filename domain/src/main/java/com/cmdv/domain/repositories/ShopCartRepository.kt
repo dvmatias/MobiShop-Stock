@@ -15,6 +15,8 @@ interface ShopCartRepository {
 
     fun getAllOpenShopCarts(): LiveData<List<ShopCartModel>>
 
+    suspend fun getOpenShopCart(): ShopCartModel?
+
     suspend fun addProduct(shopCartId: Long, product: ShopCartModel.ShopCartProductModel)
 
     suspend fun deleteAll()

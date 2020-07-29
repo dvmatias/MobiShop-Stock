@@ -4,16 +4,10 @@ import com.cmdv.core.navigator.Navigator
 import com.cmdv.data.datasources.db.ShopCartDatabase
 import com.cmdv.data.datasources.firebase.AuthFirebaseSourceImpl
 import com.cmdv.data.datasources.firebase.FirebaseUserSourceImpl
-import com.cmdv.data.repositories.AuthRepositoryImpl
-import com.cmdv.data.repositories.ProductRepositoryImpl
-import com.cmdv.data.repositories.ShopCartRepositoryImpl
-import com.cmdv.data.repositories.UserRepositoryImpl
+import com.cmdv.data.repositories.*
 import com.cmdv.domain.datasources.firebase.AuthFirebaseSource
 import com.cmdv.domain.datasources.firebase.UserFirebaseSource
-import com.cmdv.domain.repositories.AuthRepository
-import com.cmdv.domain.repositories.ProductRepository
-import com.cmdv.domain.repositories.ShopCartRepository
-import com.cmdv.domain.repositories.UserRepository
+import com.cmdv.domain.repositories.*
 import com.cmdv.feature.CreateProductActivityViewModel
 import com.cmdv.feature.EditProductActivityViewModel
 import com.cmdv.feature.SplashActivityViewModel
@@ -22,6 +16,7 @@ import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragmentViewModel
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartFragmentViewModel
+import com.cmdv.feature.ui.fragments.sales.MainSalesFragmentViewModel
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -41,14 +36,16 @@ val repositoryModule = module {
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<ProductRepository> { ProductRepositoryImpl() }
     single<ShopCartRepository> { ShopCartRepositoryImpl(ShopCartDatabase.getInstance(get()).shopCartDAO) }
+    single<SaleRepository> { SaleRepositoryImpl() }
 }
 
 val viewModelModule = module {
     viewModel { SplashActivityViewModel(get(), get()) }
 
-    viewModel { MainActivityViewModel(get()) }
+    viewModel { MainActivityViewModel(get(), get(), get()) }
     viewModel { MainTabProductListFragmentViewModel(get()) }
     viewModel { MainTabShopCartFragmentViewModel(get()) }
+    viewModel { MainSalesFragmentViewModel(get()) }
 
     viewModel { CreateProductActivityViewModel(get()) }
 
@@ -56,11 +53,11 @@ val viewModelModule = module {
 }
 
 val adapterModule = module {
-    single<RecyclerProductAdapter> { RecyclerProductAdapter(androidContext()) }
+    single { RecyclerProductAdapter(get()) }
 }
 
 val itemDecorationModule = module {
-    single<ItemProductDecoration> {
+    single {
         ItemProductDecoration(
             androidContext()
         )

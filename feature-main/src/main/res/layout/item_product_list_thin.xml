@@ -27,7 +27,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageViewAddProductToShopCartButton"
         app:layout_constraintStart_toEndOf="@id/imageViewProductImage"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Product Name" />
@@ -38,16 +38,41 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:fontFamily="@font/cereal_book"
         android:lines="1"
         android:textColor="@color/colorTextDark2"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewProductSellingPrice"
-        app:layout_constraintEnd_toEndOf="@id/textViewProductName"
+        app:layout_constraintEnd_toStartOf="@id/imageViewAddProductToShopCartButton"
         app:layout_constraintStart_toStartOf="@id/textViewProductName"
         app:layout_constraintTop_toBottomOf="@id/textViewProductName"
         tools:text="Product description product description description kkk" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewAddProductToShopCartButton"
+        android:layout_width="@dimen/dim_32dp"
+        android:layout_height="@dimen/dim_32dp"
+        android:padding="@dimen/dim_6dp"
+        android:src="@drawable/ic_add_product_to_shop_cart_vector"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:layout_marginEnd="@dimen/dim_4dp"
+        app:layout_constraintEnd_toStartOf="@id/imageViewMoreButton"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Overflow Button -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewMoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:layout_marginEnd="@dimen/dim_12dp"
+        android:padding="@dimen/dim_4dp"
+        android:src="@drawable/ic_more_24dp"
+        android:tint="@color/colorTextDark2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Selling Price -->
     <androidx.appcompat.widget.AppCompatTextView

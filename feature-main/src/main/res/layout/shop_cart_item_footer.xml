@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingTop="@dimen/dim_8dp"
     android:paddingBottom="@dimen/dim_8dp"
     android:paddingStart="@dimen/dim_12dp"
@@ -23,7 +23,7 @@
     <!-- Products Number -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewItemNumber"
-        style="@style/TextShopCartIemDisplay2"
+        style="@style/Tag2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dim_2dp"
@@ -50,11 +50,9 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_15sp"
         android:fontFamily="@font/cereal_bold"
-        android:textColor="@color/colorTextDark2"
+        android:textColor="@color/colorTextDark1"
         android:minWidth="72dp"
         android:gravity="end"
-        android:padding="@dimen/dim_8dp"
-        android:background="@drawable/bgr_shop_cart_item_total"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="$100.00" />
@@ -81,24 +79,10 @@
         android:textColor="@color/colorTextDark2"
         android:minWidth="72dp"
         android:gravity="end"
-        android:padding="@dimen/dim_8dp"
-        android:background="@drawable/bgr_shop_cart_item_total"
         android:layout_marginTop="@dimen/dim_2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewSubtotal"
         tools:text="$10.00" />
-
-    <!-- Label - Total -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewTotalLabel"
-        style="@style/TextShopCartIemLabel2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dim_8dp"
-        android:text="@string/label_shop_cart_item_total"
-        app:layout_constraintBottom_toBottomOf="@id/textViewTotal"
-        app:layout_constraintEnd_toStartOf="@id/textViewTotal"
-        app:layout_constraintTop_toTopOf="@+id/textViewTotal" />
 
     <!-- Total -->
     <androidx.appcompat.widget.AppCompatTextView
@@ -112,8 +96,24 @@
         android:gravity="end"
         android:padding="@dimen/dim_8dp"
         android:background="@drawable/bgr_shop_cart_item_total"
-        android:layout_marginTop="@dimen/dim_2dp"
+        android:layout_marginTop="@dimen/dim_8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewDiscount"
         tools:text="$90.00" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonCloseSale"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorTextDark1"
+        android:text="@string/label_shop_cart_item_close_button"
+        android:layout_marginTop="@dimen/dim_12dp"
+        android:textSize="@dimen/text_15sp"
+        app:layout_constraintTop_toBottomOf="@id/textViewTotal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
@@ -20,6 +19,7 @@ import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ItemMainPageModel
+import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
@@ -27,21 +27,23 @@ import com.cmdv.feature.ui.adapters.PagerMainFragmentAdapter
 import com.cmdv.feature.ui.fragments.home.MainHomeFragment
 import com.cmdv.feature.ui.fragments.home.MainHomeFragmentListener
 import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabProductListFragment.MainProductListFragmentListener
+import com.cmdv.feature.ui.fragments.home.tabs.MainTabShopCartListFragment.MainTabShopCartListFragmentListener
 import com.cmdv.feature.ui.fragments.profile.MainProfileFragment
 import com.cmdv.feature.ui.fragments.sales.MainSalesFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.android.scope.lifecycleScope
 import org.koin.android.viewmodel.ext.android.viewModel
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity(),
     MainHomeFragmentListener,
-    MainTabProductListFragment.MainProductListFragmentListener {
+    MainProductListFragmentListener,
+    MainTabShopCartListFragmentListener {
 
     private val viewModel: MainActivityViewModel by viewModel()
 
@@ -204,25 +206,38 @@ class MainActivity : AppCompatActivity(),
      * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
     override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
-        val observer = Observer<List<ShopCartModel>> { list ->
-            viewModel.liveDataOpenShopCarts.removeObservers(this)
-            if (list != null) {
-                when (list.size) {
-                    0 ->
-                        Snackbar.make(mainLayout, getString(R.string.message_no_shop_cart_add_product_snackbar), Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.action_no_shop_cart_add_product_snackbar)) {
-                                ((pager.adapter as PagerMainFragmentAdapter).getItem(0) as MainHomeFragment)
-                                    .goToShopCartTab()
-                            }.show()
-                    1 -> ComponentAddProductToShopCartDialog(this, list[0].id, product, addProductToCartDialogListener).show()
-                    else -> {
-                        // TODO Open dialog for user choose color/quantity
-                        // If accept dialog and quantity != 0 -> Prompt user to choose shop cart to add product.
+        GlobalScope.launch {
+            val shopCartCount: Int = viewModel.getShopCartCount()
+            if (shopCartCount == 0) {
+                Snackbar.make(mainLayout, getString(R.string.message_no_shop_cart_add_product_snack_bar), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.action_no_shop_cart_add_product_snack_bar)) {
+                        ((pager.adapter as PagerMainFragmentAdapter).getItem(0) as MainHomeFragment)
+                            .goToShopCartTab()
+                    }.show()
+            } else {
+                val shopCart: ShopCartModel? = viewModel.getOpenShopCart()
+                GlobalScope.launch(Dispatchers.Main) {
+                    if (shopCart != null) {
+                        ComponentAddProductToShopCartDialog(this@MainActivity, shopCart.id, product, addProductToCartDialogListener).show()
                     }
                 }
             }
         }
-        viewModel.liveDataOpenShopCarts.observe(this, observer)
+    }
+
+    /**
+     * [MainProductListFragmentListener] implementation.
+     */
+    override fun onEditShopCartProductClick() {
+        Toast.makeText(this, "onEditShopCartProductClick()", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeleteShopCartProductClick() {
+        Toast.makeText(this, "onDeleteShopCartProductClick()", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCloseSaleClick(shopCart: ShopCartModel) {
+        viewModel.closeShoppingCart(shopCart)
     }
 
     /**
@@ -242,7 +257,19 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCreateShopCartClick() {
-        ComponentCreateShopCartDialog(this, createShopCartDialogListener).show()
+        GlobalScope.launch(Dispatchers.IO) {
+            val shopCartCount: Int = viewModel.getShopCartCount()
+            if (shopCartCount == 0) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    ComponentCreateShopCartDialog(this@MainActivity, createShopCartDialogListener).show()
+                }
+            } else {
+                GlobalScope.launch(Dispatchers.Main) {
+                    Snackbar.make(mainLayout, resources.getString(R.string.message_cant_open_more_than_one_shop_cart_snack_bar), Snackbar.LENGTH_LONG)
+                        .show()
+                }
+            }
+        }
     }
 
     /**

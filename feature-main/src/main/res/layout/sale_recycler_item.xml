@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewName"
+            style="@style/Title1.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Name" />
+
+        <!-- Label - Opened -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewClosedLabel"
+            style="@style/TextShopCartIemLabel1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_8dp"
+            android:layout_marginStart="@dimen/dim_12dp"
+            android:text="@string/label_sale_item_closed_at"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Opened Date -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewClosedDate"
+            style="@style/TextShopCartIemDisplay2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dim_12dp"
+            android:layout_marginTop="@dimen/dim_2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewClosedLabel"
+            tools:text="12/12/2020" />
+
+        <!-- Opened Time -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewClosedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cereal_book"
+            android:lines="1"
+            android:textColor="@color/colorTextDark2"
+            android:textSize="12sp"
+            android:layout_marginStart="@dimen/dim_12dp"
+            android:layout_marginBottom="@dimen/dim_8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewClosedDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="12:25hs" />
+
+        <!-- Product Quantity -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewQuantity"
+            style="@style/Tag2.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_8dp"
+            android:layout_marginEnd="@dimen/dim_12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12" />
+
+        <!-- Product Total Price -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewTotalPrice"
+            style="@style/Display1.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/dim_12dp"
+            android:layout_marginBottom="@dimen/dim_8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewQuantity"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="$120" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="#EDEDED"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -1,7 +1,6 @@
 package com.cmdv.data.entities.db
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -34,6 +33,7 @@ data class ShopCartDatabaseEntity(
     )
 
     data class ShopCartProductDatabaseEntity(
+        val id: String?,
         val code: String?,
         val name: String?,
         val price: Double?,
