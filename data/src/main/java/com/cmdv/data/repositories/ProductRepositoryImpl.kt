@@ -79,18 +79,8 @@ class ProductRepositoryImpl : ProductRepository {
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
                         getNewProductModel(
-                            code,
-                            id,
-                            productType,
-                            name,
-                            description,
-                            costPrice,
-                            originalPrice,
-                            sellingPrice,
-                            quantity,
-                            colorQuantities,
-                            lowBarrier,
-                            tags
+                            code, id, productType, name, description, costPrice, originalPrice, sellingPrice, quantity,
+                            colorQuantities, lowBarrier, tags
                         )
                     )
 
