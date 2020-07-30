@@ -93,6 +93,7 @@ class EditProductActivityViewModel(
         ProductModel(
             product.code,
             product.id,
+            product.isActive,
             product.productType,
             this.name,
             this.description,

@@ -1,6 +1,5 @@
 package com.cmdv.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.BuildConfig
 import com.cmdv.data.entities.firebase.ProductFirebaseEntity
@@ -79,7 +78,7 @@ class ProductRepositoryImpl : ProductRepository {
                 val code: String = generateUniqueRandomProductCode(dataSnapshot)
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(
+                        getNewProductModel(
                             code,
                             id,
                             productType,
@@ -121,12 +120,8 @@ class ProductRepositoryImpl : ProductRepository {
                 for (ds in snapshot.children) {
                     val productFirebaseEntity: ProductFirebaseEntity? =
                         ds.getValue(ProductFirebaseEntity::class.java)
-                    if (productFirebaseEntity != null) {
-                        products.add(
-                            ProductFirebaseMapper().transformEntityToModel(
-                                productFirebaseEntity
-                            )
-                        )
+                    if (productFirebaseEntity != null && productFirebaseEntity.isActive == true) {
+                        products.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
                     }
                 }
                 productsMutableLiveData.value = LiveDataStatusWrapper.success(products)
@@ -180,7 +175,6 @@ class ProductRepositoryImpl : ProductRepository {
                 }
             })
         }
-
     }
 
     override fun searchProducts(
@@ -214,7 +208,9 @@ class ProductRepositoryImpl : ProductRepository {
                                     snapshot.children.forEach { ds: DataSnapshot ->
                                         val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
                                         productFirebase?.let {
-                                            filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
+                                            if (it.isActive == true) {
+                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
+                                            }
                                         }
                                     }
                                     _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
@@ -225,7 +221,10 @@ class ProductRepositoryImpl : ProductRepository {
                                         override fun onDataChange(snapshot: DataSnapshot) {
                                             for (ds in snapshot.children) {
                                                 val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
-                                                if (productFirebaseEntity != null && productFirebaseEntity.name!!.contains(queryString, true)) {
+                                                if (productFirebaseEntity != null &&
+                                                    productFirebaseEntity.name!!.contains(queryString, true) &&
+                                                    productFirebaseEntity.isActive == true
+                                                ) {
                                                     filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
                                                 }
                                             }
@@ -233,7 +232,8 @@ class ProductRepositoryImpl : ProductRepository {
                                         }
 
                                         override fun onCancelled(error: DatabaseError) {
-                                            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error fetching products", null)
+                                            _mutableLiveDataFilteredProduct.value =
+                                                LiveDataStatusWrapper.error("There was an error fetching products", null)
                                         }
                                     })
                                 }
@@ -265,14 +265,14 @@ class ProductRepositoryImpl : ProductRepository {
         product.copy(quantity = getNewQuantity(product, soldProduct))
 
     private fun getNewQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): QuantityModel {
-        var soldNow: Int = 0
+        var soldNow = 0
         soldProduct.colorQuantity.forEach {
             soldNow += it.quantity
         }
         val sold: Int = product.quantity.sold + soldNow
         val available: Int = product.quantity.initial - sold
 
-        var colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
+        val colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
         product.quantity.colorQuantities.forEach { p ->
             var founded = false
             soldProduct.colorQuantity.forEach { scp ->
@@ -313,7 +313,7 @@ class ProductRepositoryImpl : ProductRepository {
         return randomCode
     }
 
-    private fun getProductModel(
+    private fun getNewProductModel(
         code: String,
         id: Long,
         productType: String,
@@ -333,6 +333,7 @@ class ProductRepositoryImpl : ProductRepository {
         return ProductModel(
             code,
             id,
+            true,
             productType,
             name,
             description,

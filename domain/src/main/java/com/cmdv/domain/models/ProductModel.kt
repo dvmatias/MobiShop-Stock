@@ -3,6 +3,7 @@ package com.cmdv.domain.models
 data class ProductModel(
     val code: String,
     val id: Long,
+    val isActive: Boolean,
     val productType: String,
     val name: String,
     val description: String,

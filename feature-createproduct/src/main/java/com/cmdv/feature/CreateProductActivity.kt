@@ -25,6 +25,8 @@ import kotlinx.android.synthetic.main.product_info.*
 import kotlinx.android.synthetic.main.quantity_info.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.ref.WeakReference
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateProductActivity : AppCompatActivity() {
 
@@ -104,7 +106,7 @@ class CreateProductActivity : AppCompatActivity() {
         editTextProductName.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.errorEmptyName.postValue(null)
-                viewModel.name = s.toString()
+                viewModel.name = s.toString().toUpperCase(Locale.ROOT)
             }
         })
         viewModel.errorEmptyName.observe(this, Observer { errorStringId ->
@@ -252,7 +254,7 @@ class CreateProductActivity : AppCompatActivity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 viewModel.productType =
-                    if (position == 0) "" else productTypes[position]
+                    if (position == 0) "" else productTypes[position].toUpperCase(Locale.ROOT)
             }
         }
         viewModel.errorEmptyProductType.observe(this, Observer { errorStringId ->
