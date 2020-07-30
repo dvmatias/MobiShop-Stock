@@ -19,7 +19,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val viewModel: SearchActivityViewModel by viewModel()
 
-    private var query: String? = null
+    private var queryString: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,21 +72,21 @@ class SearchActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                this@SearchActivity.query = query
+                this@SearchActivity.queryString = query
                 doSearch()
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                this@SearchActivity.query = newText
-                query = newText ?: ""
+                this@SearchActivity.queryString = newText
+                queryString = newText ?: ""
                 return false
             }
         })
     }
 
     private fun doSearch() {
-        query?.let { query ->
+        queryString?.let { queryString ->
             viewModel.liveDataFilteredProducts.observe(this, Observer { response ->
                 response?.let {dataWrapper ->
                     when (dataWrapper.status) {
@@ -96,7 +96,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             })
-            viewModel.searchProducts(query)
+            viewModel.searchProducts(queryString)
         }
     }
 

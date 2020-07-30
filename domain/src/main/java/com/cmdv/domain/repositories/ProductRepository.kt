@@ -35,7 +35,7 @@ interface ProductRepository {
 
     fun searchProducts(
         _mutableLiveDataFilteredProduct: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>,
-        query: String
+        queryString: String
     )
 
 }

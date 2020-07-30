@@ -15,7 +15,7 @@ class SearchActivityViewModel(
     val liveDataFilteredProducts: LiveData<LiveDataStatusWrapper<List<ProductModel>>>
         get() = _mutableLiveDataFilteredProduct
 
-    fun searchProducts(query: String) {
-        productRepository.searchProducts(_mutableLiveDataFilteredProduct, query)
+    fun searchProducts(queryString: String) {
+        productRepository.searchProducts(_mutableLiveDataFilteredProduct, queryString)
     }
 }

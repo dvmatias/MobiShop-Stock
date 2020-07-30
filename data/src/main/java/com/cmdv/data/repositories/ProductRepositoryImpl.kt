@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.BuildConfig
 import com.cmdv.data.entities.firebase.ProductFirebaseEntity
+import com.cmdv.data.helpers.FirebaseQueryHelper
 import com.cmdv.data.mappers.ProductFirebaseMapper
 import com.cmdv.domain.models.*
 import com.cmdv.domain.repositories.ProductRepository
 import com.google.firebase.database.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -181,10 +185,80 @@ class ProductRepositoryImpl : ProductRepository {
 
     override fun searchProducts(
         _mutableLiveDataFilteredProduct: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>,
-        query: String
+        queryString: String
     ) {
+        if (queryString.isEmpty()) {
+            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("Query string can't be empty", null)
+            return
+        }
         _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.loading(null)
-        // TODO
+
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(1000)
+            // Get product types
+            dbProductTypeRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val productTypes: ArrayList<String> = arrayListOf()
+                    if (snapshot.exists()) {
+                        for (child: DataSnapshot in snapshot.children) {
+                            child.getValue(String::class.java)?.let { productTypes.add(it) }
+                        }
+                    }
+                    val firebaseProductQuery: Query? = FirebaseQueryHelper(queryString, productTypes).getProductQuery()
+                    if (firebaseProductQuery != null) {
+                        firebaseProductQuery.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val filteredProducts: ArrayList<ProductModel> = arrayListOf()
+                                if (snapshot.exists() && snapshot.childrenCount > 0) {
+                                    // Handle results
+                                    snapshot.children.forEach { ds: DataSnapshot ->
+                                        val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+                                        productFirebase?.let {
+                                            filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
+                                        }
+                                    }
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+                                } else {
+                                    // Filter fails maybe because query string is contained and not start at or end at.
+                                    // Get all products an check if contains query string in his name.
+                                    dbProductsRef.addValueEventListener(object : ValueEventListener {
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            for (ds in snapshot.children) {
+                                                val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+                                                if (productFirebaseEntity != null && productFirebaseEntity.name!!.contains(queryString, true)) {
+                                                    filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
+                                                }
+                                            }
+                                            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+                                        }
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error fetching products", null)
+                                        }
+                                    })
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                // Firebase database query failed.
+                                _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
+                            }
+                        })
+                    } else {
+                        // Can´t establish query type
+                        _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("No query type founded.", null)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Fail to fetch Product Types
+                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("Mocked Error!", null)
+                }
+            })
+            GlobalScope.launch(Dispatchers.Main) {
+                // TODO
+            }
+        }
     }
 
     private fun modifyProductQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =
