@@ -169,7 +169,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
      * Triggered by a Delete action on product overflow menu
      */
     private fun deleteProduct(position: Int) {
-        viewModel.deleteProduct(productRecyclerAdapter.getProduct(position))
+        viewModel.deleteProduct(productRecyclerAdapter.getProduct(position).id)
     }
 
     /**

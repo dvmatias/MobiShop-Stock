@@ -38,6 +38,6 @@ interface ProductRepository {
         queryString: String
     )
 
-    fun markProductInactive(product: ProductModel)
+    fun markProductInactive(productId: Long)
 
 }

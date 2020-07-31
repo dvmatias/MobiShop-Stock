@@ -249,8 +249,8 @@ class ProductRepositoryImpl : ProductRepository {
         }
     }
 
-    override fun markProductInactive(product: ProductModel) {
-        dbProductsRef.child(product.id.toString()).child("active").setValue(false)
+    override fun markProductInactive(productId: Long) {
+        dbProductsRef.child(productId.toString()).child("active").setValue(false)
     }
 
     private fun modifyProductQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =
