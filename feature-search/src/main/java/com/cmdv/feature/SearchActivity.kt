@@ -9,17 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.adapters.SectionsPagerAdapter
+import com.cmdv.feature.fragments.EventSearchProductObserver
+import com.cmdv.feature.fragments.ObservableSearch
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), ObservableSearch {
 
     private val viewModel: SearchActivityViewModel by viewModel()
 
-    private var queryString: String? = null
+    private var queryString: String = ""
+
+    private lateinit var sectionsPagerAdapter: SectionsPagerAdapter
+
+    private var searchProductsObservers: ArrayList<EventSearchProductObserver> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,7 @@ class SearchActivity : AppCompatActivity() {
         setupToolbar()
         setupSearchView()
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         viewPager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(viewPager)
     }
@@ -72,14 +78,18 @@ class SearchActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                this@SearchActivity.queryString = query
+                this@SearchActivity.queryString = query ?: ""
                 doSearch()
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                this@SearchActivity.queryString = newText
-                queryString = newText ?: ""
+                this@SearchActivity.queryString = newText ?: ""
+                if (this@SearchActivity.queryString.isEmpty()) {
+                    searchProductsObservers.forEach {
+                        it.eventShowFiltersAndHistory()
+                    }
+                }
                 return false
             }
         })
@@ -87,33 +97,38 @@ class SearchActivity : AppCompatActivity() {
 
     private fun doSearch() {
         queryString?.let { queryString ->
-            viewModel.liveDataFilteredProducts.observe(this, Observer { response ->
-                response?.let {dataWrapper ->
-                    when (dataWrapper.status) {
-                        LiveDataStatusWrapper.Status.LOADING -> logErrorMessage("doSearch() LOADING")
-                        LiveDataStatusWrapper.Status.SUCCESS -> logErrorMessage("doSearch() SUCCESS")
-                        LiveDataStatusWrapper.Status.ERROR -> logErrorMessage("doSearch() ERROR")
-                    }
-                }
+            viewModel.liveDataFilteredProducts.observe(this, Observer { dataWrapper ->
+               notifyObservers(dataWrapper)
             })
             viewModel.searchProducts(queryString)
         }
     }
 
-    private fun showFiltersAndHistoryScreen() {
-        // TODO
+    /**
+     * [ObservableSearch] implementation.
+     */
+    override fun registerObserver(eventSearchProductObserver: EventSearchProductObserver) {
+        if(!searchProductsObservers.contains(eventSearchProductObserver)) {
+            searchProductsObservers.add(eventSearchProductObserver);
+        }
     }
 
-    private fun showLoadingScreen() {
-
+    override fun removeObserver(eventSearchProductObserver: EventSearchProductObserver) {
+        if(searchProductsObservers.contains(eventSearchProductObserver)) {
+            searchProductsObservers.remove(eventSearchProductObserver);
+        }
     }
 
-    private fun showNotFoundScreen() {
-
-    }
-
-    private fun showResultsScreen() {
-
+    override fun notifyObservers(dataStatusWrapper: LiveDataStatusWrapper<List<ProductModel>>?) {
+        searchProductsObservers.forEach { observer ->
+            dataStatusWrapper?.let {
+                when (dataStatusWrapper.status) {
+                    LiveDataStatusWrapper.Status.LOADING -> observer.eventOnSearchProductsLoading()
+                    LiveDataStatusWrapper.Status.SUCCESS -> observer.eventOnSearchProductsSuccess(dataStatusWrapper.data)
+                    LiveDataStatusWrapper.Status.ERROR -> observer.eventOnSearchProductsError()
+                }
+            }
+        }
     }
 
 }

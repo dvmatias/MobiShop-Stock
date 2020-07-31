@@ -3,7 +3,7 @@ package com.cmdv.data.entities.firebase
 data class ProductFirebaseEntity(
     val code: String?,
     val id: Long?,
-    val isActive: Boolean?,
+    val active: Boolean,
     val productType: String?,
     val name: String?,
     val description: String?,
@@ -16,7 +16,7 @@ data class ProductFirebaseEntity(
 ) {
 
     @Suppress("unused")
-    constructor() : this(null, null, null, null, null, null, null, null, null, null, null, null)
+    constructor() : this(null, null, false, null, null, null, null, null, null, null, null, null)
 
 }
 

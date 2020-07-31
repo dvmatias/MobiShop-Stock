@@ -110,7 +110,7 @@ class ProductRepositoryImpl : ProductRepository {
                 for (ds in snapshot.children) {
                     val productFirebaseEntity: ProductFirebaseEntity? =
                         ds.getValue(ProductFirebaseEntity::class.java)
-                    if (productFirebaseEntity != null && productFirebaseEntity.isActive == true) {
+                    if (productFirebaseEntity != null && productFirebaseEntity.active) {
                         products.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
                     }
                 }
@@ -198,7 +198,7 @@ class ProductRepositoryImpl : ProductRepository {
                                     snapshot.children.forEach { ds: DataSnapshot ->
                                         val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
                                         productFirebase?.let {
-                                            if (it.isActive == true) {
+                                            if (it.active == true) {
                                                 filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
                                             }
                                         }
@@ -213,7 +213,7 @@ class ProductRepositoryImpl : ProductRepository {
                                                 val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
                                                 if (productFirebaseEntity != null &&
                                                     productFirebaseEntity.name!!.contains(queryString, true) &&
-                                                    productFirebaseEntity.isActive == true
+                                                    productFirebaseEntity.active == true
                                                 ) {
                                                     filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
                                                 }
