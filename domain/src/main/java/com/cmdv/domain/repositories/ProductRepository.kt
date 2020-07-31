@@ -38,4 +38,6 @@ interface ProductRepository {
         queryString: String
     )
 
+    fun markProductInactive(product: ProductModel)
+
 }

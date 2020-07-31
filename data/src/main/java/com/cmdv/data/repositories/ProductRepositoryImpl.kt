@@ -236,50 +236,6 @@ class ProductRepositoryImpl : ProductRepository {
                             })
                         }
                     }
-//                    firebaseProductQuery.addValueEventListener(object : ValueEventListener {
-//                        override fun onDataChange(snapshot: DataSnapshot) {
-//                            val filteredProducts: ArrayList<ProductModel> = arrayListOf()
-//                            if (snapshot.exists() && snapshot.childrenCount > 0) {
-//                                // Handle results
-//                                snapshot.children.forEach { ds: DataSnapshot ->
-//                                    val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
-//                                    productFirebase?.let {
-//                                        if (it.active == true) {
-//                                            filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
-//                                        }
-//                                    }
-//                                }
-//                                _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
-//                            } else {
-//                                // Filter fails maybe because query string is contained and not start at or end at.
-//                                // Get all products an check if contains query string in his name.
-//                                dbProductsRef.addValueEventListener(object : ValueEventListener {
-//                                    override fun onDataChange(snapshot: DataSnapshot) {
-//                                        for (ds in snapshot.children) {
-//                                            val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
-//                                            if (productFirebaseEntity != null &&
-//                                                productFirebaseEntity.name!!.contains(queryString, true) &&
-//                                                productFirebaseEntity.active == true
-//                                            ) {
-//                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
-//                                            }
-//                                        }
-//                                        _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
-//                                    }
-//
-//                                    override fun onCancelled(error: DatabaseError) {
-//                                        _mutableLiveDataFilteredProduct.value =
-//                                            LiveDataStatusWrapper.error("There was an error fetching products", null)
-//                                    }
-//                                })
-//                            }
-//                        }
-//
-//                        override fun onCancelled(error: DatabaseError) {
-//                            // Firebase database query failed.
-//                            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
-//                        }
-//                    })
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -291,6 +247,10 @@ class ProductRepositoryImpl : ProductRepository {
                 // TODO
             }
         }
+    }
+
+    override fun markProductInactive(product: ProductModel) {
+        dbProductsRef.child(product.id.toString()).child("active").setValue(false)
     }
 
     private fun modifyProductQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =

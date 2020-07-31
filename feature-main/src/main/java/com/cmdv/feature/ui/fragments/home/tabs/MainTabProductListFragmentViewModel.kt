@@ -20,4 +20,8 @@ class MainTabProductListFragmentViewModel(
         productRepository.getProducts(_products)
     }
 
+    fun deleteProduct(product: ProductModel) {
+        productRepository.markProductInactive(product)
+    }
+
 }
