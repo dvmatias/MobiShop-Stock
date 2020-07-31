@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.cmdv.domain.models.ColorQuantityModel
+import com.cmdv.core.helpers.ProductQuantityHelper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.filters.ProductFilter
@@ -22,7 +22,7 @@ enum class ItemType(val type: Int) {
     PRODUCT(1)
 }
 
-class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class ProductRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private var products: ArrayList<ProductModel> = arrayListOf()
     private var sections: ArrayList<String> = arrayListOf()
@@ -122,47 +122,41 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
         private val textViewAvailableQuantity: AppCompatTextView = itemView.findViewById(R.id.textViewAvailableQuantity)
         private val availableQuantityIndicator: View = itemView.findViewById(R.id.availableQuantityIndicator)
 
+        private lateinit var product: ProductModel
+        private var quantityAvailable: Int = 0
+
         fun bindView(
             product: ProductModel,
             context: Context,
             productItemListener: ProductItemListener,
             position: Int
         ) {
-            with(product) {
-                // TODO product image
-                textViewProductName.text = name
-                textViewProductDescription.text = description
-                textViewProductSellingPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.sellingPrice)
-                textViewProductCostPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.costPrice)
-                textViewProductCode.text = String.format(context.getString(R.string.item_product_code_placeholder), code)
-                textViewAvailableQuantity.text = getQuantityAvailable(product.quantity.colorQuantities).toString()
-                setupAvailableQuantity(product, context)
-                setupOverflowMenu(productItemListener, position)
-                setupAddProductToShopCart(productItemListener, position)
-            }
+            this.product = product
+            this.quantityAvailable = ProductQuantityHelper.getQuantityAvailable(product.quantity.colorQuantities)
 
+            // TODO product image
+            textViewProductName.text = this.product.name
+            textViewProductDescription.text = this.product.description
+            textViewProductSellingPrice.text =
+                String.format(context.getString(R.string.item_product_price_placeholder), this.product.price.sellingPrice)
+            textViewProductCostPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), this.product.price.costPrice)
+            textViewProductCode.text = String.format(context.getString(R.string.item_product_code_placeholder), this.product.code)
+            textViewAvailableQuantity.text = this.quantityAvailable.toString()
+            setAvailableQuantityIndicator(context)
+            setupOverflowMenu(productItemListener, position)
+            setupAddProductToShopCart(productItemListener, position)
         }
 
-        private fun getQuantityAvailable(colorQuantities: ArrayList<ColorQuantityModel>): Int {
-            var quantityAvailable: Int = 0
-            colorQuantities.forEach {
-                quantityAvailable += it.quantity
-            }
-
-            return quantityAvailable
-        }
-
-        private fun setupAvailableQuantity(product: ProductModel, context: Context) {
-            val quantityAvailable = getQuantityAvailable(product.quantity.colorQuantities)
+        private fun setAvailableQuantityIndicator(context: Context) {
             val lowBarrier = product.quantity.lowBarrier
             val colorBackground: Int =
                 if (lowBarrier == 0) {
                     ContextCompat.getColor(context, R.color.colorTransparent)
-                } else if (quantityAvailable == 0) {
+                } else if (this.quantityAvailable == 0) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundZero)
-                } else if (quantityAvailable < lowBarrier) {
+                } else if (this.quantityAvailable < lowBarrier) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundLow)
-                } else if (quantityAvailable > lowBarrier && quantityAvailable < lowBarrier * 1.25) {
+                } else if (this.quantityAvailable > lowBarrier && this.quantityAvailable < lowBarrier * 1.25) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundWarning)
                 } else {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundGood)

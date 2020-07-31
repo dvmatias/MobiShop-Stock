@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.cmdv.feature.R
-import com.cmdv.feature.fragments.ProductsSearchSectionTabFragment
+import com.cmdv.feature.fragments.ProductSearchSectionTabFragment
 import com.cmdv.feature.fragments.SalesSearchSectionTabFragment
 
 private val TABS = arrayOf(
-    ProductsSearchSectionTabFragment() to R.string.labelTabProducts,
+    ProductSearchSectionTabFragment() to R.string.labelTabProducts,
     SalesSearchSectionTabFragment() to R.string.labelTabSales
 )
 

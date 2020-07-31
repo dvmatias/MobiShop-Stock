@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(),
     /**
      * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
-    override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
+    override fun onActionAddProductToShopCart(product: ProductModel) {
         GlobalScope.launch {
             val shopCartCount: Int = viewModel.getShopCartCount()
             if (shopCartCount == 0) {
