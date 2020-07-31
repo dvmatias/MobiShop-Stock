@@ -23,13 +23,16 @@ class FirebaseQueryHelper(private var queryString: String, private val productTy
         setQueryWords()
     }
 
-    fun getProductQuery(): Query? {
+    fun getProductQuery(): Query {
         val productQueries: ArrayList<Query> = arrayListOf()
         getProductQueryTypes().forEach { productQueryType ->
             productQueries.add(getProductQuery(productQueryType))
         }
-        return if (productQueries.isEmpty()) null else productQueries[0]
+        return if (productQueries.isEmpty()) getProductQuery(ProductQueryType.BY_NAME) else productQueries[0]
     }
+
+    fun getProductQueryType(): FirebaseQueryHelper.ProductQueryType =
+        getProductQueryTypes()[0]
 
     private fun setQueryWords() {
         this.queryWords = arrayListOf()

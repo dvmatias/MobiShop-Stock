@@ -188,56 +188,98 @@ class ProductRepositoryImpl : ProductRepository {
                             child.getValue(String::class.java)?.let { productTypes.add(it) }
                         }
                     }
-                    val firebaseProductQuery: Query? = FirebaseQueryHelper(queryString, productTypes).getProductQuery()
-                    if (firebaseProductQuery != null) {
-                        firebaseProductQuery.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                val filteredProducts: ArrayList<ProductModel> = arrayListOf()
-                                if (snapshot.exists() && snapshot.childrenCount > 0) {
+                    val queryType: FirebaseQueryHelper.ProductQueryType = FirebaseQueryHelper(queryString, productTypes).getProductQueryType()
+                    when (queryType) {
+                        FirebaseQueryHelper.ProductQueryType.BY_CODE,
+                        FirebaseQueryHelper.ProductQueryType.BY_TYPE -> {
+                            val firebaseProductQuery: Query = FirebaseQueryHelper(queryString, productTypes).getProductQuery()
+                            firebaseProductQuery.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val filteredProducts: ArrayList<ProductModel> = arrayListOf()
                                     // Handle results
                                     snapshot.children.forEach { ds: DataSnapshot ->
                                         val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
                                         productFirebase?.let {
-                                            if (it.active == true) {
-                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
+                                            if (it.active) { filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it)) }
+                                        }
+                                    }
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    // Firebase database query failed.
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
+                                }
+                            })
+                        }
+                        FirebaseQueryHelper.ProductQueryType.BY_NAME -> {
+                            // Get all products and filter by name (if name contains query)
+                            dbProductsRef.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val filteredProducts: ArrayList<ProductModel> = arrayListOf()
+                                    for (ds in snapshot.children) {
+                                        val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+                                        productFirebaseEntity?.let {
+                                            if (productFirebaseEntity.active &&
+                                                productFirebaseEntity.name != null &&
+                                                productFirebaseEntity.name.contains(queryString, ignoreCase = true)) {
+                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
                                             }
                                         }
                                     }
                                     _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
-                                } else {
-                                    // Filter fails maybe because query string is contained and not start at or end at.
-                                    // Get all products an check if contains query string in his name.
-                                    dbProductsRef.addValueEventListener(object : ValueEventListener {
-                                        override fun onDataChange(snapshot: DataSnapshot) {
-                                            for (ds in snapshot.children) {
-                                                val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
-                                                if (productFirebaseEntity != null &&
-                                                    productFirebaseEntity.name!!.contains(queryString, true) &&
-                                                    productFirebaseEntity.active == true
-                                                ) {
-                                                    filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
-                                                }
-                                            }
-                                            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
-                                        }
-
-                                        override fun onCancelled(error: DatabaseError) {
-                                            _mutableLiveDataFilteredProduct.value =
-                                                LiveDataStatusWrapper.error("There was an error fetching products", null)
-                                        }
-                                    })
                                 }
-                            }
 
-                            override fun onCancelled(error: DatabaseError) {
-                                // Firebase database query failed.
-                                _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
-                            }
-                        })
-                    } else {
-                        // Can´t establish query type
-                        _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("No query type founded.", null)
+                                override fun onCancelled(error: DatabaseError) {
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
+                                }
+                            })
+                        }
                     }
+//                    firebaseProductQuery.addValueEventListener(object : ValueEventListener {
+//                        override fun onDataChange(snapshot: DataSnapshot) {
+//                            val filteredProducts: ArrayList<ProductModel> = arrayListOf()
+//                            if (snapshot.exists() && snapshot.childrenCount > 0) {
+//                                // Handle results
+//                                snapshot.children.forEach { ds: DataSnapshot ->
+//                                    val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+//                                    productFirebase?.let {
+//                                        if (it.active == true) {
+//                                            filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
+//                                        }
+//                                    }
+//                                }
+//                                _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+//                            } else {
+//                                // Filter fails maybe because query string is contained and not start at or end at.
+//                                // Get all products an check if contains query string in his name.
+//                                dbProductsRef.addValueEventListener(object : ValueEventListener {
+//                                    override fun onDataChange(snapshot: DataSnapshot) {
+//                                        for (ds in snapshot.children) {
+//                                            val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+//                                            if (productFirebaseEntity != null &&
+//                                                productFirebaseEntity.name!!.contains(queryString, true) &&
+//                                                productFirebaseEntity.active == true
+//                                            ) {
+//                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
+//                                            }
+//                                        }
+//                                        _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+//                                    }
+//
+//                                    override fun onCancelled(error: DatabaseError) {
+//                                        _mutableLiveDataFilteredProduct.value =
+//                                            LiveDataStatusWrapper.error("There was an error fetching products", null)
+//                                    }
+//                                })
+//                            }
+//                        }
+//
+//                        override fun onCancelled(error: DatabaseError) {
+//                            // Firebase database query failed.
+//                            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
+//                        }
+//                    })
                 }
 
                 override fun onCancelled(error: DatabaseError) {
