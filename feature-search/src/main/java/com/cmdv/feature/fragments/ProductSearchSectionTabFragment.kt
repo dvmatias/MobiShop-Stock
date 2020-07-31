@@ -55,33 +55,35 @@ class ProductSearchSectionTabFragment : TabFragmentPlaceHolder(), EventSearchPro
     }
 
     private fun showFiltersAndHistoryScreen() {
-        frameLoading.visibility = View.GONE
-        recyclerProducts.visibility = View.GONE
         layoutFiltersAndSearchHistory.visibility = View.VISIBLE
+        recyclerProducts.visibility = View.GONE
+        layoutNotFound.visibility = View.GONE
+        frameLoading.visibility = View.GONE
     }
 
     private fun showLoadingScreen() {
-        frameLoading.visibility = View.VISIBLE
-        recyclerProducts.visibility = View.GONE
         layoutFiltersAndSearchHistory.visibility = View.GONE
+        recyclerProducts.visibility = View.GONE
+        layoutNotFound.visibility = View.GONE
+        frameLoading.visibility = View.VISIBLE
     }
 
     private fun showFoundScreen(products: List<ProductModel>) {
-        frameLoading.visibility = View.GONE
-        recyclerProducts.visibility = View.VISIBLE
         layoutFiltersAndSearchHistory.visibility = View.GONE
-        // TODO Not Found gone
+        recyclerProducts.visibility = View.VISIBLE
+        layoutNotFound.visibility = View.GONE
+        frameLoading.visibility = View.GONE
+
         val productList = arrayListOf<ProductModel>()
         products.toCollection(productList)
         productSearchAdapter.setProducts(productList)
     }
 
     private fun showNotFoundScreen() {
-        frameLoading.visibility = View.GONE
-        recyclerProducts.visibility = View.GONE
         layoutFiltersAndSearchHistory.visibility = View.GONE
-
-        // TODO Not Found visible
+        recyclerProducts.visibility = View.GONE
+        layoutNotFound.visibility = View.VISIBLE
+        frameLoading.visibility = View.GONE
     }
 
     private fun showErrorScreen() {

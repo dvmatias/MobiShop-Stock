@@ -20,6 +20,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- Not found screen -->
+    <include
+        android:id="@+id/layoutNotFound"
+        layout="@layout/layout_not_found" />
+
     <!-- Loading View -->
     <FrameLayout
         android:id="@+id/frameLoading"
