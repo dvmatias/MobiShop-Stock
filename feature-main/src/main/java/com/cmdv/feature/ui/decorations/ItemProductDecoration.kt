@@ -2,6 +2,7 @@ package com.cmdv.feature.ui.decorations
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
@@ -54,4 +55,17 @@ class ItemProductDecoration(private val context: Context) : RecyclerView.ItemDec
         }
         c.restore()
     }
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        if (parent.layoutManager == null || parent.adapter == null) {
+            return
+        }
+
+        val childPosition = parent.getChildAdapterPosition(view)
+        // Last item
+        if (childPosition == parent.adapter!!.itemCount - 1) {
+            outRect.bottom = dpToPx(parent.context, 96F).toInt()
+        }
+    }
+
 }

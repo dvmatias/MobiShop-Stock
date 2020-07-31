@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.filters.ProductFilter
@@ -134,7 +135,7 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
                 textViewProductSellingPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.sellingPrice)
                 textViewProductCostPrice.text = String.format(context.getString(R.string.item_product_price_placeholder), price.costPrice)
                 textViewProductCode.text = String.format(context.getString(R.string.item_product_code_placeholder), code)
-                textViewAvailableQuantity.text = quantity.available.toString()
+                textViewAvailableQuantity.text = getQuantityAvailable(product.quantity.colorQuantities).toString()
                 setupAvailableQuantity(product, context)
                 setupOverflowMenu(productItemListener, position)
                 setupAddProductToShopCart(productItemListener, position)
@@ -142,22 +143,30 @@ class RecyclerProductAdapter(private val context: Context) : RecyclerView.Adapte
 
         }
 
+        private fun getQuantityAvailable(colorQuantities: ArrayList<ColorQuantityModel>): Int {
+            var quantityAvailable: Int = 0
+            colorQuantities.forEach {
+                quantityAvailable += it.quantity
+            }
+
+            return quantityAvailable
+        }
+
         private fun setupAvailableQuantity(product: ProductModel, context: Context) {
-            val available = product.quantity.available
+            val quantityAvailable = getQuantityAvailable(product.quantity.colorQuantities)
             val lowBarrier = product.quantity.lowBarrier
             val colorBackground: Int =
                 if (lowBarrier == 0) {
                     ContextCompat.getColor(context, R.color.colorTransparent)
-                } else if (available == 0) {
+                } else if (quantityAvailable == 0) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundZero)
-                } else if (available < lowBarrier) {
+                } else if (quantityAvailable < lowBarrier) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundLow)
-                } else if (available > lowBarrier && available < lowBarrier * 1.25) {
+                } else if (quantityAvailable > lowBarrier && quantityAvailable < lowBarrier * 1.25) {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundWarning)
                 } else {
                     ContextCompat.getColor(context, R.color.colorAvailableQuantityBackgroundGood)
                 }
-            textViewAvailableQuantity.text = product.quantity.available.toString()
             availableQuantityIndicator.setBackgroundColor(colorBackground)
         }
 

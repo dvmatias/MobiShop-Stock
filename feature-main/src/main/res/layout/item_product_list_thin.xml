@@ -21,7 +21,7 @@
     <!-- Name -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewProductName"
-        style="@style/Title1"
+        style="@style/Title1.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -77,7 +77,7 @@
     <!-- Selling Price -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewProductSellingPrice"
-        style="@style/Display1"
+        style="@style/Display1.Medium.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
