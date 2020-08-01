@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.components.R
 import com.cmdv.core.utils.logErrorMessage
-import com.cmdv.domain.models.ColorQuantityModel
+import com.cmdv.domain.models.ProductModel
 import kotlinx.android.synthetic.main.color_quantity_component.view.*
 
 enum class Mode {
@@ -20,8 +20,8 @@ class ComponentColorQuantity : ConstraintLayout, OnColorQuantityClickListener {
 
     private var mode: Mode = Mode.NO_EDIT
     private lateinit var coloQuantityAdapter: RecyclerColoQuantityAdapter
-    private var _mutableLiveColorQuantityList = MutableLiveData<ArrayList<ColorQuantityModel>>()
-    val mutableLiveColorQuantityList: MutableLiveData<ArrayList<ColorQuantityModel>>
+    private var _mutableLiveColorQuantityList = MutableLiveData<ArrayList<ProductModel.ColorQuantityModel>>()
+    val mutableLiveColorQuantityList: MutableLiveData<ArrayList<ProductModel.ColorQuantityModel>>
         get() = _mutableLiveColorQuantityList
 
     constructor(context: Context) : super(context) {
@@ -50,7 +50,7 @@ class ComponentColorQuantity : ConstraintLayout, OnColorQuantityClickListener {
      * @param mode [Mode]: Edit/No Edit.
      * @param colorQuantities
      */
-    fun setup(context: Context, mode: Mode, colorQuantities: ArrayList<ColorQuantityModel>?) {
+    fun setup(context: Context, mode: Mode, colorQuantities: ArrayList<ProductModel.ColorQuantityModel>?) {
         this.mode = mode
         when (this.mode) {
             Mode.EDIT -> {
@@ -76,7 +76,7 @@ class ComponentColorQuantity : ConstraintLayout, OnColorQuantityClickListener {
         buttonAddColorQuantity.visibility = View.GONE
     }
 
-    private fun setupRecycler(colorQuantities: ArrayList<ColorQuantityModel>?) {
+    private fun setupRecycler(colorQuantities: ArrayList<ProductModel.ColorQuantityModel>?) {
         coloQuantityAdapter = RecyclerColoQuantityAdapter(this)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -90,24 +90,24 @@ class ComponentColorQuantity : ConstraintLayout, OnColorQuantityClickListener {
     /**
      * [OnColorQuantityClickListener] implementation.
      */
-    override fun onClick(position: Int, colorQuantity: ColorQuantityModel) {
+    override fun onClick(position: Int, colorQuantity: ProductModel.ColorQuantityModel) {
         logErrorMessage("onClick($position: Int, $colorQuantity: ColorQuantityModel)")
         if (this.mode == Mode.EDIT) {
             openColorPickerDialog(Pair(position, colorQuantity))
         }
     }
 
-    private fun openColorPickerDialog(pairPositionColorQuantity: Pair<Int, ColorQuantityModel>?) {
+    private fun openColorPickerDialog(pairPositionColorQuantity: Pair<Int, ProductModel.ColorQuantityModel>?) {
         ComponentColorQuantityPickerDialog(context).show(pairPositionColorQuantity, onColorQuantitySetListener)
     }
 
     private val onColorQuantitySetListener = object : OnColorQuantitySetListener {
-        override fun onColorQuantityCreated(colorQuantity: ColorQuantityModel) {
+        override fun onColorQuantityCreated(colorQuantity: ProductModel.ColorQuantityModel) {
             coloQuantityAdapter.addItem(colorQuantity)
             updateColorQuantityList()
         }
 
-        override fun onColorQuantityUpdated(position: Int, colorQuantity: ColorQuantityModel) {
+        override fun onColorQuantityUpdated(position: Int, colorQuantity: ProductModel.ColorQuantityModel) {
             coloQuantityAdapter.updateItem(position, colorQuantity)
             updateColorQuantityList()
         }

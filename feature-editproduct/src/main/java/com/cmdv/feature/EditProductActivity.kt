@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.cmdv.components.colorpicker.Mode
 import com.cmdv.core.Constants.Companion.EXTRA_PRODUCT_KEY
+import com.cmdv.core.helpers.ProductQuantityHelper
 import com.cmdv.core.helpers.SimpleTextWatcher
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
@@ -114,27 +115,8 @@ class EditProductActivity : AppCompatActivity() {
 
     private fun setupProductQuantityInputField() {
         product?.quantity?.let { quantity ->
-            editTextProductQuantityInitial.apply {
-                addTextChangedListener(object : SimpleTextWatcher() {
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                        s?.let {
-                            viewModel.initialQuantity =
-                                if (s.isEmpty()) -1 else s.toString().toInt()
-                        } ?: run { viewModel.initialQuantity = -1 }
-                    }
-                })
-                setText(quantity.initial.toString())
-            }
             editTextProductQuantityAvailable.apply {
-                addTextChangedListener(object : SimpleTextWatcher() {
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                        s?.let {
-                            viewModel.availableQuantity =
-                                if (s.isEmpty()) -1 else s.toString().toInt()
-                        } ?: run { viewModel.availableQuantity = -1 }
-                    }
-                })
-                setText(quantity.available.toString())
+                setText(ProductQuantityHelper.getQuantityAvailable(quantity.colorQuantities).toString())
             }
             editTextProductQuantitySold.apply {
                 addTextChangedListener(object : SimpleTextWatcher() {
@@ -154,17 +136,6 @@ class EditProductActivity : AppCompatActivity() {
         componentColorQuantityView.setup(this, Mode.EDIT, product?.quantity?.colorQuantities)
         componentColorQuantityView.mutableLiveColorQuantityList.observe(this, Observer {
             viewModel.colorQuantities = ArrayList(it)
-            viewModel.initialQuantity =
-                if (it.isNotEmpty()){
-                    var sum = 0
-                    for (item in it) {
-                        sum += item.quantity
-                    }
-                    sum
-                } else {
-                    0
-                }
-
         })
     }
 

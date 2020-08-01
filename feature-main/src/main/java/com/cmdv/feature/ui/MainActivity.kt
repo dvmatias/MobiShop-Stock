@@ -229,11 +229,7 @@ class MainActivity : AppCompatActivity(),
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_CODE_EDIT_PRODUCT -> {
-                if (Activity.RESULT_OK == resultCode) {
-                    Toast.makeText(this, "EditProductActivity RESULT_OK", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "EditProductActivity RESULT_KO", Toast.LENGTH_SHORT).show()
-                }
+                // TODO Need to handle something?
             }
         }
     }

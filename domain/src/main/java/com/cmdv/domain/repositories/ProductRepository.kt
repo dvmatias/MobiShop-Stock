@@ -1,7 +1,6 @@
 package com.cmdv.domain.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.cmdv.domain.models.ColorQuantityModel
 import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.ShopCartModel
@@ -10,8 +9,7 @@ interface ProductRepository {
 
     fun updateProduct(
         productMutableLiveData: MutableLiveData<LiveDataStatusWrapper<ProductModel>>,
-        id: Int,
-        product: ProductModel
+        productUpdate: ProductModel
     )
 
     fun createProduct(
@@ -21,8 +19,7 @@ interface ProductRepository {
         costPrice: String,
         originalPrice: String,
         sellingPrice: String,
-        quantity: Int,
-        colorQuantities: ArrayList<ColorQuantityModel>,
+        colorQuantities: ArrayList<ProductModel.ColorQuantityModel>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>>

@@ -148,29 +148,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Product Quantity Initial -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputProductQuantityInitial"
-            style="@style/TextInputLayoutStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:hint="@string/hint_edit_product_initial_quantity"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputProductOriginalPrice"
-            app:layout_constraintWidth_percent="0.31">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextProductQuantityInitial"
-                style="@style/EditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:lines="1" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <!-- Product Quantity Available -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputProductQuantityAvailable"
@@ -178,8 +155,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/hint_edit_product_available_quantity"
-            app:layout_constraintStart_toEndOf="@id/textInputProductQuantityInitial"
-            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantityInitial"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductOriginalPrice"
             app:layout_constraintEnd_toStartOf="@id/textInputProductQuantitySold">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -188,7 +166,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:focusable="false"
+                android:inputType="none"
                 android:lines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -201,9 +180,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:hint="@string/hint_edit_product_sold_quantity"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantityInitial"
-            app:layout_constraintWidth_percent="0.31">
+            app:layout_constraintBottom_toBottomOf="@id/textInputProductQuantityAvailable"
+            app:layout_constraintWidth_percent="0.5">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextProductQuantitySold"
@@ -211,7 +191,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:focusable="false"
+                android:inputType="none"
                 android:lines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -224,7 +205,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputProductQuantityInitial"
+            app:layout_constraintTop_toBottomOf="@id/textInputProductQuantityAvailable"
             tools:layout_height="40dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

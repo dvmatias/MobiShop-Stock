@@ -2,7 +2,7 @@ package com.cmdv.data.mappers
 
 import com.cmdv.data.entities.firebase.*
 import com.cmdv.domain.mapper.BaseMapper
-import com.cmdv.domain.models.*
+import com.cmdv.domain.models.ProductModel
 
 class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() {
 
@@ -16,20 +16,18 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             e.description ?: "",
             e.model ?: "",
             e.imageName ?: "",
-            PriceModel(
+            ProductModel.PriceModel(
                 e.price?.costPrice ?: "",
                 e.price?.originalPrice ?: "",
                 e.price?.sellingPrice ?: ""
             ),
-            QuantityModel(
-                e.quantity?.initial ?: 0,
-                e.quantity?.available ?: 0,
+            ProductModel.QuantityModel(
                 e.quantity?.sold ?: 0,
                 e.quantity?.lowBarrier ?: 5,
                 transformColorQuantitiesEntityToModel(e.quantity?.colorQuantities)
             ),
             e.tags?.map { it.values.toString() } ?: listOf(),
-            DateModel(
+            ProductModel.DateModel(
                 e.date?.createdDate ?: "",
                 e.date?.updatedDate ?: ""
             )
@@ -47,8 +45,6 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             m.imageName,
             PriceEntity(m.price.costPrice, m.price.originalPrice, m.price.sellingPrice),
             QuantityEntity(
-                m.quantity.initial,
-                m.quantity.available,
                 m.quantity.sold,
                 m.quantity.lowBarrier,
                 transformColorQuantitiesModelToEntity(m.quantity.colorQuantities)
@@ -57,7 +53,7 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             DateEntity(m.date.createdDate, m.date.updatedDate)
         )
 
-    private fun transformColorQuantitiesModelToEntity(colorQuantities: ArrayList<ColorQuantityModel>): List<ColorQuantityEntity> =
+    private fun transformColorQuantitiesModelToEntity(colorQuantities: ArrayList<ProductModel.ColorQuantityModel>): List<ColorQuantityEntity> =
         colorQuantities.map {
             ColorQuantityEntity(
                 it.name,
@@ -66,13 +62,13 @@ class ProductFirebaseMapper : BaseMapper<ProductFirebaseEntity, ProductModel>() 
             )
         }
 
-    private fun transformColorQuantitiesEntityToModel(colorQuantities: List<ColorQuantityEntity>?): ArrayList<ColorQuantityModel> {
-        val response: ArrayList<ColorQuantityModel> = arrayListOf()
+    private fun transformColorQuantitiesEntityToModel(colorQuantities: List<ColorQuantityEntity>?): ArrayList<ProductModel.ColorQuantityModel> {
+        val response: ArrayList<ProductModel.ColorQuantityModel> = arrayListOf()
         if (colorQuantities == null) return response
 
         for (e in colorQuantities) {
             response.add(
-                ColorQuantityModel(
+                ProductModel.ColorQuantityModel(
                     e.name ?: "",
                     e.value ?: "",
                     e.quantity ?: 0
