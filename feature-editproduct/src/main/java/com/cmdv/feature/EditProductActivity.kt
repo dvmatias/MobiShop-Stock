@@ -133,7 +133,7 @@ class EditProductActivity : AppCompatActivity() {
     }
 
     private fun setupComponentColorQuantityView() {
-        componentColorQuantityView.setup(this, Mode.EDIT, product?.quantity?.colorQuantities)
+        componentColorQuantityView.setup(this, Mode.NO_EDIT, product?.quantity?.colorQuantities)
         componentColorQuantityView.mutableLiveColorQuantityList.observe(this, Observer {
             viewModel.colorQuantities = ArrayList(it)
         })
