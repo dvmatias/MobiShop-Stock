@@ -3,6 +3,7 @@ package com.cmdv.components.colorpicker
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.recyclerview.widget.GridLayoutManager
@@ -57,6 +58,8 @@ internal class ComponentColorQuantityPickerDialog(context: Context) : Dialog(con
         if (pairPositionColorQuantity != null) {
             this.isUpdate = true
             this.position = pairPositionColorQuantity.first
+        } else {
+            this.buttonDelete.visibility = View.GONE
         }
         setupColorRecycler(pairPositionColorQuantity)
         setupQuantitySpinner(pairPositionColorQuantity)
