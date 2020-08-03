@@ -3,11 +3,11 @@ package com.cmdv.feature.ui.filters
 import android.widget.Filter
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ProductModel
-import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import com.cmdv.feature.ui.adapters.ProductRecyclerAdapter
 import java.util.*
 
 internal class ProductFilter(
-    private val adapter: RecyclerProductAdapter,
+    private val productRecyclerAdapter: ProductRecyclerAdapter,
     private val fullData: ArrayList<ProductModel>
 ) : Filter() {
 
@@ -70,7 +70,7 @@ internal class ProductFilter(
     }
 
     override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-        adapter.setProducts(filteredData)
+        productRecyclerAdapter.setProducts(filteredData)
     }
 
     /**

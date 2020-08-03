@@ -15,7 +15,7 @@ import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.feature.R
 import com.cmdv.feature.ui.adapters.ProductItemListener
-import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import com.cmdv.feature.ui.adapters.ProductRecyclerAdapter
 import com.cmdv.feature.ui.decorations.ItemProductDecoration
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.content_main.*
@@ -28,7 +28,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
 
     private val viewModel: MainTabProductListFragmentViewModel by viewModel()
     private val itemProductDecoration: ItemProductDecoration by inject()
-    private val productAdapter: RecyclerProductAdapter by inject()
+    private val productRecyclerAdapter: ProductRecyclerAdapter by inject()
     private val gson: Gson by inject()
     private val navigator: Navigator by inject()
 
@@ -80,7 +80,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
             addItemDecoration(itemProductDecoration)
             layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = productAdapter
+            adapter = productRecyclerAdapter
         }
     }
 
@@ -127,7 +127,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
             isEnabled = true
         }
         if (products.size > 0) {
-            productAdapter.apply {
+            productRecyclerAdapter.apply {
                 setOverFlowMenuListener(this@MainTabProductListFragment)
                 setProducts(products)
                 // TODO
@@ -155,7 +155,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
      */
     private fun goToEditProduct(position: Int) {
         val bundle = Bundle()
-        bundle.putString(Constants.EXTRA_PRODUCT_KEY, gson.toJson(productAdapter.getProduct(position), ProductModel::class.java))
+        bundle.putString(Constants.EXTRA_PRODUCT_KEY, gson.toJson(productRecyclerAdapter.getProduct(position), ProductModel::class.java))
         navigator.toEditProductScreenForResult(
             activityOrigin = activity!!,
             bundle = bundle,
@@ -168,8 +168,8 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
     /**
      * Triggered by a Delete action on product overflow menu
      */
-    private fun deleteProduct() {
-        // TODO
+    private fun deleteProduct(position: Int) {
+        viewModel.deleteProduct(productRecyclerAdapter.getProduct(position).id)
     }
 
     /**
@@ -182,7 +182,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
                 when (it.itemId) {
                     R.id.actionAddProduct -> openAddProductDialog()
                     R.id.actionEditProduct -> goToEditProduct(position)
-                    R.id.actionDeleteProduct -> deleteProduct()
+                    R.id.actionDeleteProduct -> deleteProduct(position)
 
                 }
                 true
@@ -192,7 +192,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
     }
 
     override fun onAddProductToShopCartButtonClick(position: Int) {
-        listener?.onSwipeActionAddProductToShopCart(productAdapter.getProduct(position))
+        listener?.onActionAddProductToShopCart(productRecyclerAdapter.getProduct(position))
     }
 
     /**
@@ -201,7 +201,7 @@ class MainTabProductListFragment : TabFragmentPlaceHolder(), ProductItemListener
      */
     interface MainProductListFragmentListener {
 
-        fun onSwipeActionAddProductToShopCart(product: ProductModel)
+        fun onActionAddProductToShopCart(product: ProductModel)
 
     }
 }

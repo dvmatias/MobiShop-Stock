@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.core.helpers.DimensHelper
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.feature.R
-import com.cmdv.feature.ui.adapters.RecyclerProductAdapter
+import com.cmdv.feature.ui.adapters.ProductRecyclerAdapter
 import kotlin.math.abs
 
 
@@ -62,7 +62,7 @@ class SwipeToAddToCartOrEditCallback(val context: Context, private val swipeActi
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         logErrorMessage("getMovementFlags()")
-        return if (viewHolder is RecyclerProductAdapter.SectionViewHolder)
+        return if (viewHolder is ProductRecyclerAdapter.SectionViewHolder)
             makeMovementFlags(DRAG_NOT_ALLOWED_FLAGS, SWIPE_NOT_ALLOWED_FLAG)
         else
             makeMovementFlags(DRAG_NOT_ALLOWED_FLAGS, SWIPE_LEFT_RIGHT_FLAGS)

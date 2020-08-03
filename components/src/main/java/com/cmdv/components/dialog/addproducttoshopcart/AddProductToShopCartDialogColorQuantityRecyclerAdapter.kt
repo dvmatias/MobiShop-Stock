@@ -10,12 +10,12 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.components.R
-import com.cmdv.domain.models.ColorQuantityModel
+import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.ShopCartModel
 
 class AddProductToShopCartDialogColorQuantityRecyclerAdapter(
     private val context: Context,
-    private val colorQuantities: ArrayList<ColorQuantityModel>,
+    private val colorQuantities: ArrayList<ProductModel.ColorQuantityModel>,
     private val totalChangedListener: ComponentAddProductToShopCartDialog.OnTotalChangedListener
 ) : RecyclerView.Adapter<AddProductToShopCartDialogColorQuantityRecyclerAdapter.ColorQuantityViewHolder>() {
 

@@ -8,8 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import com.cmdv.components.bottomnavmain.ComponentBottomNav
 import com.cmdv.components.dialog.addproducttoshopcart.AddProductToShopCartDialogListener
 import com.cmdv.components.dialog.addproducttoshopcart.ComponentAddProductToShopCartDialog
@@ -19,7 +17,6 @@ import com.cmdv.core.Constants.Companion.REQUEST_CODE_EDIT_PRODUCT
 import com.cmdv.core.navigator.Navigator
 import com.cmdv.core.utils.logErrorMessage
 import com.cmdv.domain.models.ItemMainPageModel
-import com.cmdv.domain.models.LiveDataStatusWrapper
 import com.cmdv.domain.models.ProductModel
 import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.feature.R
@@ -48,10 +45,6 @@ class MainActivity : AppCompatActivity(),
     private val viewModel: MainActivityViewModel by viewModel()
 
     private val navigator: Navigator by inject()
-
-    private lateinit var searchView: SearchView
-
-    private var query: String? = null
 
     private val itemMainPageList: MutableList<ItemMainPageModel> = mutableListOf(
         ItemMainPageModel(
@@ -97,54 +90,6 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-//        val searchItem: MenuItem = menu!!.findItem(R.id.actionSearch)
-//        @Suppress("DEPRECATION")
-//        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
-//        searchView.setOnCloseListener { true }
-//        searchView.maxWidth = Integer.MAX_VALUE
-//
-//        val searchPlate: EditText =
-//            searchView.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
-//        searchPlate.hint = "Search"
-//        val searchPlateView: View =
-//            searchView.findViewById(androidx.appcompat.R.id.search_plate)
-//        searchPlateView.setBackgroundColor(
-//            ContextCompat.getColor(
-//                this,
-//                android.R.color.transparent
-//            )
-//        )
-//
-//        val closeButton: ImageView = searchView.findViewById(R.id.search_close_btn) as ImageView
-//        closeButton.setOnClickListener {
-//            if (searchPlate.text.isNotEmpty()) {
-//                searchPlate.setText("")
-//                searchView.setQuery("", false)
-//                searchItem.collapseActionView()
-//            } else {
-//                onBackPressed()
-//            }
-//        }
-//
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                this@MainActivity.query = query
-//                // TODO
-////                productAdapter.filter.filter(query)
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                this@MainActivity.query = newText
-//                // TODO
-////                productAdapter.filter.filter(newText)
-//                return false
-//            }
-//        })
-//
-//        val searchManager: SearchManager =
-//            getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -153,15 +98,6 @@ class MainActivity : AppCompatActivity(),
             R.id.actionSearch -> navigator.toSearchScreen(activityOrigin = this)
         }
         return true
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-//        if (!searchView.isIconified) {
-//            searchView.onActionViewCollapsed()
-//        } else {
-//            super.onBackPressed()
-//        }
     }
 
     private fun setupToolbar() {
@@ -205,7 +141,7 @@ class MainActivity : AppCompatActivity(),
     /**
      * [MainTabProductListFragment.MainProductListFragmentListener] implementation.
      */
-    override fun onSwipeActionAddProductToShopCart(product: ProductModel) {
+    override fun onActionAddProductToShopCart(product: ProductModel) {
         GlobalScope.launch {
             val shopCartCount: Int = viewModel.getShopCartCount()
             if (shopCartCount == 0) {
@@ -293,11 +229,7 @@ class MainActivity : AppCompatActivity(),
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_CODE_EDIT_PRODUCT -> {
-                if (Activity.RESULT_OK == resultCode) {
-                    Toast.makeText(this, "EditProductActivity RESULT_OK", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "EditProductActivity RESULT_KO", Toast.LENGTH_SHORT).show()
-                }
+                // TODO Need to handle something?
             }
         }
     }
