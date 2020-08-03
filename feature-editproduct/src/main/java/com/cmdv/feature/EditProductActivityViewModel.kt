@@ -36,32 +36,18 @@ class EditProductActivityViewModel(
 
     var originalPrice: String = ""
 
-    var initialQuantity: Int = -1
-        set(value) {
-            field = value
-            errorEmptyInitialQuantity.postValue(null)
-        }
-
-    var availableQuantity: Int = -1
-        set(value) {
-            field = value
-            errorEmptyAvailableQuantity.postValue(null)
-        }
-
     var soldQuantity: Int = -1
         set(value) {
             field = value
             errorEmptySoldQuantity.postValue(null)
         }
 
-    var colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
+    var colorQuantities: ArrayList<ProductModel.ColorQuantityModel>? = null
 
     // Error
     val errorEmptyName = MutableLiveData<Int>()
     val errorEmptyCostPrice = MutableLiveData<Int>()
     val errorEmptySellingPrice = MutableLiveData<Int>()
-    val errorEmptyInitialQuantity = MutableLiveData<Int>()
-    val errorEmptyAvailableQuantity = MutableLiveData<Int>()
     val errorEmptySoldQuantity = MutableLiveData<Int>()
 
     private val _productMutableLiveData = MutableLiveData<LiveDataStatusWrapper<ProductModel>>()
@@ -70,13 +56,12 @@ class EditProductActivityViewModel(
 
     fun updateProduct(product: ProductModel) {
         if (checkFieldsValidity()) {
-            val updatedProduct = getUpdatedProductModel(product)
+            val updatedProduct = getProductUpdateModel(product)
             if (isSameProduct(product)) {
                 _productMutableLiveData.value = LiveDataStatusWrapper.error("No diff", null)
             } else {
                 productRepository.updateProduct(
                     _productMutableLiveData,
-                    product.id.toInt(),
                     updatedProduct
                 )
             }
@@ -86,32 +71,30 @@ class EditProductActivityViewModel(
     private fun isSameProduct(product: ProductModel): Boolean =
         (this.name == product.name && this.description == product.description && this.costPrice == product.price.costPrice &&
                 this.sellingPrice == product.price.sellingPrice && this.originalPrice == product.price.originalPrice &&
-                this.initialQuantity == product.quantity.initial && this.availableQuantity == product.quantity.available &&
                 this.soldQuantity == product.quantity.sold)
 
-    private fun getUpdatedProductModel(product: ProductModel): ProductModel =
+    private fun getProductUpdateModel(product: ProductModel): ProductModel =
         ProductModel(
             product.code,
             product.id,
+            product.isActive,
             product.productType,
             this.name,
             this.description,
             product.model,
             product.imageName,
-            PriceModel(
+            ProductModel.PriceModel(
                 this.costPrice,
                 this.originalPrice,
                 this.sellingPrice
             ),
-            QuantityModel(
-                this.initialQuantity,
-                this.availableQuantity,
+            ProductModel.QuantityModel(
                 this.soldQuantity,
                 product.quantity.lowBarrier,
-                this.colorQuantities
+                this.colorQuantities ?: product.quantity.colorQuantities
             ),
             product.tags,
-            DateModel(
+            ProductModel.DateModel(
                 product.date.createdDate,
                 SimpleDateFormat(DATE_FORMAT_DD_MM_YY_HH_MM_SS, Locale.getDefault()).format(Date().time)
             )
@@ -129,14 +112,6 @@ class EditProductActivityViewModel(
         }
         if (sellingPrice.isEmpty()) {
             errorEmptySellingPrice.postValue(R.string.error_input_selling_price_empty)
-            validFields = false
-        }
-        if (initialQuantity == -1) {
-            errorEmptyInitialQuantity.postValue(R.string.error_input_initial_quantity_empty)
-            validFields = false
-        }
-        if (availableQuantity == -1) {
-            errorEmptyAvailableQuantity.postValue(R.string.error_input_available_quantity_empty)
             validFields = false
         }
         if (soldQuantity == -1) {

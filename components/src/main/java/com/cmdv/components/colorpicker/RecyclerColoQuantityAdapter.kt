@@ -8,23 +8,23 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.components.R
-import com.cmdv.domain.models.ColorQuantityModel
+import com.cmdv.domain.models.ProductModel
 
 /**
- * Adapter to display [ColorQuantityModel] item list.
+ * Adapter to display [ProductModel.ColorQuantityModel] item list.
  *
- * @see ColorQuantityModel.name: Color name [String]
- * @see ColorQuantityModel.value: Color value [String]
- * @see ColorQuantityModel.quantity: Color quantity [Int]
+ * @see ProductModel.ColorQuantityModel.name: Color name [String]
+ * @see ProductModel.ColorQuantityModel.value: Color value [String]
+ * @see ProductModel.ColorQuantityModel.quantity: Color quantity [Int]
  */
 class RecyclerColoQuantityAdapter(private val clickListener: OnColorQuantityClickListener) : RecyclerView.Adapter<RecyclerColoQuantityAdapter.ColorQuantityHolder>() {
 
-    private var items: ArrayList<ColorQuantityModel> = arrayListOf()
+    private var items: ArrayList<ProductModel.ColorQuantityModel> = arrayListOf()
 
     /**
      * Init items to display.
      */
-    fun setItems(items: ArrayList<ColorQuantityModel>) {
+    fun setItems(items: ArrayList<ProductModel.ColorQuantityModel>) {
         this.items.apply {
             clear()
             addAll(items)
@@ -35,7 +35,7 @@ class RecyclerColoQuantityAdapter(private val clickListener: OnColorQuantityClic
     /**
      * Add an item.
      */
-    fun addItem(item: ColorQuantityModel) {
+    fun addItem(item: ProductModel.ColorQuantityModel) {
         this.items.add(item)
         notifyDataSetChanged()
     }
@@ -44,7 +44,7 @@ class RecyclerColoQuantityAdapter(private val clickListener: OnColorQuantityClic
     /**
      * Update an item in specific position.
      */
-    fun updateItem(position: Int, item: ColorQuantityModel) {
+    fun updateItem(position: Int, item: ProductModel.ColorQuantityModel) {
         this.items.removeAt(position)
         this.items.add(position, item)
         notifyItemChanged(position)
@@ -69,7 +69,7 @@ class RecyclerColoQuantityAdapter(private val clickListener: OnColorQuantityClic
 
     override fun getItemCount(): Int = items.size
 
-    fun getItems(): ArrayList<ColorQuantityModel> =
+    fun getItems(): ArrayList<ProductModel.ColorQuantityModel> =
         this.items
 
     /**
@@ -81,7 +81,7 @@ class RecyclerColoQuantityAdapter(private val clickListener: OnColorQuantityClic
         private val textViewName: AppCompatTextView = itemView.findViewById(R.id.textViewName)
         private val imageViewTransparentEffect: AppCompatImageView = itemView.findViewById(R.id.imageViewTransparentEffect)
 
-        fun bindView(colorQuantity: ColorQuantityModel, position: Int, clickListener: OnColorQuantityClickListener) {
+        fun bindView(colorQuantity: ProductModel.ColorQuantityModel, position: Int, clickListener: OnColorQuantityClickListener) {
             if (colorQuantity.value.toInt() != 0) {
                 cardViewColor.setCardBackgroundColor(colorQuantity.value.toInt())
                 imageViewTransparentEffect.visibility = View.GONE

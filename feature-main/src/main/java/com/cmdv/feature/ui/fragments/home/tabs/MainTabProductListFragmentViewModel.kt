@@ -20,4 +20,8 @@ class MainTabProductListFragmentViewModel(
         productRepository.getProducts(_products)
     }
 
+    fun deleteProduct(productId: Long) {
+        productRepository.markProductInactive(productId)
+    }
+
 }

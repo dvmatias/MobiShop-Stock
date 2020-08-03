@@ -3,10 +3,17 @@ package com.cmdv.data.repositories
 import androidx.lifecycle.MutableLiveData
 import com.cmdv.data.BuildConfig
 import com.cmdv.data.entities.firebase.ProductFirebaseEntity
+import com.cmdv.data.helpers.FirebaseQueryHelper
 import com.cmdv.data.mappers.ProductFirebaseMapper
-import com.cmdv.domain.models.*
+import com.cmdv.domain.models.LiveDataStatusWrapper
+import com.cmdv.domain.models.ProductModel
+import com.cmdv.domain.models.ShopCartModel
 import com.cmdv.domain.repositories.ProductRepository
 import com.google.firebase.database.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -25,25 +32,19 @@ class ProductRepositoryImpl : ProductRepository {
 
     override fun updateProduct(
         productMutableLiveData: MutableLiveData<LiveDataStatusWrapper<ProductModel>>,
-        id: Int,
-        product: ProductModel
+        productUpdate: ProductModel
     ) {
         // Set loading status.
         productMutableLiveData.value = LiveDataStatusWrapper.loading(null)
 
-        val productFirebase: ProductFirebaseEntity =
-            ProductFirebaseMapper().transformModelToEntity(product)
-        dbProductsRef.child(id.toString()).setValue(
+        val productFirebase: ProductFirebaseEntity = ProductFirebaseMapper().transformModelToEntity(productUpdate)
+        dbProductsRef.child(productUpdate.id.toString()).setValue(
             productFirebase
         ).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                productMutableLiveData.value =
-                    LiveDataStatusWrapper.success(
-                        ProductFirebaseMapper().transformEntityToModel(productFirebase)
-                    )
+                productMutableLiveData.value = LiveDataStatusWrapper.success(ProductFirebaseMapper().transformEntityToModel(productFirebase))
             } else {
-                productMutableLiveData.value =
-                    LiveDataStatusWrapper.error("There was an error trying to update product with id-$id.", null)
+                productMutableLiveData.value = LiveDataStatusWrapper.error("There was an error trying to update product with id-${productUpdate.id}.", null)
             }
         }
     }
@@ -55,8 +56,7 @@ class ProductRepositoryImpl : ProductRepository {
         costPrice: String,
         originalPrice: String,
         sellingPrice: String,
-        quantity: Int,
-        colorQuantities: ArrayList<ColorQuantityModel>,
+        colorQuantities: ArrayList<ProductModel.ColorQuantityModel>,
         lowBarrier: Int,
         tags: List<String>
     ): MutableLiveData<LiveDataStatusWrapper<ProductModel?>> {
@@ -73,19 +73,9 @@ class ProductRepositoryImpl : ProductRepository {
                 val code: String = generateUniqueRandomProductCode(dataSnapshot)
                 val productFirebase: ProductFirebaseEntity =
                     ProductFirebaseMapper().transformModelToEntity(
-                        getProductModel(
-                            code,
-                            id,
-                            productType,
-                            name,
-                            description,
-                            costPrice,
-                            originalPrice,
-                            sellingPrice,
-                            quantity,
-                            colorQuantities,
-                            lowBarrier,
-                            tags
+                        getNewProductModel(
+                            code, id, productType, name, description, costPrice, originalPrice, sellingPrice,
+                            colorQuantities, lowBarrier, tags
                         )
                     )
 
@@ -115,12 +105,8 @@ class ProductRepositoryImpl : ProductRepository {
                 for (ds in snapshot.children) {
                     val productFirebaseEntity: ProductFirebaseEntity? =
                         ds.getValue(ProductFirebaseEntity::class.java)
-                    if (productFirebaseEntity != null) {
-                        products.add(
-                            ProductFirebaseMapper().transformEntityToModel(
-                                productFirebaseEntity
-                            )
-                        )
+                    if (productFirebaseEntity != null && productFirebaseEntity.active) {
+                        products.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
                     }
                 }
                 productsMutableLiveData.value = LiveDataStatusWrapper.success(products)
@@ -163,8 +149,8 @@ class ProductRepositoryImpl : ProductRepository {
             dbProductsRef.child(soldProduct.id).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val productFirebaseEntity: ProductFirebaseEntity? = snapshot.getValue(ProductFirebaseEntity::class.java)
-                    val product = ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity!!)
-                    val newProduct = modifyProductQuantity(product, soldProduct)
+                    val originalProduct: ProductModel = ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity!!)
+                    val newProduct: ProductModel = modifyProductQuantity(originalProduct, soldProduct)
 
                     dbProductsRef.child(newProduct.id.toString()).setValue(ProductFirebaseMapper().transformModelToEntity(newProduct))
                 }
@@ -174,41 +160,123 @@ class ProductRepositoryImpl : ProductRepository {
                 }
             })
         }
-
     }
 
-    private fun modifyProductQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =
-        product.copy(quantity = getNewQuantity(product, soldProduct))
-
-    private fun getNewQuantity(product: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): QuantityModel {
-        var soldNow: Int = 0
-        soldProduct.colorQuantity.forEach {
-            soldNow += it.quantity
+    override fun searchProducts(
+        _mutableLiveDataFilteredProduct: MutableLiveData<LiveDataStatusWrapper<List<ProductModel>>>,
+        queryString: String
+    ) {
+        if (queryString.isEmpty()) {
+            _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("Query string can't be empty", null)
+            return
         }
-        val sold: Int = product.quantity.sold + soldNow
-        val available: Int = product.quantity.initial - sold
+        _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.loading(null)
 
-        var colorQuantities: ArrayList<ColorQuantityModel> = arrayListOf()
-        product.quantity.colorQuantities.forEach { p ->
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(1000)
+            // Get product types
+            dbProductTypeRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val productTypes: ArrayList<String> = arrayListOf()
+                    if (snapshot.exists()) {
+                        for (child: DataSnapshot in snapshot.children) {
+                            child.getValue(String::class.java)?.let { productTypes.add(it) }
+                        }
+                    }
+                    val queryType: FirebaseQueryHelper.ProductQueryType = FirebaseQueryHelper(queryString, productTypes).getProductQueryType()
+                    when (queryType) {
+                        FirebaseQueryHelper.ProductQueryType.BY_CODE,
+                        FirebaseQueryHelper.ProductQueryType.BY_TYPE -> {
+                            val firebaseProductQuery: Query = FirebaseQueryHelper(queryString, productTypes).getProductQuery()
+                            firebaseProductQuery.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val filteredProducts: ArrayList<ProductModel> = arrayListOf()
+                                    // Handle results
+                                    snapshot.children.forEach { ds: DataSnapshot ->
+                                        val productFirebase: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+                                        productFirebase?.let {
+                                            if (it.active) {
+                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(it))
+                                            }
+                                        }
+                                    }
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    // Firebase database query failed.
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
+                                }
+                            })
+                        }
+                        FirebaseQueryHelper.ProductQueryType.BY_NAME -> {
+                            // Get all products and filter by name (if name contains query)
+                            dbProductsRef.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val filteredProducts: ArrayList<ProductModel> = arrayListOf()
+                                    for (ds in snapshot.children) {
+                                        val productFirebaseEntity: ProductFirebaseEntity? = ds.getValue(ProductFirebaseEntity::class.java)
+                                        productFirebaseEntity?.let {
+                                            if (productFirebaseEntity.active &&
+                                                productFirebaseEntity.name != null &&
+                                                productFirebaseEntity.name.contains(queryString, ignoreCase = true)
+                                            ) {
+                                                filteredProducts.add(ProductFirebaseMapper().transformEntityToModel(productFirebaseEntity))
+                                            }
+                                        }
+                                    }
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.success(filteredProducts)
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("There was an error filtering products", null)
+                                }
+                            })
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Fail to fetch Product Types
+                    _mutableLiveDataFilteredProduct.value = LiveDataStatusWrapper.error("Mocked Error!", null)
+                }
+            })
+            GlobalScope.launch(Dispatchers.Main) {
+                // TODO
+            }
+        }
+    }
+
+    override fun markProductInactive(productId: Long) {
+        dbProductsRef.child(productId.toString()).child("active").setValue(false)
+    }
+
+    private fun modifyProductQuantity(originalProduct: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel =
+        originalProduct.copy(quantity = getNewQuantity(originalProduct, soldProduct))
+
+    private fun getNewQuantity(originalProduct: ProductModel, soldProduct: ShopCartModel.ShopCartProductModel): ProductModel.QuantityModel {
+        val quantitySold: Int = soldProduct.colorQuantity.map { it.quantity }.sum()
+        val totalSold: Int = originalProduct.quantity.sold + quantitySold
+
+        val colorQuantities: ArrayList<ProductModel.ColorQuantityModel> = arrayListOf()
+        originalProduct.quantity.colorQuantities.forEach { p ->
             var founded = false
             soldProduct.colorQuantity.forEach { scp ->
                 if (!founded) {
                     if (scp.value == p.value) {
-                        colorQuantities.add(ColorQuantityModel(p.name, p.value, p.quantity - scp.quantity))
+                        colorQuantities.add(ProductModel.ColorQuantityModel(p.name, p.value, p.quantity - scp.quantity))
                         founded = true
                     }
                 }
             }
             if (!founded) {
-                colorQuantities.add(ColorQuantityModel(p.name, p.value, p.quantity))
+                colorQuantities.add(ProductModel.ColorQuantityModel(p.name, p.value, p.quantity))
             }
         }
 
-        return QuantityModel(
-            product.quantity.initial,
-            available,
-            sold,
-            product.quantity.lowBarrier,
+        return ProductModel.QuantityModel(
+            totalSold,
+            originalProduct.quantity.lowBarrier,
             colorQuantities
         )
     }
@@ -229,7 +297,7 @@ class ProductRepositoryImpl : ProductRepository {
         return randomCode
     }
 
-    private fun getProductModel(
+    private fun getNewProductModel(
         code: String,
         id: Long,
         productType: String,
@@ -238,8 +306,7 @@ class ProductRepositoryImpl : ProductRepository {
         costPrice: String,
         originalPrice: String,
         sellingPrice: String,
-        quantity: Int,
-        colorQuantities: ArrayList<ColorQuantityModel>,
+        colorQuantities: ArrayList<ProductModel.ColorQuantityModel>,
         lowBarrier: Int,
         tags: List<String>
     ): ProductModel {
@@ -249,15 +316,16 @@ class ProductRepositoryImpl : ProductRepository {
         return ProductModel(
             code,
             id,
+            true,
             productType,
             name,
             description,
             "temp",
             "temp",
-            PriceModel(costPrice, if (originalPrice.isEmpty()) sellingPrice else originalPrice, sellingPrice),
-            QuantityModel(quantity, quantity, 0, lowBarrier, colorQuantities),
+            ProductModel.PriceModel(costPrice, if (originalPrice.isEmpty()) sellingPrice else originalPrice, sellingPrice),
+            ProductModel.QuantityModel(0, lowBarrier, colorQuantities),
             tags,
-            DateModel(dateString, dateString)
+            ProductModel.DateModel(dateString, dateString)
         )
     }
 }
